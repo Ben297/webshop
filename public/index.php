@@ -9,7 +9,11 @@
     <title>Webshop</title>
 </head>
 <body>
+<?php
+include '../src/database.php';
+connectToDb();
 
+?>
 
 </body>
 </html>
