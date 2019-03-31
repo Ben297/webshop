@@ -10,8 +10,21 @@
 </head>
 <body>
 <?php
-include '../src/database.php';
-connectToDb();
+include '../src/model/database.php';
+$filename = "../config/config.ini";
+$dbsettings = parse_ini_file($filename);
+$instance = database::getInstance($dbsettings);
+$conn = $instance->getConnection();
+var_dump($conn);
+
+$instance = database::getInstance($dbsettings);
+$conn = $instance->getConnection();
+var_dump($conn);
+
+$instance = database::getInstance($dbsettings);
+$conn = $instance->getConnection();
+var_dump($conn);
+
 
 ?>
 
