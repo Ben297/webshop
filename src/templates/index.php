@@ -1,3 +1,6 @@
+<?php /*zur Zeit nicht genutzt */ ?>
+
+
 <h1>Product Overview</h1>
 
 <?php
