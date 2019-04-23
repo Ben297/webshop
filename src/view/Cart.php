@@ -80,6 +80,7 @@
                         </div>
                         <select class="custom-select" id="inputGroupSelect01">
                             <option selected>Choose...</option>
+                            <option value="0">0</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
@@ -101,6 +102,7 @@
                         </div>
                         <select class="custom-select" id="inputGroupSelect01">
                             <option selected>Choose...</option>
+                            <option value="0">0</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
@@ -112,7 +114,7 @@
             <li class="list-group-item d-flex justify-content-between lh-condensed">
                 <div>
                     <div class="col-md-4">
-                        <img src="..." class="card-img" alt="...">
+                        <img src="../../resources/images/dog.jpg" class="card-img" alt="...">
                     </div>
                     <h6 class="my-0">Third item</h6>
                     <small class="text-muted">Brief description</small>
@@ -122,6 +124,7 @@
                         </div>
                         <select class="custom-select" id="inputGroupSelect01">
                             <option selected>Choose...</option>
+                            <option value="0">0</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
