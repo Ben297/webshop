@@ -12,12 +12,11 @@ class Controller{
 
     public function display(){
         $view = new View();
-        $view->assign('title', 'Labby Shop');
         switch($this->template){
-            case 'product':
-                $view->setTemplate('product');
+            case 'entry':
+                $view->setTemplate('entry');
                 $productid = $this->request['id'];
-                $product = Product::getproduct($productid);
+                $product = Product::getProduct($productid);
                 $view->assign('name', $product['name']);
                 $view->assign('description', $product['description']);
                 break;

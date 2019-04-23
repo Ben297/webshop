@@ -14,7 +14,7 @@ class View
         $this->_[$key] = $value;
     }
 
-    // Wählt das Template aus - default-value = default.php (Standard-Template)
+    // Wählt das Template aus - default-value = default_old.php (Standard-Template)
 
     public function setTemplate($template = 'default'){
         $this->template = $template;
