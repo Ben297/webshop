@@ -1,13 +1,14 @@
-<?php /*Default Template - Rendert alle Elemente "Produkte" - diese kommen aus der Methode "getProducts" im Model */ ?>
+<h1>Labby Shop</h1>
 
-<h1><?php echo $this->_['title']; ?><h1>
-
-<?php foreach($this->_['products'] as $product) {
-?>
-    <h2><?php echo print_r(json_encode($product)) ?></h2>
-    <h2><?php echo print_r($product, true) ?></h2>
 <?php
+foreach($this->_['products'] as $product) {
+    ?>
+
+
+    <h2><a href="?view=entry&id=<?php echo $product['id'] ?>"><?php echo $product['name']; ?></a></h2>
+
+    <p><?php echo $product['description']; ?></p>
+
+    <?php
 }
 ?>
-
-<a href="?view=default">Zurück zur &Uuml;bersicht</a>
