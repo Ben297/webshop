@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Happy Dogshop{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <div class="row">
+        <div class="card-deck">
+    {% for Item in Items %}
+        <div class="col-3">
+            <div class="card" >
+                <img class="card-img-top" src="../../resources/img/300px-Australian_Shepherd_Blue_Merle.jpg" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">{{Item.ItemName}}</h5>
+                    <p class="card-text">{{Item.Description}}</p>
+                    <a href="detailpage/ShowDetail" class="btn btn-primary">Detailpage</a>
+                </div>
+            </div>
+            <div class="m-3" ></div>
+        </div>
+    {% endfor %}
+            </div>
+</div>
+</div>
+
+
+{% endblock %}
+
