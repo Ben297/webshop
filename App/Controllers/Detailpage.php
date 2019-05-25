@@ -4,17 +4,19 @@
 namespace App\Controllers;
 
 
+use App\Models\Item;
 use Core\Controller;
 use Core\View;
 
 class Detailpage extends Controller
 {
-    public $item=[];
 
+    protected  $route_params = null;
+    protected $item ;
     public function ShowDetail()
     {
-        print_r($id = $this->route_params['id']);
-        View::renderTemplate('detailpage.html',['test' => $id]);
+        $this->item = Item::getItemByID($this->route_params['id']);
+        View::renderTemplate('detailpage.html',["Item" => $this->item]);
     }
 
 

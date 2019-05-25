@@ -17,17 +17,21 @@ class Item extends \Core\Model {
 
         $statement = $dbh->prepare("SELECT * FROM item");
         $statement->execute();
-
-          $result = $statement->fetchAll();
+        $result = $statement->fetchAll();
         return $result;
 
     }
 
-    public static function getItemByID($id){
+    public static function getItemByID($id)
+    {
         $dbh = Model::getPdo();
-        $statement = $dbh->prepare("SELECT * FROM item Where ID=$id");
+        $statement = $dbh->prepare("SELECT * FROM item WHERE ID=$id");
         $statement->execute();
-        $result = $statement->fetchAll();
+        $result = $statement->fetch();
+        // removing overhead from array
+        for ($i=0;$i<=5;$i++){
+            unset($result[$i]);
+        }
         return $result;
     }
 }

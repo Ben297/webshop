@@ -19,8 +19,7 @@ $router = new Core\Router();
 
 // Add the routes
 $router->add('', ['controller' => 'Landingpage', 'action' => 'index']);
-
-$router->add('detailpage/ShowDetail', ['controller' => 'Detailpage', 'action' => 'ShowDetail']);
-
+//$router->add('detailpage/ShowDetail', ['controller' => 'Detailpage', 'action' => 'ShowDetail','id' => 1]);
+$router->add('{controller}/{action}/{id:\d+}');
 
 $router->dispatch($_SERVER['QUERY_STRING']);

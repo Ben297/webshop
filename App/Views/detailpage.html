@@ -1,8 +1,27 @@
 {% extends "base.html" %}
 
-{% block title %}Detail{% endblock %}
+{% block title %}Detailpage {{Item.ItemName}}{% endblock %}
 
 {% block body %}
+<div class="container">
 
+    <!-- Portfolio Item Heading -->
+    <h1 class="my-4">Page Heading
+        <small>Secondary Text</small>
+    </h1>
 
+    <!-- Portfolio Item Row -->
+    <div class="row">
+
+        <div class="col-md-8">
+            <img class="card-img-top" src="../../resources/img/300px-Australian_Shepherd_Blue_Merle.jpg" alt="Card image cap">
+        </div>
+        <div class="col-md-4">
+            <h3 class="">Name</h3>
+            <p>{{Item.ItemName}}</p>
+            <h3 class="my-3"></h3>
+
+        </div>
+
+    </div>
 {% endblock %}
