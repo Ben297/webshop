@@ -15,7 +15,7 @@ class Item extends \Core\Model {
     {
         $dbh = Model::getPdo();
 
-        $statement = $dbh->prepare("SELECT * FROM item");
+        $statement = $dbh->prepare("SELECT * FROM Item");
         $statement->execute();
         $result = $statement->fetchAll();
         return $result;
@@ -25,7 +25,7 @@ class Item extends \Core\Model {
     public static function getItemByID($id)
     {
         $dbh = Model::getPdo();
-        $statement = $dbh->prepare("SELECT * FROM item WHERE ID=$id");
+        $statement = $dbh->prepare("SELECT * FROM Item WHERE ID=$id");
         $statement->execute();
         $result = $statement->fetch();
         // removing overhead from array

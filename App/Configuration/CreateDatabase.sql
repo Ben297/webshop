@@ -46,7 +46,7 @@ Create Table Item
     Description varchar(255),
     Price       double,
     Stock       int,
-    ImgPath varchar(255),
+    ImgPath     varchar(255),
     PRIMARY KEY (ID)
 );
 
@@ -102,29 +102,13 @@ INSERT Into Address
 Values (Null, 1, 'Musterstraße', 42, 12345, 'Musterhausen', 'Germany');
 
 -- database seed Dogs
-INSERT INTO item (ID, ItemName, Description, Price, Stock, ImgPath)
-VALUES (NULL, 'Paul', 'nice and handsome dog', 1000, 77,
-        '../../resources/img/300px-Australian_Shepherd_Blue_Merle.jpg'),
-       (NULL, 'Wuff', 'nice and handsome dog', 2000, 12,
-        '../../resources/img/300px-Australian_Shepherd_Blue_Merle.jpg'),
-       (NULL, 'Destroyer', 'nice and handsome dog', 1500, 212,
-        '../../resources/img/300px-Australian_Shepherd_Blue_Merle.jpg'),
-       (NULL, 'Lessi', 'nice and handsome dog', 1600, 25,
-        '../../resources/img/300px-Australian_Shepherd_Blue_Merle.jpg'),
-       (NULL, 'Brian ', 'nice and handsome dog', 800, 17,
-        '../../resources/img/300px-Australian_Shepherd_Blue_Merle.jpg'),
-       (NULL, 'Snuffles ', 'nice and handsome dog', 750, 95,
-        '../../resources/img/300px-Australian_Shepherd_Blue_Merle.jpg'),
-       (NULL, 'Snowball', 'nice and handsome dog', 870, 63,
-        '../../resources/img/300px-Australian_Shepherd_Blue_Merle.jpg'),
-       (NULL, 'Snowball', 'nice and handsome dog', 870, 63,
-        '../../resources/img/300px-Australian_Shepherd_Blue_Merle.jpg'),
-       (NULL, 'Snowball', 'nice and handsome dog', 870, 63,
-        '../../resources/img/300px-Australian_Shepherd_Blue_Merle.jpg'),
-        (NULL, 'Snowball', 'nice and handsome dog', 870, 63,
-         '../../resources/img/300px-Australian_Shepherd_Blue_Merle.jpg'),
-       (NULL, 'Whiskey', 'nice and handsome dog', 999, 88,
-        '../../resources/img/300px-Australian_Shepherd_Blue_Merle.jpg'),
-       (NULL, 'Whiskey', 'nice and handsome dog', 999, 88,
-        '../../resources/img/300px-Australian_Shepherd_Blue_Merle.jpg');
+INSERT INTO Item (ID, ItemName, Description, Price, Stock, ImgPath)
+VALUES (NULL, 'Paul', 'nice and handsome dog', 1000, 77, '/img/australian.jpg'),
+       (NULL, 'Wuff', 'nice and handsome dog', 2000, 12, '/img/australian.jpg'),
+       (NULL, 'Destroyer', 'nice and handsome dog', 1500, 212, '/img/australian.jpg'),
+       (NULL, 'Lessi', 'nice and handsome dog', 1600, 25, '/img/lab.png'),
+       (NULL, 'Brian ', 'nice and handsome dog', 800, 17, '/img/australian.jpg'),
+       (NULL, 'Snuffles ', 'nice and handsome dog', 750, 95, '/img/australian.jpg'),
+       (NULL, 'Snowball', 'nice and handsome dog', 870, 63, '/img/australian.jpg'),
+       (NULL, 'Whiskey', 'nice and handsome dog', 999, 88, '/img/australian.jpg');
 
