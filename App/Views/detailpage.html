@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Detailpage {{Item.ItemName}}{% endblock %}
+
+{% block body %}
+<div class="container">
+
+    <!-- Portfolio Item Heading -->
+    <h1 class="my-4">{{Item.ItemName}}</h1>
+
+    <!-- Portfolio Item Row -->
+    <div class="row">
+
+        <div class="col-md-4">
+            <img class="" src="{{Item.ImgPath}}" alt="Card image cap">
+        </div>
+        <div class="col-md-4">
+            <form method="post" action="../../detailpage/setCookie">
+            <h3 class="">Description</h3>
+            <p>{{Item.Description}}</p>
+            <h3 class="">Price</h3>
+            <p>{{Item.Price}}</p>
+            <h3 class="">Stock</h3>
+            <p>{{Item.Stock}}</p>
+            <h3 class="my-3"></h3>
+
+                <button  type="submit" class="btn btn-success">Add to Cart</button>
+            </form>
+
+        </div>
+
+    </div>
+{% endblock %}
