@@ -19,7 +19,10 @@ $router = new Core\Router();
 
 // Add the routes
 $router->add('', ['controller' => 'Landingpage', 'action' => 'index']);
+
+
 //$router->add('detailpage/ShowDetail', ['controller' => 'Detailpage', 'action' => 'ShowDetail','id' => 1]);
 $router->add('{controller}/{action}/{id:\d+}');
-
+$router->add('cart', ['controller' => 'Cart', 'action' => 'ShowCart']);
+$router->add('detailpage/setCookie', ['controller' => 'Detailpage', 'action' => 'setCookie']);
 $router->dispatch($_SERVER['QUERY_STRING']);

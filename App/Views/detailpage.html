@@ -15,6 +15,7 @@
             <img class="" src="{{Item.ImgPath}}" alt="Card image cap">
         </div>
         <div class="col-md-4">
+            <form method="post" action="/setCookie">
             <h3 class="">Description</h3>
             <p>{{Item.Description}}</p>
             <h3 class="">Price</h3>
@@ -22,7 +23,9 @@
             <h3 class="">Stock</h3>
             <p>{{Item.Stock}}</p>
             <h3 class="my-3"></h3>
-            <button>Put in Basket</button>
+
+                <button  type="submit" class="btn btn-success">Add to Cart</button>
+            </form>
 
         </div>
 
