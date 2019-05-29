@@ -7,6 +7,7 @@ namespace App\Controllers;
 use App\Models\Item;
 use Core\Controller;
 use Core\View;
+use App\Models\Cart;
 
 class Detailpage extends Controller
 {
@@ -18,9 +19,12 @@ class Detailpage extends Controller
         View::renderTemplate('detailpage.html',["Item" => $this->item]);
     }
 
-    public function addToCart($id)
+    public function addToCart()
     {
-
+        $ItemID = $_POST['ItemID'];
+        $Amount = $_POST['Amount'];
+        Cart::InsertIntoBasket($ItemID,$Amount);
+        View::renderTemplate('basket.html',["Basket"=>[$ItemID,$Amount]]);
     }
     public function setCookie()
     {
