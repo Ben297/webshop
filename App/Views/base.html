@@ -24,16 +24,11 @@
 
         <div class="collapse navbar-collapse m-2" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Products</a>
-                </li>
+
             </ul>
 
             <form class="form-inline my-2 my-lg-0">
-                <button class="btn btn-outline-secondary" type="button"><a href="/basket">Shopping Cart</a></button>
+                <a href="/basket"><button class="btn btn-outline-secondary" type="button">Shopping Cart</button></a>
                 <button class="btn btn-outline-success" type="button">Suscribe / Login</button>
             </form>
 
@@ -43,6 +38,14 @@
     {% block body %}
     {% endblock %}
     <!-- Footer -->
+    <footer class="page-footer font-small blue">
 
+        <!-- Copyright -->
+        <div class="footer-copyright text-center py-3">© 2019 Copyright:
+            <a href="/"> HappyDogShop.com</a>
+        </div>
+        <!-- Copyright -->
+
+    </footer>
 </body>
 </html>

@@ -8,13 +8,22 @@ use App\Models\Cookie;
 
 class Basket extends Controller{
 
-    public function ShowBasket()
+    public function showBasket()
     {
 
         $basket = new Cart();
         $basketItem = $basket->loadBasketFromTempCookie();
+        if ($basketItem==false){
+            View::renderTemplate('basket.html');
+        }else {
+            View::renderTemplate('basket.html', ['BasketItem' => $basketItem]);
+        }
+    }
 
-        View::renderTemplate('basket.html',['BasketItem'=> $basketItem]);
+        public function deleteArticle()
+    {
+        Cookie::deleteBasketCookie('TempBasket');
+        View::renderTemplate(   'basket.html');
     }
 
 

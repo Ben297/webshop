@@ -1,10 +1,23 @@
 {% extends "base.html" %}
-
-
 {% block title %}This is your Basket{% endblock %}
-
 {% block body %}
-{{dump(BasketItem)}}
+
+{% if not BasketItem %}
+
+<section class="jumbotron text-center">
+    <div class="container">
+        <h1 class="jumbotron-heading">Your Basket is empty</h1>
+        <img src="/img/sadDog.png">
+        <div class="col-sm-12  col-md-12">
+            <a href="/">
+                <button class="btn btn-block btn-light">Continue Shopping</button>
+            </a>
+        </div>
+    </div>
+</section>
+
+{% else %}
+
 <section class="jumbotron text-center">
     <div class="container">
         <h1 class="jumbotron-heading">This is your Basket</h1>
@@ -33,7 +46,7 @@
                         <td>{{BasketItem.Stock}}</td>
                         <td>{{BasketItem.Amount}}</td>
                         <td class="text-right">{{BasketItem.Price}} €</td>
-                        <td class="text-right"><button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> </button> </td>
+                        <td class="text-right"><a href="/basket/deleteArticle"> <button class="btn btn-sm btn-danger"><i class="fa fa-trash">Delete</i> </button></a> </td>
                     </tr>
 
 
@@ -43,17 +56,17 @@
                         <td></td>
                         <td></td>
                         <td><strong>Total</strong></td>
-                        <td class="text-right"><strong>346,90 €</strong></td>
+                        <td class="text-right"><strong>{{BasketItem.Price}} €</strong></td>
                     </tr>
                     </tbody>
                 </table>
             </div>
         </div>
         <div class="col mb-2">
-            <div class="row">
-                <div class="col-sm-12  col-md-6">
-                    <a href="/"> <button class="btn btn-block btn-light">Continue Shopping</button></a>
-                </div>
+        <div class="row">
+            <div class="col-sm-12  col-md-6">
+                <a href="/"> <button class="btn btn-block btn-light">Continue Shopping</button></a>
+            </div>
                 <div class="col-sm-12 col-md-6 text-right">
                     <button class="btn btn-lg btn-block btn-success text-uppercase">Checkout</button>
                 </div>
@@ -62,5 +75,5 @@
     </div>
 </div>
 
-
+{% endif %}
 {% endblock %}

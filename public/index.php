@@ -23,6 +23,7 @@ $router->add('', ['controller' => 'Landingpage', 'action' => 'index']);
 
 //$router->add('detailpage/ShowDetail', ['controller' => 'Detailpage', 'action' => 'ShowDetail','id' => 1]);
 $router->add('{controller}/{action}/{id:\d+}');
-$router->add('basket', ['controller' => 'Basket', 'action' => 'ShowBasket']);
+$router->add('basket', ['controller' => 'Basket', 'action' => 'showBasket']);
+$router->add('basket/deleteArticle', ['controller' => 'Basket', 'action' => 'deleteArticle']);
 $router->add('detailpage/ShowDetail/addToCart', ['controller' => 'Detailpage', 'action' => 'addToCart']);
 $router->dispatch($_SERVER['QUERY_STRING']);
