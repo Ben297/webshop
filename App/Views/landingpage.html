@@ -15,7 +15,7 @@
     {% for Item in Items %}
         <div class="col-12 col-md-6 col-lg-4">
             <div class="shadow-sm card">
-                <img class="card-img-top" src="{{Item.ImgPath}}" alt="Card image cap">
+                <img class="card-img-top"  height="300" src="{{Item.ImgPath}}" alt="Card image cap">
                 <div class="card-body">
                     <h4 class="card-title"><a href="/detailpage/{{Item.ID}}" title="View Product">{{Item.ItemName}}</a></h4>
                     <p class="card-text">{{Item.Description}}</p>
