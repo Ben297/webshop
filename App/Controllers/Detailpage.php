@@ -7,19 +7,27 @@ namespace App\Controllers;
 use App\Models\Item;
 use Core\Controller;
 use Core\View;
+use App\Models\Cart;
+use App\Models\Cookie;
 
 class Detailpage extends Controller
 {
     protected  $route_params = null;
     protected $item ;
-    public function ShowDetail()
+    public function showDetail()
     {
         $this->item = Item::getItemByID($this->route_params['id']);
         View::renderTemplate('detailpage.html',["Item" => $this->item]);
     }
 
-    public function addToCart($id)
+    public function addToCart()
     {
+
+        $CookieData = ['ItemID'=> $_POST['ItemID'],'Amount'=> $_POST['Amount'] ];
+        //Cart::InsertIntoBasket($ItemID,$Amount);
+        Cookie::saveBasketCookie('TempBasket',$CookieData);
+
+       // View::renderTemplate('landingpage.html');
 
     }
     public function setCookie()
