@@ -21,13 +21,13 @@ class Config
      * Database user
      * @var string
      */
-    const DB_USER = 'ben';
+    const DB_USER = 'Nadine';
 
     /**
      * Database password
      * @var string
      */
-    const DB_PASSWORD = 'webshop';
+    const DB_PASSWORD = 'bla';
 
     /**
      * Show or hide error messages on screen
@@ -35,3 +35,6 @@ class Config
      */
     const SHOW_ERRORS = true;
 }
+
+//set prefix for sessions
+define('SESSION_PREFIX','splendr_');
