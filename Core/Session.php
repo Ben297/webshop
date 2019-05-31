@@ -45,6 +45,33 @@ class Session {
         unset($_SESSION[SESSION_PREFIX . $key]);
     }
 
+    public static function isloggedin()
+    {
+        if (empty($_SESSION['login'])) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public static function login(string $id)
+    {
+        session_regenerate_id(true);
+        session_start();
+
+        $_SESSION['login'] = [
+            'id' => $id
+        ];
+    }
+
+    public static function logout()
+    {
+        // Regenerate session, and delete all contents
+        session_regenerate_id(true);
+        session_destroy();
+        session_start();
+    }
+
     public static function destroy() {
         if (self::$_sessionStarted == true) {
             session_unset();
