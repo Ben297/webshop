@@ -1,5 +1,12 @@
 <?php
-session_start();
+session_start([
+    'name' => "session",
+    'cookie_sceure' => false,
+    'cookie_httponly' => true,
+    'sid_length' => 192,
+    'sid_bits_per_character' => 6,
+]);
+
 /**
  * Composer
  */
