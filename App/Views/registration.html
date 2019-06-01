@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Register an Account{% endblock %}
+{% block body %}
+
+
+<div class="container">
+    <h1 class="well">Registration Form</h1>
+    <div class="col-lg-12 well">
+        <div class="row">
+            <form method="post" action="registration/creatUser">
+                <div class="col-sm-12">
+                    <div class="row">
+                        <div class="col-sm-6 form-group">
+                            <label>First Name</label>
+                            <input type="text" name='firstname' id='firstname' placeholder="Enter First Name Here" class="form-control">
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <label>Last Name</label>
+                            <input type="text" name='lastname' id='lastname' placeholder="Enter Last Name Here" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" name='email' id='email' placeholder="Enter Email Address Here" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" name='password' id='password' placeholder="Enter your Password here" class="form-control">
+                    </div>
+                    <div class="row">
+                    <div class="form-group col-sm-9">
+                        <label>Streetname</label>
+                        <input type="text" name="streetname" id="streetname" placeholder="Streetname" class="form-control">
+                    </div>
+                    <div class="form-group col-sm-3">
+                        <label>NR</label>
+                        <input type="number" name="streetnr" id="streetnr" placeholder="NR" class="form-control">
+                    </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 form-group">
+                            <label>Zip</label>
+                            <input type="number" name="zip" id="zip" placeholder="Enter Zip Code Here" class="form-control">
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <label>City</label>
+                            <input type="text" name="city" id="city" placeholder="Enter City Name Here" class="form-control">
+                        </div>
+                    </div>
+                    <button type="submit0" class="btn btn-lg btn-info">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

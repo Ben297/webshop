@@ -9,6 +9,7 @@ abstract class Model
 {
 
     private static $pdo;
+    protected $dbh;
 
     public static function getPdo()
     {
