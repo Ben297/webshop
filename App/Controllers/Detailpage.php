@@ -27,7 +27,12 @@ class Detailpage extends Controller
         //Cart::InsertIntoBasket($ItemID,$Amount);
         Cookie::saveBasketCookie('TempBasket',$CookieData);
 
-       // View::renderTemplate('landingpage.html');
+        //reduce stock
+
+
+        //redirect to landingpage
+        $this->items =  Item::getAllItems();
+        View::renderTemplate('landingpage.html', ['Items'=> $this->items]);
 
     }
     public function setCookie()

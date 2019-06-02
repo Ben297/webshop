@@ -34,4 +34,13 @@ class Item extends \Core\Model {
         }
         return $result;
     }
+
+    public static function changeStock($id, $value)
+    {
+        $dbh = Model::getPdo();
+        $statement = $dbh->prepare("UPDATE item SET Stock=$value WHERE ID=$id");
+        $statement->execute();
+        $result = $statement->fetch();
+        return $result;
+    }
 }
