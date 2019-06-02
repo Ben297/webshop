@@ -1,8 +1,9 @@
--- Erase former database
-Drop DATABASE webshop;
--- Create new database
-Create DATABASE webshop;
-Use webshop;
+CREATE DATABASE IF NOT EXISTS webshop;
+use webshop;
+
+/*clean Database before new seed*/
+SET FOREIGN_KEY_CHECKS = 0;
+DROP TABLE IF EXISTS User,Orders,Address,Item,Basket,Cookie,Order_Details,PaymentMethod;
 
 Create Table User
 (
@@ -103,12 +104,18 @@ Values (Null, 1, 'Musterstraße', 42, 12345, 'Musterhausen', 'Germany');
 
 -- database seed Dogs
 INSERT INTO Item (ID, ItemName, Description, Price, Stock, ImgPath)
-VALUES (NULL, 'Paul', 'nice and handsome dog', 1000, 77, '/img/australian.jpg'),
-       (NULL, 'Wuff', 'nice and handsome dog', 2000, 12, '/img/australian.jpg'),
-       (NULL, 'Destroyer', 'nice and handsome dog', 1500, 212, '/img/australian.jpg'),
-       (NULL, 'Lessi', 'nice and handsome dog', 1600, 25, '/img/lab.png'),
-       (NULL, 'Brian ', 'nice and handsome dog', 800, 17, '/img/australian.jpg'),
-       (NULL, 'Snuffles ', 'nice and handsome dog', 750, 95, '/img/australian.jpg'),
-       (NULL, 'Snowball', 'nice and handsome dog', 870, 63, '/img/australian.jpg'),
-       (NULL, 'Whiskey', 'nice and handsome dog', 999, 88, '/img/australian.jpg');
+VALUES (NULL, 'Paul', 'nice and handsome dog', 999.99, 2, '/img/dog1.jpg'),
+       (NULL, 'Wuff', 'nice and handsome dog', 1999.99, 12, '/img/dog2.jpg'),
+       (NULL, 'Destroyer', 'nice and handsome dog', 1499.99, 50, '/img/dog3.png'),
+       (NULL, 'Lessi', 'nice and handsome dog', 429.99, 25, '/img/dog1.jpg'),
+       (NULL, 'Brian ', 'nice and handsome dog', 386.99, 7, '/img/dog1.jpg'),
+       (NULL, 'Snuffles ', 'nice and handsome dog', 749.99, 95, '/img/dog1.jpg'),
+       (NULL, 'Snowball', 'nice and handsome dog', 249.99, 63, '/img/dog1.jpg'),
+       (NULL, 'Whiskey', 'nice and handsome dog', 999.99, 88, '/img/dog1.jpg');
 
+-- payment methods
+INSERT INTO PaymentMethod
+VALUES (Null,'Paypal'),
+       (NULL,'Prepayment'),
+       (NULL,'bill'),
+       (Null,'creditcard');

@@ -4,30 +4,149 @@
 
 {% block body %}
 <div class="container">
+    <div class="row">
+        <div class="col">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Dogs</a></li>
+                    <li class="breadcrumb-item"><a href="">{{Item.ItemName}}</a></li>
 
-    <!-- Portfolio Item Heading -->
-    <h1 class="my-4">{{Item.ItemName}}</h1>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <!-- Image -->
+        <div class="col-12 col-lg-6">
+            <div class="card bg-light mb-3">
+                <div class="card-body">
+                    <a href="" data-toggle="modal" data-target="#productModal">
+                        <img class="img-fluid" src="{{Item.ImgPath}}"  />
+                        <p class="text-center">Zoom</p>
+                    </a>
+                </div>
+            </div>
+        </div>
 
-    <!-- Portfolio Item Row -->
+        <!-- Add to cart -->
+        <div class="col-12 col-lg-6 add_to_cart_block">
+            <div class="card bg-light mb-3">
+                <div class="card-body">
+                    <h1 class="card-title">{{Item.ItemName}}</h1>
+                    <h3 class="">{{Item.Price}} Euro</h3>
+                    <h3 class="">{{Item.Stock}}</h3>
+                    <form method="post" action="addToCart">
+                        <div class="form-group border-bottom">
+                            <div class="form-group">
+                                <label>Quantity :</label>
+                                <select name="Amount" class="form-control" id="sel1">
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                </select>
+                            </div>
+                        </div>
+                        <input type="hidden" name="ItemID" value="{{Item.ID}}" >
+                        <button  type="submit" class="btn btn-success btn-lg btn-block text-uppercase"><i class="fa fa-shopping-cart"></i> Add To Cart</button>
+
+
+
+                    </form>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Description -->
+        <div class="col-12">
+            <div class="card border-light mb-3">
+                <div class="card-header bg-primary text-white text-uppercase"><i class="fa fa-align-justify"></i> Description</div>
+                <div class="card-body">
+                    <p class="card-text">
+                        Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un peintre anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. Il n'a pas fait que survivre cinq siècles, mais s'est aussi adapté à la bureautique informatique, sans que son contenu n'en soit modifié. Il a été popularisé dans les années 1960 grâce à la vente de feuilles Letraset contenant des passages du Lorem Ipsum, et, plus récemment, par son inclusion dans des applications de mise en page de texte, comme Aldus PageMaker.
+                    </p>
+                    <p class="card-text">
+                        Contrairement à une opinion répandue, le Lorem Ipsum n'est pas simplement du texte aléatoire. Il trouve ses racines dans une oeuvre de la littérature latine classique datant de 45 av. J.-C., le rendant vieux de 2000 ans. Un professeur du Hampden-Sydney College, en Virginie, s'est intéressé à un des mots latins les plus obscurs, consectetur, extrait d'un passage du Lorem Ipsum, et en étudiant tous les usages de ce mot dans la littérature classique, découvrit la source incontestable du Lorem Ipsum. Il provient en fait des sections 1.10.32 et 1.10.33 du "De Finibus Bonorum et Malorum" (Des Suprêmes Biens et des Suprêmes Maux) de Cicéron. Cet ouvrage, très populaire pendant la Renaissance, est un traité sur la théorie de l'éthique. Les premières lignes du Lorem Ipsum, "Lorem ipsum dolor sit amet...", proviennent de la section 1.10.32.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reviews -->
+        <div class="col-12" id="reviews">
+            <div class="card border-light mb-3">
+                <div class="card-header bg-primary text-white text-uppercase"><i class="fa fa-comment"></i> Reviews</div>
+                <div class="card-body">
+                    <div class="review">
+                        <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                        <meta itemprop="datePublished" content="01-01-2016">January 01, 2018
+
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        by Paul Smith
+                        <p class="blockquote">
+                        <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+                        </p>
+                        <hr>
+                    </div>
+                    <div class="review">
+                        <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                        <meta itemprop="datePublished" content="01-01-2016">January 01, 2018
+
+                        <span class="fa fa-star" aria-hidden="true"></span>
+                        <span class="fa fa-star" aria-hidden="true"></span>
+                        <span class="fa fa-star" aria-hidden="true"></span>
+                        <span class="fa fa-star" aria-hidden="true"></span>
+                        <span class="fa fa-star" aria-hidden="true"></span>
+                        by Paul Smith
+                        <p class="blockquote">
+                        <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+                        </p>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+
+     Portfolio Item Heading
+  <!--  <h1 class="my-4">{{Item.ItemName}}</h1>
+
+    &lt;!&ndash; Portfolio Item Row &ndash;&gt;
     <div class="row">
 
         <div class="col-md-4">
             <img class="" src="{{Item.ImgPath}}" alt="Card image cap">
         </div>
         <div class="col-md-4">
-            <form method="post" action="../../detailpage/setCookie">
             <h3 class="">Description</h3>
             <p>{{Item.Description}}</p>
             <h3 class="">Price</h3>
             <p>{{Item.Price}}</p>
             <h3 class="">Stock</h3>
             <p>{{Item.Stock}}</p>
-            <h3 class="my-3"></h3>
+            <h3 class="">Amount</h3>
+            <form action="addToCart" method="post">
+                 <p><input type="number" name="Amount" min="1" max="5" placeholder="1"></p>
+                    <h3 class="my-3"></h3>
+                    <input type="hidden" name="ItemID" value="{{Item.ID}}" >
+                    <button  type="submit" class="btn btn-success">Add to Cart</button>
+                </form>
 
-                <button  type="submit" class="btn btn-success">Add to Cart</button>
-            </form>
+
 
         </div>
 
-    </div>
+    </div>-->
 {% endblock %}

@@ -3,7 +3,9 @@
         "twig/twig": "~2.0",
         "ext-pdo": "*",
         "ext-openssl": "*",
-        "ext-ctype": "*"
+        "ext-ctype": "*",
+        "ext-json": "*"
+
     },
     "autoload": {
         "psr-4": {

@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}This is your Basket{% endblock %}
+{% block body %}
+
+{% if not BasketItem %}
+
+<section class="jumbotron text-center">
+    <div class="container">
+        <h1 class="jumbotron-heading">Your Basket is empty</h1>
+        <img src="/img/sadDog.png">
+        <div class="col-sm-12  col-md-12">
+            <a href="/">
+                <button class="btn btn-block btn-light">Continue Shopping</button>
+            </a>
+        </div>
+    </div>
+</section>
+
+{% else %}
+
+<section class="jumbotron text-center">
+    <div class="container">
+        <h1 class="jumbotron-heading">This is your Basket</h1>
+    </div>
+</section>
+
+<div class="container mb-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col"> </th>
+                        <th scope="col">Product</th>
+                        <th scope="col">Available</th>
+                        <th scope="col" class="text-center">Quantity</th>
+                        <th scope="col" class="text-right">Price</th>
+                        <th> </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><img src="{{BasketItem.ImgPath}}" /> </td>
+                        <td>{{BasketItem.ItemName}}</td>
+                        <td>{{BasketItem.Stock}}</td>
+                        <td>{{BasketItem.Amount}}</td>
+                        <td class="text-right">{{BasketItem.Price}} €</td>
+                        <td class="text-right"><a href="/basket/deleteArticle"> <button class="btn btn-sm btn-danger"><i class="fa fa-trash">Delete</i> </button></a> </td>
+                    </tr>
+
+
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><strong>Total</strong></td>
+                        <td class="text-right"><strong>{{BasketItem.Price}} €</strong></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col mb-2">
+        <div class="row">
+            <div class="col-sm-12  col-md-6">
+                <a href="/"> <button class="btn btn-block btn-light">Continue Shopping</button></a>
+            </div>
+                <div class="col-sm-12 col-md-6 text-right">
+                    <button class="btn btn-lg btn-block btn-success text-uppercase">Checkout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endif %}
+{% endblock %}
