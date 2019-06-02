@@ -44,3 +44,16 @@ class Item extends \Core\Model {
         return $result;
     }
 }
+
+
+/*
+ * $this->dbh= Model::getPdo();
+        $stmt =  $this->dbh->prepare('INSERT INTO Address VALUES (NULL,?,?,?,?,?,?)');
+        $stmt->bindParam(1, $userID,\PDO::PARAM_INT);
+        $stmt->bindParam(2, $address['streetname'],\PDO::PARAM_STR);
+        $stmt->bindParam(3, $address['streetnr'],\PDO::PARAM_INT);
+        $stmt->bindParam(4, $address['zip'],\PDO::PARAM_INT);
+        $stmt->bindParam(5, $address['city'],\PDO::PARAM_STR);
+        $stmt->bindParam(6, $address['country'],\PDO::PARAM_STR);
+        return $stmt->execute();
+ */

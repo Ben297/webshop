@@ -11,12 +11,19 @@ class Basket extends Controller{
     public function showBasket()
     {
 
-        $basket = new Cart();
-        $basketItem = $basket->loadBasketFromTempCookie();
-        if ($basketItem==false){
-            View::renderTemplate('basket.html');
-        }else {
-            View::renderTemplate('basket.html', ['BasketItem' => $basketItem]);
+        // $basket = new Cart();
+        // $basketItem = $basket->loadBasketFromTempCookie();
+
+        $basketData = new Cart();
+        $basketData->loadBasketFromTempCookie();
+
+        print_r($basketData);
+        foreach ($basketData as $basketItem) {
+            if ($basketItem == false) {
+                View::renderTemplate('basket.html');
+            } else {
+                View::renderTemplate('basket.html', ['BasketItem' => $basketItem]);
+            }
         }
     }
 

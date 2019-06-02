@@ -15,6 +15,7 @@ class Cart
     public function loadBasketFromTempCookie(){
         $Cookie = new Cookie();
         if($tempCookie = $Cookie->loadBasketCookie()){
+            print_r($tempCookie);
             $basketItem = Item::getItemByID($tempCookie->ItemID);
             $basketItem['Amount']=$tempCookie->Amount;
             return $basketItem;
