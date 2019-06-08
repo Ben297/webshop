@@ -32,10 +32,19 @@ Create Table Address
 Create Table Cookie
 (
     ID             int NOT NULL AUTO_INCREMENT,
-    Cookie         varchar(255),
+    CookieID       varchar(255),
+    ItemAmount  int,
+    ItemID      int,
+    PRIMARY KEY (ID),
+    FOREIGN KEY (ItemID) REFERENCES Item (ID)
+);
+
+Create Table Session
+(
+    ID             int NOT NULL AUTO_INCREMENT,
+    SessionID      varchar(255),
     UserID         int,
     LoggedIn       Boolean,
-    ExpirationDate date,
     PRIMARY KEY (ID),
     FOREIGN KEY (UserID) REFERENCES User (ID)
 );
