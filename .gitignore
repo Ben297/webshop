@@ -1,3 +1,5 @@
 
 /vendor/
 /.idea
+
+/App/Configuration/Config.php

@@ -10,7 +10,7 @@ use Core\Model;
 use App\Models\Cookie;
 use function PHPSTORM_META\type;
 
-class Cart
+class Cart extends Model
 {
     public function loadBasketFromTempCookie(){
         $Cookie = new Cookie();

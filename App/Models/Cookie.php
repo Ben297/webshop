@@ -4,7 +4,7 @@
 namespace App\Models;
 
 
-class Cookie
+class Cookie extends Model
 {
 
     protected $cookieValue;

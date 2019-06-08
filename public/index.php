@@ -1,4 +1,11 @@
 <?php
+session_start([
+    'name' => "session",
+    'cookie_secure' => false,
+    'cookie_httponly' => true,
+    'sid_length' => 192,
+    'sid_bits_per_character' => 6,
+]);
 
 /**
  * Composer
@@ -23,7 +30,15 @@ $router->add('', ['controller' => 'Landingpage', 'action' => 'index']);
 
 //$router->add('detailpage/ShowDetail', ['controller' => 'Detailpage', 'action' => 'ShowDetail','id' => 1]);
 $router->add('{controller}/{action}/{id:\d+}');
+
+$router->add('register',['controller' => 'Authentication', 'action' => 'showRegistrationForm']);
+$router->add('register/creatUser',['controller' => 'Authentication', 'action' => 'creatUser']);
+$router->add('login',['controller'=> 'Authentication', 'action' => 'showLoginForm']);
+$router->add('login/validateLogin',['controller'=> 'Authentication', 'action' => 'validateLogin']);
+$router->add('failedLogin');
 $router->add('basket', ['controller' => 'Basket', 'action' => 'showBasket']);
 $router->add('basket/deleteArticle', ['controller' => 'Basket', 'action' => 'deleteArticle']);
 $router->add('detailpage/ShowDetail/addToCart', ['controller' => 'Detailpage', 'action' => 'addToCart']);
+
+
 $router->dispatch($_SERVER['QUERY_STRING']);
