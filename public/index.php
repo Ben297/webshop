@@ -3,6 +3,7 @@ session_start([
     'name' => "session",
     'cookie_secure' => false,
     'cookie_httponly' => true,
+    'cookie_lifetime' => 0,
     'sid_length' => 192,
     'sid_bits_per_character' => 6,
 ]);

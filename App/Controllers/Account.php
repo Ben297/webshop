@@ -38,29 +38,59 @@ class Account extends Controller
             View::renderTemplate('accountdelete.html');
        }
        else{
-            return htmlspecialchars('error');
+           die("Error: There is NO Account with this ID");
        }
     }
-
+    /*
+     * change the Address Information
+     * If the User does not add new Value to Key -> retrive the old one and insert it again
+     * probably not the best solution
+     */
     public function changeAddressInformation()
     {
-        print_r($newAddress=$_POST);
-        echo $_SESSION['UserID'];
-        $this->User->updateAddress($newAddress,$_SESSION['UserID']);
-        header('Location: /account');
+        $newAddress=$_POST;
+        $oldData = $this->User->getAddressDataByID($_SESSION['UserID']);
+        foreach ($newAddress as $key => $value) {
+            if (empty($value)) {
+                $newAddress[$key] = $oldData[$key];
+            }
+        }
+        if($this->User->updateAddress($newAddress,$_SESSION['UserID'])){
+            header('Location: /account');
+        }
     }
 
-
+    /*
+     * TODO DOes not work yet
+     */
     public function changeUserInformation()
     {
-        print_r($newUserInfo=$_POST);
+        $newUserInfo=$_POST;
         $oldPWHashed = $this->User->getUserHash($_SESSION['UserID']);
-        $newPWHashed = password_hash($_POST['newPassword'],PASSWORD_DEFAULT);
-        if (password_verify($newUserInfo['oldPassword'],$oldPWHashed))
+        if (password_verify($newUserInfo['OldPassword'],$oldPWHashed))
         {
-            $this->User->insertNewPassword($newPWHashed,$_SESSION['UserID']);
+            $oldData = $this->User->getUserByID($_SESSION['UserID']);
+            foreach ($newUserInfo as $key => $value) {
+                if (empty($value)) {
+                    if(empty($newUserInfo['NewPassword'])){
+                        continue;
+                    }
+                    $newUserInfo[$key] = $oldData[$key];
+                }
+            }
+            $this->User->updateUserInfo($newUserInfo,$_SESSION['UserID']);
+            if(empty($newUserInfo['NewPassword'])){
+
+            }else{
+                $newPWHashed = password_hash($_POST['NewPassword'],PASSWORD_DEFAULT);
+                $this->User->insertNewPassword($newPWHashed,$_SESSION['UserID']);
+            }
+            header('Location: /account');
+        }else{
+            return 'geht nicht';
         }
-        $this->User->updateUserInfo($newUserInfo,$_SESSION['UserID']);
+
+
        // header('Location: /account');
     }
 
