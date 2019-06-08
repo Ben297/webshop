@@ -23,10 +23,12 @@ class Detailpage extends Controller
     public function addToCart()
     {
 
-        $CookieData = ['ItemID'=> $_POST['ItemID'],'Amount'=> $_POST['Amount'] ];
+        $CookieData = ['ItemID'=> $_POST['ItemID'], 'Amount'=> $_POST['Amount'], 'CookieID'=> Cart::generateCookieID() ];
         //Cart::InsertIntoBasket($ItemID,$Amount);
+        print_r("jooo");
         Cookie::saveBasketCookie('TempBasket',$CookieData);
 
+        //Redirect zur Index-Seite
         $this->items = Item::getAllItems();
         View::renderTemplate('landingpage.html', ['Items' => $this->items]);
 
