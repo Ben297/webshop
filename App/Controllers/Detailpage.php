@@ -24,18 +24,18 @@ class Detailpage extends Controller
     public function addToCart()
     {
 
-        $existingCookieData = Cookie::loadBasketCookie();
+        if (Cookie::loadBasketCookie());
+        {
+            $cartArray = [Cookie::loadBasketCookie()];
+        }
         $CookieData = ['ItemID' => $_POST['ItemID'], 'Amount' => $_POST['Amount']];
-        $mergedArray[$existingCookieData][] = $CookieData;
-        //array_push($CookieData, $existingCookieData);
-        //Cart::InsertIntoBasket($ItemID,$Amount);
-        print_r($mergedArray);
-        Cookie::saveBasketCookie('TempBasket', $CookieData);
+        $mergeArray = array_merge($cartArray, $CookieData);
+        print_r("CART ARRAY: \n");
+        foreach ($mergeArray as $field)
+            if ($field)
+            print_r($field);
 
-        //reduce stock
-
-
-        //redirect to landingpage
+        Cookie::saveBasketCookie('TempBasket', $mergeArray);
         $this->items = Item::getAllItems();
         View::renderTemplate('landingpage.html', ['Items' => $this->items]);
 
@@ -50,3 +50,5 @@ class Detailpage extends Controller
         View::renderTemplate('detailpage.html');
     }
 }
+
+

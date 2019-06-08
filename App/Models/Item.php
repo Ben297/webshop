@@ -32,6 +32,8 @@ class Item extends \Core\Model {
         for ($i=0;$i<=5;$i++){
             unset($result[$i]);
         }
+        print_r("RESULT");
+        print_r($result);
         return $result;
     }
 

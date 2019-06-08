@@ -14,16 +14,18 @@ class Cart
 {
     public function loadBasketFromTempCookie(){
         $Cookie = new Cookie();
+
+        //Wenn kein Inhalt im Cookie steht schreibe den Inhalt hinein
         if($tempCookie = $Cookie->loadBasketCookie()){
-            print_r($tempCookie);
             $basketItem = Item::getItemByID($tempCookie->ItemID);
             $basketItem['Amount']=$tempCookie->Amount;
             return $basketItem;
+
         }else{
             return false;
         }
-
     }
+
     public static function InsertIntoBasket($ItemID,$Amount)
     {
         $dbh = Model::getPdo();

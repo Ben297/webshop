@@ -25,8 +25,6 @@ class Cookie
             return false;
 
         } else {
-            //echo "Value is: " . $_COOKIE['TempBasket'];
-            // print_r(json_decode($_COOKIE['TempBasket']));
             return json_decode($_COOKIE['TempBasket']);
         }
 

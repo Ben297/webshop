@@ -1,38 +1,32 @@
 <?php
 
 namespace App\Controllers;
+
 use Core\Controller;
 use Core\View;
 use App\Models\Cart;
 use App\Models\Cookie;
 
-class Basket extends Controller{
+class Basket extends Controller
+{
 
     public function showBasket()
     {
 
-        // $basket = new Cart();
-        // $basketItem = $basket->loadBasketFromTempCookie();
-
-        $basketData = new Cart();
-        $basketData->loadBasketFromTempCookie();
+        $basket = new Cart();
+        $basketData = array();
+        array_push($basketData, $basket->loadBasketFromTempCookie());
 
         print_r($basketData);
-        foreach ($basketData as $basketItem) {
-            if ($basketItem == false) {
-                View::renderTemplate('basket.html');
-            } else {
-                View::renderTemplate('basket.html', ['BasketItem' => $basketItem]);
-            }
-        }
+
+        View::renderTemplate('basket.html', ['BasketItem' => $basketData]);
     }
 
-        public function deleteArticle()
+    public function deleteArticle()
     {
         Cookie::deleteBasketCookie('TempBasket');
-        View::renderTemplate(   'basket.html');
+        View::renderTemplate('basket.html');
     }
-
 
 
 }
