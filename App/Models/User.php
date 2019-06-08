@@ -8,6 +8,12 @@ use Core\Model;
 
 class User extends Model
 {
+    /**
+     * @param $user
+     * @return string
+     * function to insert the user into the Database
+     * return UserID or Error
+     */
     public function insertUser($user)
     {
         //print_r( $user);

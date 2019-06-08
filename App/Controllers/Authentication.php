@@ -37,7 +37,7 @@ class Authentication
 
     public function validateLogin()
     {
-        $this->user =  new User();
+        $this->user = new User();
         $password = $_POST['password'];
         $email = $_POST['email'];
         $userID = $this->user->getUserByEmail($email);
