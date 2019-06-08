@@ -14,10 +14,6 @@ class Basket extends Controller{
         $basket = new Cart();
         $basketItem = $basket->loadBasketFromTempCookie();
 
-        print_r("FUNCTION: showBasket                \n");
-        print_r("BasketItem: " . $basketItem);
-
-
         if ($basketItem==false){
             print_r("false");
             View::renderTemplate('basket.html');

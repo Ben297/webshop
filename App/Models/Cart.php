@@ -16,10 +16,7 @@ class Cart extends Model
     {
         $Cookie = new Cookie();
         if ($tempCookie = $Cookie->loadBasketCookie()) {
-            $basketItem['CookieID'] = $tempCookie->CookieID;
-            $basketItem = Item::getItemByID($tempCookie->ItemID);
-            $basketItem['Amount'] = $tempCookie->Amount;
-            return $basketItem;
+            return $tempCookie;
         } else {
             return false;
         }
@@ -39,16 +36,15 @@ class Cart extends Model
         $Cookie = new Cookie();
         $tempCookie = $Cookie->loadBasketCookie();
 
-        print_r($tempCookie);
 
-        if ($tempCookie = $Cookie->loadBasketCookie()) {
-            if (empty($basketItem['CookieID'] = $tempCookie->CookieID)) {
-                return bin2hex(random_bytes(16));
-            } else {
-                return $tempCookie->CookieID;
-            }
-        } else {
+        print_r("||||||||");
+        print_r($tempCookie);
+        print_r("||||||||");
+
+        if (!$tempCookie = $Cookie->loadBasketCookie()) {
             return bin2hex(random_bytes(16));
+        } else {
+            return $tempCookie;
         }
     }
 }
