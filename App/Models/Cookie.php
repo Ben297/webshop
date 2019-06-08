@@ -2,7 +2,7 @@
 
 
 namespace App\Models;
-
+use Core\Model;
 
 class Cookie extends Model
 {

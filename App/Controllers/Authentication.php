@@ -6,10 +6,21 @@ namespace App\Controllers;
 
 use App\Models\User;
 use Core\View;
+use App\Models\Session;
+use Twig\Error\RuntimeError;
 
 class Authentication
 {
-    private $user;
+    private $User;
+    private $Session;
+
+    public function __construct()
+    {
+        $this->User = new User();
+        $this->Session = new Session();
+
+    }
+
     public function showRegistrationForm()
     {
         View::renderTemplate('register.html');
@@ -26,27 +37,39 @@ class Authentication
      */
     public function creatUser()
     {
-        $newUser =  new User();
         $userData = $_POST;
+        $userData['email'] = filter_var($userData['email'], FILTER_SANITIZE_EMAIL);
         $userData['password'] = password_hash($userData['password'],PASSWORD_DEFAULT);
-        $userID = $newUser->insertUser($userData);
-        $newUser->insertAddress($userData,$userID);
+        $userID = $this->User->insertUser($userData);
+        $this->User->insertAddress($userData,$userID);
         header('Location: ../basket');
 
     }
 
-    public function validateLogin()
+    public function login()
     {
-        $this->user = new User();
         $password = $_POST['password'];
         $email = $_POST['email'];
-        $userID = $this->user->getUserByEmail($email);
-        $userPWHashed = $this->user->getUserHash($userID);
+        $_SESSION['UserID'] = $this->User->getUserIDByEmail($email);
+        $userPWHashed = $this->User->getUserHash($_SESSION['UserID']);
+        $_SESSION['LoginStatus']= TRUE;
+        $this->validatePassword($password,$userPWHashed,$_SESSION['UserID']);
+
+    }
+
+    public function logout()
+    {
+        session_destroy();
+        header('Location: /');
+    }
+
+    private function validatePassword($password,$userPWHashed,$userID)
+    {
         if (password_verify($password,$userPWHashed)){
-            header('Location: ../basket');
+           return True;
         }else{
-            $this->user->incrementLoginAttempt($userID);
-           echo $failedLogins = $this->user->checkFailedLogins($userID);
+            $this->User->incrementLoginAttempt($userID);
+           echo $failedLogins = $this->User->checkFailedLogins($userID);
             if ($failedLogins > 3){
                 View::renderTemplate('loginFail.html');
             }else{
@@ -54,6 +77,28 @@ class Authentication
             }
         }
 
+    }
+
+    private function checkSession($userID){
+        if (empty($_SESSION['ID'])){
+        $_SESSION['ID'] = $this->generateSessionID();
+        Session::insertSessionID($_SESSION['ID'],$userID);
+
+        }elseif(!empty($_SESSION['ID'])){
+            Session::getSessionID($userID);
+
+        }
+
+
+
+
+        print_r( $_SESSION);
+
+    }
+
+    private function generateSessionID()
+    {
+        return md5(openssl_random_pseudo_bytes(32));
     }
 
 }

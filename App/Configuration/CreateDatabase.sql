@@ -3,7 +3,7 @@ use webshop;
 
 /*clean Database before new seed*/
 SET FOREIGN_KEY_CHECKS = 0;
-DROP TABLE IF EXISTS User,Orders,Address,Item,Basket,Cookie,Order_Details,PaymentMethod;
+DROP TABLE IF EXISTS User,Orders,Address,Item,Basket,Cookie,Session,Order_Details,PaymentMethod;
 
 Create Table User
 (

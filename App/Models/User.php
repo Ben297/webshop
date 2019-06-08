@@ -32,6 +32,17 @@ class User extends Model
 
     }
 
+    public function insertNewPassword($password,$UserID)
+    {
+        $this->dbh= Model::getPdo();
+        $stmt =  $this->dbh->prepare('Update User Set Password = ? Where ID = ?');
+        $stmt->bindParam(1, $password,\PDO::PARAM_STR);
+        $stmt->bindParam(2, $UserID);
+
+        echo $stmt->execute();
+
+    }
+
     public function insertAddress($address,$userID)
     {
         //print_r( $address);
@@ -39,15 +50,44 @@ class User extends Model
         $stmt =  $this->dbh->prepare('INSERT INTO Address VALUES (NULL,?,?,?,?,?,?)');
         $stmt->bindParam(1, $userID,\PDO::PARAM_INT);
         $stmt->bindParam(2, $address['streetname'],\PDO::PARAM_STR);
-        $stmt->bindParam(3, $address['streetnr'],\PDO::PARAM_INT);
-        $stmt->bindParam(4, $address['zip'],\PDO::PARAM_INT);
+        $stmt->bindParam(3, $address['houseNr'],\PDO::PARAM_INT);
+        $stmt->bindParam(4, $address['zipCode'],\PDO::PARAM_INT);
         $stmt->bindParam(5, $address['city'],\PDO::PARAM_STR);
         $stmt->bindParam(6, $address['country'],\PDO::PARAM_STR);
         return $stmt->execute();
 
     }
 
-    public function getUserByEmail($email)
+    public function updateAddress($address,$userID)
+    {
+        $this->dbh= Model::getPdo();
+        $stmt =  $this->dbh->prepare('Update Address SET Streetname = ?,HouseNR = ?, ZipCode = ?,City = ?, Country = ? WHERE UserID = ?');
+
+        $stmt->bindParam(1, $address['streetname'],\PDO::PARAM_STR);
+        $stmt->bindParam(2, $address['houseNr'],\PDO::PARAM_INT);
+        $stmt->bindParam(3, $address['zipCode'],\PDO::PARAM_INT);
+        $stmt->bindParam(4, $address['city'],\PDO::PARAM_STR);
+        $stmt->bindParam(5, $address['country'],\PDO::PARAM_STR);
+        $stmt->bindParam(6, $userID,\PDO::PARAM_INT);
+        echo $stmt->execute();
+
+    }
+
+    public function updateUserInfo($userInfo,$userID)
+    {
+        echo $userID;
+        $this->dbh= Model::getPdo();
+        $stmt =  $this->dbh->prepare('Update User SET Email = ?, Firstname = ?,Lastname = ? WHERE ID = ?');
+        $stmt->bindParam(1, $userInfo['email'],\PDO::PARAM_STR);
+        $stmt->bindParam(2, $userInfo['firstname'],\PDO::PARAM_STR);
+        $stmt->bindParam(3, $userInfo['lastname'],\PDO::PARAM_STR);
+        $stmt->bindParam(4, $userID,\PDO::PARAM_INT);
+        echo $stmt->execute();
+
+    }
+
+
+    public function getUserIDByEmail($email)
     {
         $this->dbh = Model::getPdo();
         $stmt = $this->dbh->prepare('Select ID FROM User WHERE Email = ?');
@@ -85,5 +125,22 @@ class User extends Model
         $stmt->execute();
         $result =  $stmt->fetch();
         return $result['FailedLogins'];
+    }
+
+    public function getUserByID($ID)
+    {
+        $this->dbh = Model::getPdo();
+        $stmt = $this->dbh->prepare('Select * FROM User Where ID = ? LIMIT 1');
+        $stmt->bindParam(1,$ID,\PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch();
+
+    }public function getAddressDataByID($ID)
+    {
+        $this->dbh = Model::getPdo();
+        $stmt = $this->dbh->prepare('Select * FROM Address Where UserID = ? ');
+        $stmt->bindParam(1,$ID,\PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch();
     }
 }
