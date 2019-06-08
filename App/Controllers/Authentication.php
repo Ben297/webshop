@@ -3,11 +3,9 @@
 
 namespace App\Controllers;
 
-
 use App\Models\User;
 use Core\View;
 use App\Models\Session;
-use Twig\Error\RuntimeError;
 
 class Authentication
 {
@@ -35,26 +33,46 @@ class Authentication
      * Function to Register the User and validate the input of the User
      * TODO Validate the user input
      */
-    public function creatUser()
+    public function registerUser()
     {
-        $userData = $_POST;
-        $userData['email'] = filter_var($userData['email'], FILTER_SANITIZE_EMAIL);
-        $userData['password'] = password_hash($userData['password'],PASSWORD_DEFAULT);
+        $userData['email'] = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+        $userData['firstname'] =filter_var($_POST['firstname'], FILTER_SANITIZE_STRING);
+        $userData['lastname'] =filter_var($_POST['lastname'], FILTER_SANITIZE_STRING);
+        $userData['password'] = password_hash($_POST['password'],PASSWORD_DEFAULT);
+        $userData['streetname'] =filter_var($_POST['streetname'], FILTER_SANITIZE_STRING);
+        $userData['houseNr'] =filter_var($_POST['houseNr'], FILTER_SANITIZE_STRING);
+        $userData['zipCode'] =filter_var($_POST['zipCode'], FILTER_SANITIZE_NUMBER_INT);
+        $userData['city'] =filter_var($_POST['city'], FILTER_SANITIZE_STRING);
+        $userData['country'] =filter_var($_POST['country'], FILTER_SANITIZE_STRING);
         $userID = $this->User->insertUser($userData);
         $this->User->insertAddress($userData,$userID);
         header('Location: ../basket');
-
     }
 
+    /***
+     * Login Function
+     * First it filters the Input
+     *
+     */
     public function login()
     {
         $password = $_POST['password'];
-        $email = $_POST['email'];
-        $_SESSION['UserID'] = $this->User->getUserIDByEmail($email);
-        $userPWHashed = $this->User->getUserHash($_SESSION['UserID']);
-        $_SESSION['LoginStatus']= TRUE;
-        $this->validatePassword($password,$userPWHashed,$_SESSION['UserID']);
-
+        $email = filter_var($_POST['email'],FILTER_SANITIZE_EMAIL);
+        $userID = $this->User->getUserIDByEmail($email);
+        $userPWHashed = $this->User->getUserHash($userID);
+        if($this->validatePassword($password,$userPWHashed,$userID)){
+            session_regenerate_id(true);
+            $_SESSION['LoginStatus'] = TRUE;
+            $_SESSION['UserID']=$userID;
+            $this->User->clearLoginAttempt($_SESSION['UserID']);
+            header('Location: /');
+        }else{
+            $this->User->incrementLoginAttempt($userID);
+            $failedLogins = $this->User->checkFailedLogins($_SESSION['UserID']);
+            if ($failedLogins>5)
+                $_SESSION['LoginAttempts'] = $failedLogins;
+                header('Location: /login');
+        }
     }
 
     public function logout()
@@ -67,33 +85,19 @@ class Authentication
     {
         if (password_verify($password,$userPWHashed)){
            return True;
-        }else{
-            $this->User->incrementLoginAttempt($userID);
-           echo $failedLogins = $this->User->checkFailedLogins($userID);
-            if ($failedLogins > 3){
-                View::renderTemplate('loginFail.html');
-            }else{
-                View::renderTemplate('login.html',['LoginAttempts' => $failedLogins]);
-            }
+        }else {
+           return False;
         }
-
     }
 
-    private function checkSession($userID){
-        if (empty($_SESSION['ID'])){
-        $_SESSION['ID'] = $this->generateSessionID();
-        Session::insertSessionID($_SESSION['ID'],$userID);
+    private function checkCSFRToken($userID){
+        if (empty($_SESSION['CSFR_Token'])){
+        $_SESSION['CSFR_Token'] = $this->generateSessionID();
+        Session::insertSessionID($_SESSION['CSFR_Token'],$userID);
 
-        }elseif(!empty($_SESSION['ID'])){
-            Session::getSessionID($userID);
-
+        }else{
+            return hash_equals($_SESSION['CSFR_Token'],Session::getSessionID($userID));
         }
-
-
-
-
-        print_r( $_SESSION);
-
     }
 
     private function generateSessionID()

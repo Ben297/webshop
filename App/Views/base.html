@@ -19,7 +19,8 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-3">
     <div class="container">
         <a class="navbar-brand" href="/">Happy Dog Shop</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
+                aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -30,27 +31,35 @@
                 <i class="fa fa-shopping-cart"></i> Basket
                 <span class="badge badge-light">3</span>
             </a>
-
+            {% if session.LoginStatus != 1 %}
             <a class="btn btn-success btn-sm ml-3" href="/login">
                 <i class="fa fa-user-o"></i> Login
-
             </a>
+            {% else %}
+            <a class="btn btn-success btn-sm ml-3" href="/account">
+                <i class="fa fa-user-o"></i> Account
+            </a>
+            {% endif %}
+
         </div>
     </div>
 </nav>
+<div class="container">
 
 
-    {% block body %}
-    {% endblock %}
-    <!-- Footer -->
-    <footer class="page-footer font-small blue">
+        {% block body %}
+        {% endblock %}
 
-        <!-- Copyright -->
-        <div class="footer-copyright text-center py-3">© 2019 Copyright:
-            <a href="/"> HappyDogShop.com</a>
-        </div>
-        <!-- Copyright -->
+</div>
+<!-- Footer -->
+<footer class="page-footer font-small blue">
 
-    </footer>
+    <!-- Copyright -->
+    <div class="footer-copyright text-center py-3">© 2019 Copyright:
+        <a href="/"> HappyDogShop.com</a>
+    </div>
+    <!-- Copyright -->
+
+</footer>
 </body>
 </html>

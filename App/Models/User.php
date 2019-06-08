@@ -92,16 +92,20 @@ class User extends Model
         $this->dbh = Model::getPdo();
         $stmt = $this->dbh->prepare('Select ID FROM User WHERE Email = ?');
         $stmt->bindParam(1,$email,\PDO::PARAM_STR);
-        $stmt->execute();
-        $result = $stmt->fetch();
-        return $result['ID'];
+        if($stmt->execute()){
+            $result = $stmt->fetch();
+            return $result['ID'];
+        }else{
+            return False;
+        }
+
     }
 
-    public function getUserHash($ID)
+    public function getUserHash($userID)
     {
         $this->dbh = Model::getPdo();
         $stmt = $this->dbh->prepare('Select password From User WHERE id= ?');
-        $stmt->bindParam(1,$ID,\PDO::PARAM_INT);
+        $stmt->bindParam(1,$userID,\PDO::PARAM_INT);
         $stmt->execute();
         $result = $stmt->fetch();
         return  $result = $result['password'];
@@ -109,38 +113,54 @@ class User extends Model
 
 
 
-    public function incrementLoginAttempt($ID)
+    public function incrementLoginAttempt($userID)
     {
         $this->dbh = Model::getPdo();
         $stmt = $this->dbh->prepare('UPDATE User SET FailedLogins = FailedLogins+1 Where User.ID = ?');
-        $stmt->bindParam(1,$ID,\PDO::PARAM_INT);
+        $stmt->bindParam(1,$userID,\PDO::PARAM_INT);
         $stmt->execute();
     }
 
-    public function checkFailedLogins($ID)
+    public function checkFailedLogins($userID)
     {
         $this->dbh = Model::getPdo();
         $stmt = $this->dbh->prepare('SELECT FailedLogins FROM User WHERE User.ID = ? ');
-        $stmt->bindParam(1,$ID,\PDO::PARAM_INT);
+        $stmt->bindParam(1,$userID,\PDO::PARAM_INT);
         $stmt->execute();
         $result =  $stmt->fetch();
         return $result['FailedLogins'];
     }
 
-    public function getUserByID($ID)
+    public function clearLoginAttempt($userID)
+    {
+        $this->dbh = Model::getPdo();
+        $stmt = $this->dbh->prepare('UPDATE User SET FailedLogins = 0 Where User.ID = ?');
+        $stmt->bindParam(1,$userID,\PDO::PARAM_INT);
+        return $stmt->execute();
+    }
+
+    public function getUserByID($userID)
     {
         $this->dbh = Model::getPdo();
         $stmt = $this->dbh->prepare('Select * FROM User Where ID = ? LIMIT 1');
-        $stmt->bindParam(1,$ID,\PDO::PARAM_INT);
+        $stmt->bindParam(1,$userID,\PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetch();
 
-    }public function getAddressDataByID($ID)
+    }public function getAddressDataByID($userID)
     {
         $this->dbh = Model::getPdo();
         $stmt = $this->dbh->prepare('Select * FROM Address Where UserID = ? ');
-        $stmt->bindParam(1,$ID,\PDO::PARAM_INT);
+        $stmt->bindParam(1,$userID,\PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetch();
+    }
+
+    public function deleteAccount($userID)
+    {
+        $this->dbh = Model::getPdo();
+        $stmt = $this->dbh->prepare('DELETE FROM User Where ID = ? ');
+        $stmt->bindParam(1,$userID,\PDO::PARAM_INT);
+        return $stmt->execute();
     }
 }

@@ -4,10 +4,13 @@
 namespace App\Controllers;
 
 
+use Core\Controller;
+
+use Core\Error;
 use Core\View;
 use App\Models\User;
 
-class Account
+class Account extends Controller
 {
     private $User;
 
@@ -18,20 +21,26 @@ class Account
 
     public function showAccount()
     {
-
-        if ($_SESSION['LoginStatus']===1){
-            $AccountInfo = array_unique(array_merge($this->User->getUserbyID($_SESSION['ID']),$this->User->getAddressDataByID($_SESSION['ID'])));
-            // print_r($AccountInfo);
+        if (Controller::loginStatus()){
+            $AccountInfo = array_unique(array_merge($this->User->getUserbyID($_SESSION['UserID']),$this->User->getAddressDataByID($_SESSION['UserID'])));
             View::renderTemplate('account.html',['UserInfo'=> $AccountInfo]);
         }
         else{
             View::renderTemplate('loginprompt.html');
         }
-
     }
 
+    public function deleteAccount()
+    {
 
-
+       if($this->User->deleteAccount($_SESSION['UserID'])){
+           session_destroy();
+            View::renderTemplate('accountdelete.html');
+       }
+       else{
+            return htmlspecialchars('error');
+       }
+    }
 
     public function changeAddressInformation()
     {

@@ -26,18 +26,10 @@ Create Table Address
     City       varchar(255),
     Country    varchar(255),
     PRIMARY KEY (ID),
-    FOREIGN KEY (UserID) REFERENCES User (ID)
+    FOREIGN KEY (UserID) REFERENCES User (ID) ON DELETE CASCADE
 );
 
-Create Table Cookie
-(
-    ID             int NOT NULL AUTO_INCREMENT,
-    CookieID       varchar(255),
-    ItemAmount  int,
-    ItemID      int,
-    PRIMARY KEY (ID),
-    FOREIGN KEY (ItemID) REFERENCES Item (ID)
-);
+
 
 Create Table Session
 (
@@ -58,6 +50,16 @@ Create Table Item
     Stock       int,
     ImgPath     varchar(255),
     PRIMARY KEY (ID)
+);
+
+Create Table Cookie
+(
+    ID             int NOT NULL AUTO_INCREMENT,
+    CookieID       varchar(255),
+    ItemAmount  int,
+    ItemID      int,
+    PRIMARY KEY (ID),
+    FOREIGN KEY (ItemID) REFERENCES Item (ID)
 );
 
 Create Table Basket
@@ -86,7 +88,7 @@ Create Table Orders
     Price           double,
     OrderData       date,
     PRIMARY KEY (ID),
-    FOREIGN KEY (UserID) REFERENCES User (ID),
+    FOREIGN KEY (UserID) REFERENCES User (ID) ON DELETE CASCADE,
     FOREIGN KEY (PaymentMethodID) REFERENCES PaymentMethod (ID)
 );
 
@@ -100,13 +102,13 @@ Create Table Order_Details
     TotalPrice double,
     PRIMARY KEY (ID),
     FOREIGN KEY (ItemID) REFERENCES Item (ID),
-    FOREIGN KEY (UserID) REFERENCES User (ID)
+    FOREIGN KEY (OrderID) REFERENCES Orders (ID) ON DELETE CASCADE
 );
 
 -- database seed User
 INSERT Into User
-VALUES (NULL, 'maxmustermann@test.de', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Max',
-        'Mustermann', 0);
+VALUES (NULL, 'test@test.de', '$2y$10$RaxBKownRHaZgUnbh5qeX.aq28krVPu/1s6OKq.SfzYFMOs7wd1t2', 'Tester1',
+        'Testermann', 0);
 
 INSERT Into Address
 Values (Null, 1, 'Musterstraße', 42, 12345, 'Musterhausen', 'Germany');
@@ -119,6 +121,7 @@ VALUES (NULL, 'Paul', 'nice and handsome dog', 999.99, 2, '/img/dog1.jpg'),
        (NULL, 'Lessi', 'nice and handsome dog', 429.99, 25, '/img/dog1.jpg'),
        (NULL, 'Brian ', 'nice and handsome dog', 386.99, 7, '/img/dog1.jpg'),
        (NULL, 'Snuffles ', 'nice and handsome dog', 749.99, 95, '/img/dog1.jpg'),
+       (NULL, 'Snowball', 'nice and handsome dog', 249.99, 63, '/img/dog1.jpg'),
        (NULL, 'Snowball', 'nice and handsome dog', 249.99, 63, '/img/dog1.jpg'),
        (NULL, 'Whiskey', 'nice and handsome dog', 999.99, 88, '/img/dog1.jpg');
 

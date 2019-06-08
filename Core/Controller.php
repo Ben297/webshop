@@ -48,21 +48,15 @@ abstract class Controller
         }
     }
 
-    /**
-     * Before filter - called before an action method.
-     *
-     * @return void
-     */
-    protected function before()
-    {
-    }
+    protected function before (){}
+    protected function after (){}
 
-    /**
-     * After filter - called after an action method.
-     *
-     * @return void
-     */
-    protected function after()
+    public static function loginStatus()
     {
+        if (empty($_SESSION['LoginStatus'])) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }
