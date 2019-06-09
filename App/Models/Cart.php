@@ -31,11 +31,47 @@ class Cart extends Model
         print_r("INSERTINTO BASKET - " . $CookieID);
 
         $dbh = Model::getPdo();
+
+        print_r("SELECT STATEMENT -> ");
+        print_r($CookieID);
+        $stmt = $dbh->prepare("SELECT Amount FROM Basket WHERE ItemID= ? AND Cookie= ?");
+        $stmt->bindParam(1, $ItemID, \PDO::PARAM_INT);
+        $stmt->bindParam(2, $CookieID, \PDO::PARAM_STR);
+        $stmt->execute();
+
+        if($stmt->rowCount()) {
+            print_r("->TRUE<-");
+            $result = $stmt->fetch();
+
+            print_r("UPDATE STATEMENT -> ");
+            $Amount += $result['Amount'];
+            print_r($Amount);
+
+            $stmt = $dbh->prepare("UPDATE Basket SET Amount = ? WHERE ItemID= ? AND Cookie= ?" );
+            $stmt->bindParam(1, $Amount, \PDO::PARAM_INT);
+            $stmt->bindParam(2, $ItemID, \PDO::PARAM_INT);
+            $stmt->bindParam(3, $CookieID, \PDO::PARAM_STR);
+            $stmt->execute();
+
+
+        } else {
+            print_r("->FALSE<-");
+            print_r($stmt->fetch());
+            print_r("INSERT STATEMENT ->");
+            $stmt = $dbh->prepare('INSERT INTO Basket (ID,ItemID,Amount,Cookie) VALUES (NULL,?, ?, ?)');
+            $stmt->bindParam(1, $ItemID, \PDO::PARAM_INT);
+            $stmt->bindParam(2, $Amount, \PDO::PARAM_INT);
+            $stmt->bindParam(3, $CookieID, \PDO::PARAM_STR);
+            $stmt->execute();
+        }
+        /*
+        print_r("INSERT STATEMENT");
         $stmt = $dbh->prepare('INSERT INTO Basket (ID,ItemID,Amount,Cookie) VALUES (NULL,?, ?, ?)');
         $stmt->bindParam(1, $ItemID, \PDO::PARAM_INT);
         $stmt->bindParam(2, $Amount, \PDO::PARAM_INT);
         $stmt->bindParam(3, $CookieID, \PDO::PARAM_STR);
         $stmt->execute();
+        */
     }
 
     // Generates a random 16 lenght string as CookieID
