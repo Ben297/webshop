@@ -49,4 +49,8 @@ $router->add('changeAddressInformation', ['controller' => 'Account','action'=>'c
 $router->add('changeUserInformation', ['controller' => 'Account','action'=>'changeUserInformation']);
 
 
+//order
+$router->add('showOrderAddress', ['controller' => 'Checkout','action'=>'showOrderAddress']);
+$router->add('orderOverview', ['controller' => 'Checkout','action'=>'showOrderOverview']);
+
 $router->dispatch($_SERVER['QUERY_STRING']);

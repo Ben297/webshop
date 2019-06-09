@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+{% block body %}
+
+<div class="row">
+    <div class="col-lg-4 mx-auto">
+        <h3>Confirm Address</h3>
+        <table class="table table-bordered">
+
+            <tbody>
+            <tr>
+                <th scope="row">Streetname</th>
+                <td></td>
+
+            </tr>
+            <tr>
+                <th scope="row">House NR.</th>
+                <td>Jacob</td>
+
+            </tr>
+            <tr>
+                <th scope="row">ZipCode</th>
+                <td colspan="2">Larry the Bird</td>
+
+            </tr>
+            <tr>
+                <th scope="row">City</th>
+                <td colspan="2">Larry the Bird</td>
+
+            </tr>
+            <tr>
+                <th scope="row">Country</th>
+                <td colspan="2">Larry the Bird</td>
+
+            </tr>
+
+            </tbody>
+        </table>
+
+            <button type="button" class="btn btn-secondary">Change Address</button>
+            <a class="btn btn-success" role="button" href="/orderPayment">Next</a>
+
+    </div>
+</div>
+
+{% endblock %}
