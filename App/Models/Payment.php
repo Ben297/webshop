@@ -15,4 +15,12 @@ class Payment extends Model
         $result = $stmt->fetchAll();
         return $result;
     }
+    public static function getOrderPaymentMethod($orderID){
+        $dbh = Model::getPdo();
+        $stmt = $dbh->prepare('Select PaymentMethodID FROM Orders WHERE ID = ?');
+        $stmt->bindParam(1,$orderID, \PDO::PARAM_INT);
+        $stmt->execute();
+        $result = $stmt->fetch();
+        return $result;
+    }
 }

@@ -1,16 +1,21 @@
 {% extends "base.html" %}
-{% block title %}Login{% endblock %}
+{% block title %}Payment Method{% endblock %}
 {% block body %}
 <div class="row">
     <div class="col-lg-6 mx-auto">
-        <form action="/choosePaymentMethod" action="post">
-        <select id="CreditCardType" name="CreditCardType" class="form-control">
+        <form action="confirmPaymentMethod" method="post">
+            <label>This Payment Method is currently used:</label>
+        <select id="paymentMethod" name="paymentMethod" class="form-control">
             {% for Option in PaymentInfo %}
-            <option>{{Option.PaymentName}}</option>
+            {% if Option.ID == OrderPaymentID.PaymentMethodID %}
+            <option selected name="paymentMethod" value="{{Option.ID}}">{{Option.PaymentName}}</option>
+            {% else %}
+            <option name="paymentMethod" value="{{Option.ID}}">{{Option.PaymentName}}</option>
+            {% endif %}
             {% endfor %}
         </select>
-            <a class="btn btn-success" type="submit" role="button" href="/showOrderOverview">Continue to Overview</a>
-    </form>
+            <button class="btn btn-lg btn-success" type="submit"><a> Confirm </a> </button>
+        </form>
     </div>
 </div>
 {% endblock %}

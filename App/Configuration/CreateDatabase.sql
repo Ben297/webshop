@@ -90,12 +90,14 @@ Create Table Orders
 (
     ID              int NOT NULL AUTO_INCREMENT,
     UserID          int,
+    AddressID       int,
     PaymentMethodID int,
-    Price           double,
+    TotalPrice      double,
     OrderDate       date,
     OrderStatus     int,
     PRIMARY KEY (ID),
     FOREIGN KEY (UserID) REFERENCES User (ID) ON DELETE CASCADE,
+    FOREIGN KEY (AddressID) REFERENCES Address(ID),
     FOREIGN KEY (PaymentMethodID) REFERENCES PaymentMethod (ID),
     FOREIGN KEY (OrderStatus) REFERENCES OrderStatus (ID)
 
@@ -122,6 +124,9 @@ VALUES (NULL, 'test@test.de', '$2y$10$RaxBKownRHaZgUnbh5qeX.aq28krVPu/1s6OKq.Sfz
 
 INSERT Into Address
 Values (Null, 1, 'Musterstraße', 42, 12345, 'Musterhausen', 'Germany');
+
+INSERT INTO Orders
+VALUES (NULL,1,0,2,500,CURRENT_TIMESTAMP,2);
 
 -- database seed Dogs
 INSERT INTO Item (ID, ItemName, Description, Price, Stock, ImgPath)

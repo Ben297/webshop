@@ -53,5 +53,6 @@ $router->add('changeUserInformation', ['controller' => 'Account','action'=>'chan
 $router->add('showOrderAddress', ['controller' => 'Checkout','action'=>'showOrderAddress']);
 $router->add('showOrderPayment', ['controller' => 'Checkout','action'=>'showOrderPayment']);
 $router->add('showOrderOverview', ['controller' => 'Checkout','action'=>'showOrderOverview']);
+$router->add('confirmPaymentMethod', ['controller' => 'Checkout','action'=>'confirmPaymentMethod']);
 
 $router->dispatch($_SERVER['QUERY_STRING']);
