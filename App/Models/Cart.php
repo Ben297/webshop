@@ -13,7 +13,7 @@ use function PHPSTORM_META\type;
 class Cart extends Model
 {
 
-    // Lädt den Inhalt des Warenkorbes, falls vorhanden - "False" wenn kein Warenkorb vorhanden
+    // Loads the content out of the Basket, returns "false" in case of no basket
     public function loadBasketFromTempCookie()
     {
         $Cookie = new Cookie();
@@ -25,10 +25,10 @@ class Cart extends Model
 
     }
 
-    // Schreibt die ProduktID, Menge und die CookieID (Warenkorb) in die Datenbank
+    // writes ProductID, Amount and CookieID in the database
     public static function InsertIntoBasket($ItemID, $Amount, $CookieID)
     {
-        print_r("INSERTINTO BASKET - ".$CookieID);
+        print_r("INSERTINTO BASKET - " . $CookieID);
 
         $dbh = Model::getPdo();
         $stmt = $dbh->prepare('INSERT INTO Basket (ID,ItemID,Amount,Cookie) VALUES (NULL,?, ?, ?)');
@@ -38,7 +38,7 @@ class Cart extends Model
         $stmt->execute();
     }
 
-    // Generiert zufällige Zahlenfolge als CookieID
+    // Generates a random 16 lenght string as CookieID
     public static function generateCookieID()
     {
         $Cookie = new Cookie();
@@ -50,7 +50,9 @@ class Cart extends Model
         }
     }
 
-    // Gibt alle Werte der betreffenden CookieID (Warenkorb) aus
+    // Left join between basket table and item (product) table
+    // returns Product, Availability, Quantity Price from Table Item aswell as the CookieID and the Amount from Table Basket
+    // joins them to a tuple
     public static function getAllBasketItems($CookieID)
     {
         $dbh = Model::getPdo();
@@ -63,11 +65,12 @@ class Cart extends Model
         return $result;
     }
 
-    // Löscht ein spezifisches Item aus dem Warenkorb
+    // deletes a specific BasketItem
     public static function deleteBasketItem($id)
     {
         $dbh = Model::getPdo();
-        $stmt = $dbh->prepare("DELETE FROM basket WHERE ItemID=$id");
+        $stmt = $dbh->prepare("DELETE FROM basket WHERE ItemID= ? ");
+        $stmt->bindParam(1, $id, \PDO::PARAM_INT);
         $stmt->execute();
     }
 }
