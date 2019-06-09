@@ -39,6 +39,7 @@ class Cart extends Model
         $stmt->bindParam(2, $CookieID, \PDO::PARAM_STR);
         $stmt->execute();
 
+        // if the is already in the basket then update the amount
         if($stmt->rowCount()) {
             print_r("->TRUE<-");
             $result = $stmt->fetch();
@@ -53,7 +54,7 @@ class Cart extends Model
             $stmt->bindParam(3, $CookieID, \PDO::PARAM_STR);
             $stmt->execute();
 
-
+        // if the product isnt already in the basket then create a new record
         } else {
             print_r("->FALSE<-");
             print_r($stmt->fetch());
@@ -64,14 +65,6 @@ class Cart extends Model
             $stmt->bindParam(3, $CookieID, \PDO::PARAM_STR);
             $stmt->execute();
         }
-        /*
-        print_r("INSERT STATEMENT");
-        $stmt = $dbh->prepare('INSERT INTO Basket (ID,ItemID,Amount,Cookie) VALUES (NULL,?, ?, ?)');
-        $stmt->bindParam(1, $ItemID, \PDO::PARAM_INT);
-        $stmt->bindParam(2, $Amount, \PDO::PARAM_INT);
-        $stmt->bindParam(3, $CookieID, \PDO::PARAM_STR);
-        $stmt->execute();
-        */
     }
 
     // Generates a random 16 lenght string as CookieID
