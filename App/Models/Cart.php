@@ -52,11 +52,10 @@ class Cart extends Model
     public static function getAllCookieIdValues($CookieID) {
 
     $dbh = Model::getPdo();
-    $stmt = $dbh->prepare("SELECT item.*, basket.Cookie FROM item LEFT JOIN basket ON item.ID = basket.ItemID WHERE Cookie=$CookieID");
+    $stmt = $dbh->prepare("SELECT Item.*, Basket.Cookie FROM Item LEFT JOIN Basket ON Item.ID = Basket.ItemID WHERE Cookie=$CookieID");
     $stmt->execute();
     $result = $stmt->fetchAll();
     print_r($result);
     return $result;
-
 }
 }
