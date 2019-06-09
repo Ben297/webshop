@@ -16,8 +16,8 @@ class Cookie extends Model
 
 
         print_r("FUNCTION saveBasketCookie");
-        print_r($cookieValue['CookieID']);
-        Cart::InsertIntoBasket();
+        print_r($cookieValue);
+        Cart::InsertIntoBasket($cookieValue['ItemID'], $cookieValue['Amount'], $cookieValue['CookieID']);
         setcookie($cookieName, json_encode($cookieValue['CookieID']), time() + (86400 * 30), "/");
     }
 
