@@ -69,6 +69,7 @@ Create Table Basket
     Amount     int,
     Cookie     varchar(255),
     BasketDate date,
+
     PRIMARY KEY (ID),
     FOREIGN KEY (ItemID) REFERENCES Item (ID)
 );
