@@ -2,7 +2,7 @@
 {% block title %}This is your Basket{% endblock %}
 {% block body %}
 
-{% if not BasketItem %}
+{% if not BasketItems %}
 
 <section class="jumbotron text-center">
     <div class="container">
@@ -18,14 +18,20 @@
 
 {% else %}
 
+
+<!-- Basket Header -->
 <section class="jumbotron text-center">
     <div class="container">
         <h1 class="jumbotron-heading">This is your Basket</h1>
     </div>
 </section>
 
+
+<!-- Basket Elements -->
+
 <div class="container mb-4">
     <div class="row">
+        {% for BasketItems in BasketItems %}
         <div class="col-12">
             <div class="table-responsive">
                 <table class="table table-striped">
@@ -41,7 +47,7 @@
                     </thead>
                     <tbody>
                     <tr>
-                        <td><img src="{{BasketItem.ImgPath}}" /> </td>
+                        <td><img src="{{BasketItems.ImgPath}}" /> </td>
                         <td>{{BasketItem.ItemName}}</td>
                         <td>{{BasketItem.Stock}}</td>
                         <td>{{BasketItem.Amount}}</td>
@@ -72,6 +78,7 @@
                 </div>
             </div>
         </div>
+        {% endfor %}
     </div>
 </div>
 

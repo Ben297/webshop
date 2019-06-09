@@ -25,7 +25,6 @@ class Detailpage extends Controller
 
         $CookieData = ['ItemID'=> $_POST['ItemID'], 'Amount'=> $_POST['Amount'], 'CookieID'=> Cart::generateCookieID() ];
         //Cart::InsertIntoBasket($ItemID,$Amount);
-        print_r("jooo");
         Cookie::saveBasketCookie('TempBasket',$CookieData);
 
         //Redirect zur Index-Seite

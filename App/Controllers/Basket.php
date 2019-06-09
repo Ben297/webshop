@@ -12,14 +12,15 @@ class Basket extends Controller{
     {
 
         $basket = new Cart();
-        $basketItem = $basket->loadBasketFromTempCookie();
+        print_r($_COOKIE['TempBasket']);
+        $basketItems = $basket->getAllCookieIdValues($_COOKIE['TempBasket']);
 
-        if ($basketItem==false){
+        if ($basketItems==false){
             print_r("false");
             View::renderTemplate('basket.html');
         }else {
             print_r("true");
-            View::renderTemplate('basket.html', ['BasketItem' => $basketItem]);
+            View::renderTemplate('basket.html', ['BasketItems' => $basketItems]);
         }
     }
 

@@ -12,6 +12,8 @@ use function PHPSTORM_META\type;
 
 class Cart extends Model
 {
+
+    // Lädt den Inhalt des Warenkorbes, falls vorhanden - "False" wenn kein Warenkorb vorhanden
     public function loadBasketFromTempCookie()
     {
         $Cookie = new Cookie();
@@ -23,23 +25,21 @@ class Cart extends Model
 
     }
 
+    // Schreibt die ProduktID, Menge und die CookieID (Warenkorb) in die Datenbank
     public static function InsertIntoBasket($ItemID, $Amount, $CookieID)
     {
         $dbh = Model::getPdo();
-
-        $statement = $dbh->prepare("INSERT INTO webshop.basket (ItemID,Amount,Cookie) VALUES ($ItemID, $Amount, $CookieID)");
-        $statement->execute();
+        $stmt =  $dbh->prepare('INSERT INTO Basket (ID,ItemID,Amount,Cookie) VALUES (NULL,?, ?, ?)');
+        $stmt->bindParam(1, $ItemID,\PDO::PARAM_INT);
+        $stmt->bindParam(2, $Amount,\PDO::PARAM_INT);
+        $stmt->bindParam(3, $CookieID,\PDO::PARAM_STR);
+        $stmt->execute();
     }
 
+    // Generiert zufällige Zahlenfolge als CookieID
     public static function generateCookieID()
     {
         $Cookie = new Cookie();
-        $tempCookie = $Cookie->loadBasketCookie();
-
-
-        print_r("||||||||");
-        print_r($tempCookie);
-        print_r("||||||||");
 
         if (!$tempCookie = $Cookie->loadBasketCookie()) {
             return bin2hex(random_bytes(16));
@@ -47,4 +47,16 @@ class Cart extends Model
             return $tempCookie;
         }
     }
+
+    // Gibt alle Werte der betreffenden CookieID (Warenkorb) aus
+    public static function getAllCookieIdValues($CookieID) {
+
+    $dbh = Model::getPdo();
+    $stmt = $dbh->prepare("SELECT item.*, basket.Cookie FROM item LEFT JOIN basket ON item.ID = basket.ItemID WHERE Cookie=$CookieID");
+    $stmt->execute();
+    $result = $stmt->fetchAll();
+    print_r($result);
+    return $result;
+
+}
 }
