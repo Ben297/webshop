@@ -29,10 +29,8 @@ class Basket extends Controller
 
         // If Basket empty then render basket view without basketItems, if it isnt empty then render with basket items
         if ($basketItems == false) {
-            print_r("false");
             View::renderTemplate('basket.html');
         } else {
-            print_r("true");
             View::renderTemplate('basket.html', ['BasketItems' => $basketItems]);
         }
     }
@@ -46,10 +44,8 @@ class Basket extends Controller
         $basketItems = $basket->getAllBasketItems($_COOKIE['TempBasket']);
 
         if ($basketItems == false) {
-            print_r("false");
             View::renderTemplate('basket.html');
         } else {
-            print_r("true");
             View::renderTemplate('basket.html', ['BasketItems' => $basketItems]);
         }
     }
