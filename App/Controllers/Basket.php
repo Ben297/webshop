@@ -5,43 +5,55 @@ namespace App\Controllers;
 use App\Models\Item;
 use Core\Controller;
 use Core\View;
-use App\Models\Cart;
+use App\Models\BasketModel;
 use App\Models\Cookie;
 
 class Basket extends Controller
 {
+    private $Basket;
+
+    public function __construct($route_params)
+    {
+        parent::__construct($route_params);
+        $this->Basket = new BasketModel();
+    }
 
     public function showBasket()
     {
-
-        $basket = new Cart();
-
         // If BasketCookie is set then get Content of the Cookie
         // If BasketCookie isnt set then redirect to landingpage (special case - only cookie is deleted while
         // user is in basket view
 
         if (isset($_COOKIE['TempBasket'])) {
-            $basketItems = $basket->getAllBasketItems($_COOKIE['TempBasket']);
-        } else {
-            $this->items = Item::getAllItems();
-            View::renderTemplate('landingpage.html', ['Items' => $this->items]);
-        }
-
-        // If Basket empty then render basket view without basketItems, if it isnt empty then render with basket items
-        if ($basketItems == false) {
-            View::renderTemplate('basket.html');
-        } else {
+            $count = 0;
+            foreach ($this->Basket->getAllBasketItems($_COOKIE['TempBasket']) as $Item){
+                array_unique($Item);
+                $Item['Price'] = $Item['Amount']*$Item['Price'];
+                $basketItems[$count]= $Item;
+                $count++;
+            }
             View::renderTemplate('basket.html', ['BasketItems' => $basketItems]);
+        } else {
+            View::renderTemplate('basket.html');
         }
+    }
+
+    public function addToBasket()
+    {
+        $CookieData = ['ItemID'=> $_POST['ItemID'], 'Amount'=> $_POST['Amount'], 'CookieID'=> BasketModel::generateCookieID() ];
+        //Cart::InsertIntoBasket($ItemID,$Amount);
+        Cookie::saveBasketCookie('TempBasket',$CookieData);
+        header('Location: /basket');
+
     }
 
     // deletes a specific BasketItem then redirect to Basket
     public function deleteArticle($id)
     {
-        Cart::deleteBasketItem($id);
+        BasketModel::deleteBasketItem($id);
 
-        $basket = new Cart();
-        $basketItems = $basket->getAllBasketItems($_COOKIE['TempBasket']);
+
+        $basketItems = $this->Basket->getAllBasketItems($_COOKIE['TempBasket']);
 
         if ($basketItems == false) {
             View::renderTemplate('basket.html');

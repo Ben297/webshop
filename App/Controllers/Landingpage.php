@@ -12,7 +12,13 @@ use App\Models\Item;
  */
 class Landingpage extends \Core\Controller
 {
-    public $items=[];
+    private $items=[];
+    private $Item;
+
+    public function __construct($route_params)
+    {
+        $this->Item = new Item();
+    }
 
     /**
      * Show the index page
@@ -21,7 +27,7 @@ class Landingpage extends \Core\Controller
      */
     public function indexAction()
     {
-        $this->items =  Item::getAllItems();
+        $this->items =  $this->Item->getAllItems();
         print_r($_SESSION);
         View::renderTemplate('landingpage.html', ['Items'=> $this->items]);
     }

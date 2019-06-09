@@ -1,9 +1,5 @@
 <?php
-
-
 namespace App\Models;
-use Core\Model;
-
 use Core\Model;
 
 class Cookie extends Model
@@ -14,7 +10,7 @@ class Cookie extends Model
     // Schreibt ProduktID sowie Amount in die Datenbank, legt einen neuen Cookie mit der CookieID an
     public static function saveBasketCookie($cookieName, $cookieValue)
     {
-        Cart::InsertIntoBasket($cookieValue['ItemID'], $cookieValue['Amount'], $cookieValue['CookieID']);
+        BasketModel::InsertIntoBasket($cookieValue['ItemID'], $cookieValue['Amount'], $cookieValue['CookieID']);
         setcookie($cookieName, $cookieValue['CookieID'], time() + (86400 * 30), "/");
     }
 

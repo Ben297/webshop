@@ -110,7 +110,6 @@ Create Table Order_Details
     ID         int NOT NULL AUTO_INCREMENT,
     OrderID    int,
     ItemID     int,
-    UserID     int,
     ItemAmount int,
     TotalPrice double,
     PRIMARY KEY (ID),
