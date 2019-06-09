@@ -28,11 +28,13 @@ class Cart extends Model
     // Schreibt die ProduktID, Menge und die CookieID (Warenkorb) in die Datenbank
     public static function InsertIntoBasket($ItemID, $Amount, $CookieID)
     {
+        print_r("INSERTINTO BASKET - ".$CookieID);
+
         $dbh = Model::getPdo();
-        $stmt =  $dbh->prepare('INSERT INTO Basket (ID,ItemID,Amount,Cookie) VALUES (NULL,?, ?, ?)');
-        $stmt->bindParam(1, $ItemID,\PDO::PARAM_INT);
-        $stmt->bindParam(2, $Amount,\PDO::PARAM_INT);
-        $stmt->bindParam(3, $CookieID,\PDO::PARAM_STR);
+        $stmt = $dbh->prepare('INSERT INTO Basket (ID,ItemID,Amount,Cookie) VALUES (NULL,?, ?, ?)');
+        $stmt->bindParam(1, $ItemID, \PDO::PARAM_INT);
+        $stmt->bindParam(2, $Amount, \PDO::PARAM_INT);
+        $stmt->bindParam(3, $CookieID, \PDO::PARAM_STR);
         $stmt->execute();
     }
 
@@ -49,13 +51,23 @@ class Cart extends Model
     }
 
     // Gibt alle Werte der betreffenden CookieID (Warenkorb) aus
-    public static function getAllCookieIdValues($CookieID) {
+    public static function getAllBasketItems($CookieID)
+    {
+        $dbh = Model::getPdo();
+        print_r($CookieID);
+        $stmt = $dbh->prepare('SELECT Item.*, Basket.Cookie, Basket.Amount FROM Item LEFT JOIN Basket ON Item.ID = Basket.ItemID WHERE Cookie = ?');
+        $stmt->bindParam(1, $CookieID, \PDO::PARAM_STR);
+        $stmt->execute();
+        $result = $stmt->fetchAll();
+        print_r($result);
+        return $result;
+    }
 
-    $dbh = Model::getPdo();
-    $stmt = $dbh->prepare("SELECT Item.*, Basket.Cookie FROM Item LEFT JOIN Basket ON Item.ID = Basket.ItemID WHERE Cookie=$CookieID");
-    $stmt->execute();
-    $result = $stmt->fetchAll();
-    print_r($result);
-    return $result;
-}
+    // Löscht ein spezifisches Item aus dem Warenkorb
+    public static function deleteBasketItem($id)
+    {
+        $dbh = Model::getPdo();
+        $stmt = $dbh->prepare("DELETE FROM basket WHERE ItemID=$id");
+        $stmt->execute();
+    }
 }

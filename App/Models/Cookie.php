@@ -11,6 +11,7 @@ class Cookie extends Model
 
     protected $cookieValue;
 
+    // Schreibt ProduktID sowie Amount in die Datenbank, legt einen neuen Cookie mit der CookieID an
     public static function saveBasketCookie($cookieName, $cookieValue)
     {
 
@@ -18,14 +19,16 @@ class Cookie extends Model
         print_r("FUNCTION saveBasketCookie");
         print_r($cookieValue);
         Cart::InsertIntoBasket($cookieValue['ItemID'], $cookieValue['Amount'], $cookieValue['CookieID']);
-        setcookie($cookieName, json_encode($cookieValue['CookieID']), time() + (86400 * 30), "/");
+        setcookie($cookieName, $cookieValue['CookieID'], time() + (86400 * 30), "/");
     }
 
+    // Löscht den BasketCookie
     public static function deleteBasketCookie($cookieName)
     {
         setcookie($cookieName, NULL, -1, '/');
     }
 
+    // Gibt false zurück wenn kein "TempBasket" Cookie gesetzt - sonst den Inhalt des Cookies
     public function loadBasketCookie()
     {
         print_r("FUNCTION loadBasketCookie   ");
@@ -33,9 +36,7 @@ class Cookie extends Model
          return false;
 
         } else {
-            //echo "Value is: " . $_COOKIE['TempBasket'];
-            print_r( json_decode($_COOKIE['TempBasket']));
-            return json_decode($_COOKIE['TempBasket']);
+            return $_COOKIE['TempBasket'];
         }
 
     }

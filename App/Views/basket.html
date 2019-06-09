@@ -31,32 +31,35 @@
 
 <div class="container mb-4">
     <div class="row">
-        {% for BasketItems in BasketItems %}
         <div class="col-12">
             <div class="table-responsive">
                 <table class="table table-striped">
                     <thead>
                     <tr>
-                        <th scope="col"> </th>
+                        <th scope="col"></th>
                         <th scope="col">Product</th>
                         <th scope="col">Available</th>
                         <th scope="col" class="text-center">Quantity</th>
                         <th scope="col" class="text-right">Price</th>
-                        <th> </th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
+                    {% for BasketItems in BasketItems %}
                     <tr>
-                        <td width="40px", height="40px"><img src="{{BasketItems.ImgPath}}" /> </td>
+                        <td><img style="width:80px; height:80px" src="{{BasketItems.ImgPath}}"/></td>
                         <td>{{BasketItems.ItemName}}</td>
                         <td>{{BasketItems.Stock}}</td>
                         <td>{{BasketItems.Amount}}</td>
                         <td class="text-right">{{BasketItems.Price}} €</td>
-                        <td class="text-right"><a href="/basket/deleteArticle"> <button class="btn btn-sm btn-danger"><i class="fa fa-trash">Delete</i> </button></a> </td>
+                        <td class="text-right"><a href="/basket/deleteArticle">
+                            <button class="btn btn-sm btn-danger"><i class="fa fa-trash">Delete</i></button>
+                        </a></td>
                     </tr>
 
 
                     <tr>
+                        {% endfor %}
                         <td></td>
                         <td></td>
                         <td></td>
@@ -68,17 +71,20 @@
                 </table>
             </div>
         </div>
+
         <div class="col mb-2">
-        <div class="row">
-            <div class="col-sm-12  col-md-6">
-                <a href="/"> <button class="btn btn-block btn-light">Continue Shopping</button></a>
-            </div>
+            <div class="row">
+                <div class="col-sm-12  col-md-6">
+                    <a href="/">
+                        <button class="btn btn-block btn-light">Continue Shopping</button>
+                    </a>
+                </div>
                 <div class="col-sm-12 col-md-6 text-right">
                     <button class="btn btn-lg btn-block btn-success text-uppercase">Checkout</button>
                 </div>
             </div>
         </div>
-        {% endfor %}
+
     </div>
 </div>
 

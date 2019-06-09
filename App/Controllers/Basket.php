@@ -12,8 +12,7 @@ class Basket extends Controller{
     {
 
         $basket = new Cart();
-        print_r($_COOKIE['TempBasket']);
-        $basketItems = $basket->getAllCookieIdValues($_COOKIE['TempBasket']);
+        $basketItems = $basket->getAllBasketItems($_COOKIE['TempBasket']);
 
         if ($basketItems==false){
             print_r("false");
@@ -29,7 +28,5 @@ class Basket extends Controller{
         Cookie::deleteBasketCookie('TempBasket');
         View::renderTemplate(   'basket.html');
     }
-
-
 
 }
