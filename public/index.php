@@ -3,6 +3,7 @@ session_start([
     'name' => "session",
     'cookie_secure' => false,
     'cookie_httponly' => true,
+    'cookie_lifetime' => 0,
     'sid_length' => 192,
     'sid_bits_per_character' => 6,
 ]);
@@ -32,13 +33,20 @@ $router->add('', ['controller' => 'Landingpage', 'action' => 'index']);
 $router->add('{controller}/{action}/{id:\d+}');
 
 $router->add('register',['controller' => 'Authentication', 'action' => 'showRegistrationForm']);
-$router->add('register/creatUser',['controller' => 'Authentication', 'action' => 'creatUser']);
+$router->add('register/registerUser',['controller' => 'Authentication', 'action' => 'registerUser']);
 $router->add('login',['controller'=> 'Authentication', 'action' => 'showLoginForm']);
-$router->add('login/validateLogin',['controller'=> 'Authentication', 'action' => 'validateLogin']);
+$router->add('login/login',['controller'=> 'Authentication', 'action' => 'login']);
+$router->add('logout',['controller'=> 'Authentication', 'action' => 'logout']);
+
+$router->add('loginprompt');
 $router->add('failedLogin');
 $router->add('basket', ['controller' => 'Basket', 'action' => 'showBasket']);
 $router->add('basket/deleteArticle', ['controller' => 'Basket', 'action' => 'deleteArticle']);
 $router->add('detailpage/ShowDetail/addToCart', ['controller' => 'Detailpage', 'action' => 'addToCart']);
+$router->add('account', ['controller' => 'Account', 'action' => 'showAccount']);
+$router->add('deleteAccount',['controller'=> 'Account', 'action' => 'deleteAccount']);
+$router->add('changeAddressInformation', ['controller' => 'Account','action'=>'changeAddressInformation']);
+$router->add('changeUserInformation', ['controller' => 'Account','action'=>'changeUserInformation']);
 
 
 $router->dispatch($_SERVER['QUERY_STRING']);

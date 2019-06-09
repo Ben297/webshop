@@ -1,0 +1,231 @@
+{% extends "base.html" %}
+{% block title %}This is your Account Overview{% endblock %}
+{% block body %}
+{{dump(UserInfo)}}
+<div class="container">
+<nav>
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-overview" role="tab" aria-controls="nav-home" aria-selected="true">Home</a>
+        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-address" role="tab" aria-controls="nav-profile" aria-selected="false">Address</a>
+        <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-orders" role="tab" aria-controls="nav-contact" aria-selected="false">Orders</a>
+    </div>
+</nav>
+<div class="tab-content" id="nav-tabContent">
+    <div class="tab-pane fade show active" id="nav-overview" role="tabpanel" aria-labelledby="nav-home-tab">
+            <div class="row">
+                <div class="col-sm-3"><!--left col-->
+                    <ul class="list-group">
+                        <li class="list-group-item text-muted">Activity <i class="fa fa-dashboard fa-1x"></i></li>
+                        <li class="list-group-item text-right"><span class="pull-left"><strong>Orders</strong></span> 125</li>
+                        <li class="list-group-item text-right"><span class="pull-left"><strong>Paid</strong></span> 13</li>
+                        <li class="list-group-item text-right"><span class="pull-left"><a href="../logout"><strong >Logout</strong></a></span></li>
+                        <li class="list-group-item text-right"><span class="pull-left"><a href="../deleteAccount"><strong>Delete Account</strong></a></span></li>
+                    </ul>
+                </div><!--/col-3-->
+                <div class="col-sm-9">
+                    <div class="tab-content">
+                        <div class="tab-pane active">
+                            <hr>
+                            <form class="form" action="changeUserInformation" method="post">
+                                <div class="form-group">
+
+                                    <div class="col-xs-6">
+                                        <label for="firstname"><h4>First name</h4></label>
+                                        <input type="text" class="form-control" name="Firstname" id="firstname" placeholder="{{UserInfo.Firstname}}">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-xs-6">
+                                        <label for="lastname"><h4>Last name</h4></label>
+                                        <input type="text" class="form-control" name="Lastname" id="lastname"  placeholder="{{UserInfo.Lastname}}" title="enter your last name if any.">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-xs-6">
+                                        <label for="email"><h4>Email</h4></label>
+                                        <input type="email" class="form-control" name="Email" id="email" placeholder="{{UserInfo.Email}}" title="enter your email.">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-xs-6">
+                                        <label for="oldPassword"><h4>Old Password</h4></label>
+                                        <input type="password" required class="form-control" name="OldPassword" id="oldPassword" placeholder="***********" title="enter your password.">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-xs-6">
+                                        <label for="newPassword"><h4>New Password</h4></label>
+                                        <input type="password" class="form-control" name="NewPassword" id="newPassword" placeholder="***********" title="enter your password.">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-xs-12">
+                                        <br>
+                                        <button class="btn btn-lg btn-success" type="submit"><i class="glyphicon glyphicon-ok-sign"></i> Save</button>
+                                        <button class="btn btn-lg" type="reset"><i class="glyphicon glyphicon-repeat"></i> Reset</button>
+                                    </div>
+                                </div>
+                            </form>
+
+                            <hr>
+
+                        </div><!--/tab-pane-->
+
+
+                    </div><!--/tab-content-->
+
+                </div><!--/col-9-->
+            </div><!--/row-->
+    </div>
+    <div class="tab-pane fade" id="nav-address" role="tabpanel" aria-labelledby="nav-profile-tab">
+        <div class="row">
+            <div class="col-sm-3"><!--left col-->
+                <ul class="list-group">
+                    <li class="list-group-item text-muted">Activity <i class="fa fa-dashboard fa-1x"></i></li>
+                    <li class="list-group-item text-right"><span class="pull-left"><strong>Orders</strong></span> 125</li>
+                    <li class="list-group-item text-right"><span class="pull-left"><strong>Paid</strong></span> 13</li>
+                    <li class="list-group-item text-right"><span class="pull-left"><strong>Logout</strong></span> 37</li>
+                    <li class="list-group-item text-right"><span class="pull-left"><strong>Delete Account</strong></span> 78</li>
+                </ul>
+            </div><!--/col-3-->
+            <div class="col-sm-9">
+                <div class="tab-content">
+                    <div class="tab-pane active" >
+                        <hr>
+                        <form class="form" action="changeAddressInformation" method="post" >
+                            <div class="form-group">
+                                <div class="col-xs-6">
+                                    <label for="streetname"><h4>Streetname</h4></label>
+                                    <input type="text" class="form-control" name=Streetname id="streetname" placeholder="{{UserInfo.Streetname}}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+
+                                <div class="col-xs-6">
+                                    <label for="houseNr"><h4>HouseNR</h4></label>
+                                    <input type="text" class="form-control" name="HouseNr" id="houseNr"  placeholder="{{UserInfo.HouseNr}}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-xs-6">
+                                    <label for="zipCode"><h4>Zip Code</h4></label>
+                                    <input type="number" class="form-control" name="ZipCode" id="zipCode"  placeholder="{{UserInfo.ZipCode}}" maxlength="5">
+                                </div>
+                            </div>
+                            <div class="form-group">
+
+                                <div class="col-xs-6">
+                                    <label for="city"><h4>City</h4></label>
+                                    <input type="text" class="form-control" name="City" id="city"  placeholder="{{UserInfo.City}}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-xs-6">
+                                    <label for="country"><h4>Country</h4></label>
+                                    <select name="Country" class="form-control">
+                                        <option>{{UserInfo.Country}}</option>
+                                        <option>Germany</option>
+                                        <option>United States</option>
+                                        <option>Denmark</option>
+                                        <option>France</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-xs-12">
+                                    <br>
+                                    <button class="btn btn-lg btn-success" type="submit"><i class="glyphicon glyphicon-ok-sign"></i> Save</button>
+                                    <button class="btn btn-lg" type="reset"><i class="glyphicon glyphicon-repeat"></i> Reset</button>
+                                </div>
+                            </div>
+                        </form>
+
+                        <hr>
+
+                    </div><!--/tab-pane-->
+
+
+                </div><!--/tab-content-->
+
+            </div><!--/col-9-->
+        </div><!--/row-->
+    </div>
+    <div class="tab-pane fade" id="nav-orders" role="tabpanel" aria-labelledby="nav-profile-tab">
+        <div class="row">
+            <div class="col-sm-3"><!--left col-->
+                <ul class="list-group">
+                    <li class="list-group-item text-muted">Activity <i class="fa fa-dashboard fa-1x"></i></li>
+                    <li class="list-group-item text-right"><span class="pull-left"><strong>Orders</strong></span> 125</li>
+                    <li class="list-group-item text-right"><span class="pull-left"><strong>Paid</strong></span> 13</li>
+                    <li class="list-group-item text-right"><span class="pull-left"><strong>Logout</strong></span> 37</li>
+                    <li class="list-group-item text-right"><span class="pull-left"><strong>Delete Account</strong></span> 78</li>
+                </ul>
+            </div><!--/col-3-->
+            <div class="col-sm-9">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="home">
+                        <hr>
+                        <form class="form" action="changeAccountInformation" method="post" >
+                            <div class="form-group">
+
+                                <div class="col-xs-6">
+                                    <label for="first_name"><h4>Straße</h4></label>
+                                    <input type="text" class="form-control" name="first_name"  placeholder="{{UserInfo.Firstname}}" title="enter your first name if any.">
+                                </div>
+                            </div>
+                            <div class="form-group">
+
+                                <div class="col-xs-6">
+                                    <label for="last_name"><h4>Last name</h4></label>
+                                    <input type="text" class="form-control" name="last_name"  placeholder="{{UserInfo.Lastname}}" title="enter your last name if any.">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-xs-6">
+                                    <label for="email"><h4>Email</h4></label>
+                                    <input type="email" class="form-control" name="email" id="email" placeholder="{{UserInfo.Email}}" title="enter your email.">
+                                </div>
+                            </div>
+                            <div class="form-group">
+
+                                <div class="col-xs-6">
+                                    <label for="password"><h4>Password</h4></label>
+                                    <input type="password" class="form-control" name="password" id="password" placeholder="***********" title="enter your password.">
+                                </div>
+                            </div>
+                            <div class="form-group">
+
+                                <div class="col-xs-6">
+                                    <label for="password2"><h4>Verify</h4></label>
+                                    <input type="password" class="form-control" name="password2" id="password2" placeholder="***********" title="enter your password2.">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-xs-12">
+                                    <br>
+                                    <button class="btn btn-lg btn-success" type="submit"><i class="glyphicon glyphicon-ok-sign"></i> Save</button>
+                                    <button class="btn btn-lg" type="reset"><i class="glyphicon glyphicon-repeat"></i> Reset</button>
+                                </div>
+                            </div>
+                        </form>
+
+                        <hr>
+
+                    </div><!--/tab-pane-->
+
+
+                </div><!--/tab-content-->
+
+            </div><!--/col-9-->
+        </div><!--/row-->
+    </div>
+
+</div>
+</div>
+
+
+
+
+{% endblock %}
