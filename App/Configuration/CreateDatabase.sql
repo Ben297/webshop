@@ -113,14 +113,14 @@ Values (Null, 1, 'Musterstraße', 42, 12345, 'Musterhausen', 'Germany');
 
 -- database seed Dogs
 INSERT INTO Item (ID, ItemName, Description, Price, Stock, ImgPath)
-VALUES (NULL, 'Paul', 'nice and handsome dog', 999.99, 2, '/img/dog1.jpg'),
-       (NULL, 'Wuff', 'nice and handsome dog', 1999.99, 12, '/img/dog2.jpg'),
-       (NULL, 'Destroyer', 'nice and handsome dog', 1499.99, 50, '/img/dog3.png'),
-       (NULL, 'Lessi', 'nice and handsome dog', 429.99, 25, '/img/dog1.jpg'),
-       (NULL, 'Brian ', 'nice and handsome dog', 386.99, 7, '/img/dog1.jpg'),
-       (NULL, 'Snuffles ', 'nice and handsome dog', 749.99, 95, '/img/dog1.jpg'),
-       (NULL, 'Snowball', 'nice and handsome dog', 249.99, 63, '/img/dog1.jpg'),
-       (NULL, 'Whiskey', 'nice and handsome dog', 999.99, 88, '/img/dog1.jpg');
+VALUES (NULL, 'Paul', 'Border Collie, is a working and herding dog breed especially for sheep. It was specifically bred for intelligence and obedience', 999.99, 2, '/img/dog1.jpg'),
+       (NULL, 'Wuff', 'Leonberger can weigh up to a 170 pounds and stand at 31 inches. You''ll have a watchdog and friend for life. Just make sure you have a few brushes around, because these guys need some constant grooming', 1999.99, 12, '/img/Leonberger.jpg'),
+       (NULL, 'Destroyer', 'German Shepherd, is a breed of medium to large-sized working dog that originated in Germany', 1499.99, 50, '/img/GermanShepherd.png'),
+       (NULL, 'Lessi', 'Beauceron,  were originally working dogs who were used to herd sheep. Best for experienced owners', 429.99, 25, '/img/Beauceron.jpg'),
+       (NULL, 'Brian ', 'Belgian Sheepdog, is made for hard work, which means they train incredibly easily and rarely tire! While they are always dedicated to the task at hand, these dogs still crave love and attention on moments when they''re "off the clock"', 386.99, 7, '/img/BelgianSheepdog.jpg'),
+       (NULL, 'Snuffles ', 'Labrador, Originally bred as a retriever for hunting and fishing, now the Labrador is often chosen by families for its characteristic loving, gentle temperament', 749.99, 95, '/img/Labrador.jpg'),
+       (NULL, 'Snowball', 'Hovawart, will need proper attention and care as pups to create a special bond with their families, but the love and devotion they have with their owners for life is worth the effort for years to come', 249.99, 63, '/img/Hovawart.jpg'),
+       (NULL, 'Whiskey', 'Great Dane, can grow up to 32 inches tall! But despite their size, these dependable, friendly canines are just gentle giants at heart', 999.99, 88, '/img/GreatDane.jpg');
 
 -- payment methods
 INSERT INTO PaymentMethod
