@@ -85,6 +85,13 @@ class User extends Model
 
     }
 
+    public function checkIFEmailExists($email)
+    {
+        $this->dbh = Model::getPdo();
+        $stmt = $this->dbh->prepare('Select Email FROM User WHERE Email = ?');
+        $stmt->bindParam(1,$email,\PDO::PARAM_STR);
+        return $stmt->execute();
+    }
 
     public function getUserIDByEmail($email)
     {

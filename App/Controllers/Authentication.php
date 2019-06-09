@@ -6,6 +6,9 @@ namespace App\Controllers;
 use App\Models\User;
 use Core\View;
 use App\Models\Session;
+use http\Header;
+use mysql_xdevapi\Result;
+use Twig\Node\IfNode;
 
 class Authentication
 {
@@ -21,11 +24,17 @@ class Authentication
 
     public function showRegistrationForm()
     {
+        if (isset($_SESSION['LoginStatus']))
+            header('Location: /account');
+        else
         View::renderTemplate('register.html');
     }
 
     public function showLoginForm()
     {
+        if (isset($_SESSION['LoginStatus']))
+            header('Location: /account');
+        else
         View::renderTemplate('login.html');
     }
 
@@ -36,6 +45,12 @@ class Authentication
     public function registerUser()
     {
         $userData['email'] = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+        $result = $this->User->checkIFEmailExists($userData['email']);
+        if ($result == 1){
+            $_SESSION['UserEmail'] = true;
+            header('Location: /register');
+        }
+        $_SESSION['UserEmail'] = false;
         $userData['firstname'] =filter_var($_POST['firstname'], FILTER_SANITIZE_STRING);
         $userData['lastname'] =filter_var($_POST['lastname'], FILTER_SANITIZE_STRING);
         $userData['password'] = password_hash($_POST['password'],PASSWORD_DEFAULT);
@@ -46,7 +61,7 @@ class Authentication
         $userData['country'] =filter_var($_POST['country'], FILTER_SANITIZE_STRING);
         $userID = $this->User->insertUser($userData);
         $this->User->insertAddress($userData,$userID);
-        header('Location: ../basket');
+        //header('Location: ../basket');
     }
 
     /***
@@ -64,6 +79,7 @@ class Authentication
             session_regenerate_id(true);
             $_SESSION['LoginStatus'] = TRUE;
             $_SESSION['UserID']=$userID;
+            $_SESSION['LoginTime']=time();
             $this->User->clearLoginAttempt($_SESSION['UserID']);
             header('Location: /');
         }else{
@@ -94,9 +110,8 @@ class Authentication
         if (empty($_SESSION['CSFR_Token'])){
         $_SESSION['CSFR_Token'] = $this->generateSessionID();
         Session::insertSessionID($_SESSION['CSFR_Token'],$userID);
-
         }else{
-            return hash_equals($_SESSION['CSFR_Token'],Session::getSessionID($userID));
+            return hash_equals($_SESSION['CSFR_Token'],Session::getSessionHash($userID));
         }
     }
 

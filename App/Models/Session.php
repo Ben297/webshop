@@ -21,7 +21,7 @@ class Session extends Model
             echo 'SessionID could not be inserted could not be inserted';
         }
     }
-    public static function getSessionID($userID){
+    public static function getSessionHash($userID){
         $dbh= Model::getPdo();
         $stmt =  $dbh->prepare('SELECT SessionID FROM Session WHERE UserID = ?');
         $stmt->bindParam(1, $userID,\PDO::PARAM_STR);
