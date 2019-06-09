@@ -3,7 +3,7 @@ use webshop;
 
 /*clean Database before new seed*/
 SET FOREIGN_KEY_CHECKS = 0;
-DROP TABLE IF EXISTS User,Orders,Address,Item,Basket,Cookie,Session,Order_Details,PaymentMethod;
+DROP TABLE IF EXISTS User,Orders,OrderStatus,Address,Item,Basket,Cookie,Session,Order_Details,PaymentMethod;
 
 Create Table User
 (
@@ -79,6 +79,12 @@ CREATE Table PaymentMethod
     PaymentName varchar(255),
     PRIMARY KEY (ID)
 );
+CREATE TABLE OrderStatus
+(
+    ID int NOT NULL AUTO_INCREMENT,
+    Status varchar(255),
+    PRIMARY KEY (ID)
+);
 
 Create Table Orders
 (
@@ -86,11 +92,15 @@ Create Table Orders
     UserID          int,
     PaymentMethodID int,
     Price           double,
-    OrderData       date,
+    OrderDate       date,
+    OrderStatus     int,
     PRIMARY KEY (ID),
     FOREIGN KEY (UserID) REFERENCES User (ID) ON DELETE CASCADE,
-    FOREIGN KEY (PaymentMethodID) REFERENCES PaymentMethod (ID)
+    FOREIGN KEY (PaymentMethodID) REFERENCES PaymentMethod (ID),
+    FOREIGN KEY (OrderStatus) REFERENCES OrderStatus (ID)
+
 );
+
 
 Create Table Order_Details
 (
@@ -129,5 +139,9 @@ VALUES (NULL, 'Paul', 'nice and handsome dog', 999.99, 2, '/img/dog1.jpg'),
 INSERT INTO PaymentMethod
 VALUES (Null,'Paypal'),
        (NULL,'Prepayment'),
-       (NULL,'bill'),
-       (Null,'creditcard');
+       (Null,'Creditcard');
+
+INSERT INTO OrderStatus
+VALUES (Null,'open'),
+       (NULL,'Processing'),
+       (Null,'Complete');

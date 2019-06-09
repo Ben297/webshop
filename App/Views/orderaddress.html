@@ -10,35 +10,35 @@
             <tbody>
             <tr>
                 <th scope="row">Streetname</th>
-                <td></td>
+                <td>{{AddressInfo.Streetname}}</td>
 
             </tr>
             <tr>
                 <th scope="row">House NR.</th>
-                <td>Jacob</td>
+                <td>{{AddressInfo.HouseNr}}</td>
 
             </tr>
             <tr>
                 <th scope="row">ZipCode</th>
-                <td colspan="2">Larry the Bird</td>
+                <td colspan="2">{{AddressInfo.ZipCode}}</td>
 
             </tr>
             <tr>
                 <th scope="row">City</th>
-                <td colspan="2">Larry the Bird</td>
+                <td colspan="2">{{AddressInfo.City}}</td>
 
             </tr>
             <tr>
                 <th scope="row">Country</th>
-                <td colspan="2">Larry the Bird</td>
+                <td colspan="2">{{AddressInfo.Country}}</td>
 
             </tr>
 
             </tbody>
         </table>
 
-            <button type="button" class="btn btn-secondary">Change Address</button>
-            <a class="btn btn-success" role="button" href="/orderPayment">Next</a>
+            <a role="button" href="/account" class="btn btn-secondary">Change Address</a>
+            <a class="btn btn-success" role="button" href="/showOrderPayment">Ship to this Address</a>
 
     </div>
 </div>

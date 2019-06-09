@@ -51,6 +51,7 @@ $router->add('changeUserInformation', ['controller' => 'Account','action'=>'chan
 
 //order
 $router->add('showOrderAddress', ['controller' => 'Checkout','action'=>'showOrderAddress']);
-$router->add('orderOverview', ['controller' => 'Checkout','action'=>'showOrderOverview']);
+$router->add('showOrderPayment', ['controller' => 'Checkout','action'=>'showOrderPayment']);
+$router->add('showOrderOverview', ['controller' => 'Checkout','action'=>'showOrderOverview']);
 
 $router->dispatch($_SERVER['QUERY_STRING']);
