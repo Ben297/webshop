@@ -48,10 +48,10 @@
                     <tbody>
                     <tr>
                         <td><img src="{{BasketItems.ImgPath}}" /> </td>
-                        <td>{{BasketItem.ItemName}}</td>
-                        <td>{{BasketItem.Stock}}</td>
-                        <td>{{BasketItem.Amount}}</td>
-                        <td class="text-right">{{BasketItem.Price}} €</td>
+                        <td>{{BasketItems.ItemName}}</td>
+                        <td>{{BasketItems.Stock}}</td>
+                        <td>{{BasketItems.Amount}}</td>
+                        <td class="text-right">{{BasketItems.Price}} €</td>
                         <td class="text-right"><a href="/basket/deleteArticle"> <button class="btn btn-sm btn-danger"><i class="fa fa-trash">Delete</i> </button></a> </td>
                     </tr>
 
@@ -62,7 +62,7 @@
                         <td></td>
                         <td></td>
                         <td><strong>Total</strong></td>
-                        <td class="text-right"><strong>{{BasketItem.Price}} €</strong></td>
+                        <td class="text-right"><strong>{{BasketItems.Price}} €</strong></td>
                     </tr>
                     </tbody>
                 </table>
