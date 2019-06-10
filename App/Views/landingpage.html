@@ -14,23 +14,24 @@
 </div>
 <div class="row">
     {% for Item in Items %}
-        <div class="col-12 col-md-6 col-lg-4">
+        <div class="col-12 col-md-6 col-lg-3">
             <div class="shadow-sm card">
                 <img class="card-img-top"  height="300" src="{{Item.ImgPath}}" alt="Card image cap">
                 <div class="card-body">
                     <h4 class="card-title"><a href="/detailpage/{{Item.ID}}" title="View Product">{{Item.ItemName}}</a></h4>
-                    <p class="card-text">{{Item.Description}}</p>
                     <div class="row">
                         <div class="col">
-                            <p class="btn btn-danger btn-block">{{Item.Price}} $</p>
+                            <h4><span class="badge badge-success">{{Item.Price}} $</span></h4>
                         </div>
                         <div class="col">
-                            <a href="/detailpage/showDetail/{{Item.ID}}" class="btn btn-success btn-block">Details</a>
+                            <a href="/detailpage/showDetail/{{Item.ID}}" class="btn btn-primary btn-block">Details</a>
                         </div>
                     </div>
                 </div>
             </div>
+            <hr>
         </div>
+
     {% endfor %}
 </div>
 
