@@ -23,21 +23,28 @@ class Basket extends Controller
         // If BasketCookie is set then get Content of the Cookie
         // If BasketCookie isnt set then redirect to landingpage (special case - only cookie is deleted while
         // user is in basket view
-
+        $totalPrice = 0;
         if (isset($_COOKIE['TempBasket'])) {
             $count = 0;
             foreach ($this->Basket->getAllBasketItems($_COOKIE['TempBasket']) as $Item){
-                array_unique($Item);
                 $Item['Price'] = $Item['Amount']*$Item['Price'];
-                $basketItems[$count]= $Item;
+                $totalPrice += $Item['Price'];
+                echo '<pre>';
+                print_r($basketItems[$count]= $Item);
+                echo '</pre>';
                 $count++;
             }
-            View::renderTemplate('basket.html', ['BasketItems' => $basketItems]);
+
+            View::renderTemplate('basket.html', ['BasketItems' => $basketItems,'TotalPrice' => $totalPrice]);
         } else {
             View::renderTemplate('basket.html');
         }
     }
 
+    /**
+     * Add Dog to BasketCookie
+     * Redirect to Basket
+     */
     public function addToBasket()
     {
         $CookieData = ['ItemID'=> $_POST['ItemID'], 'Amount'=> $_POST['Amount'], 'CookieID'=> BasketModel::generateCookieID() ];

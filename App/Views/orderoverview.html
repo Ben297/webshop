@@ -6,7 +6,7 @@
 
         <section class="jumbotron text-center">
             <div class="container">
-                <h1 class="jumbotron-heading">This is your Basket</h1>
+                <h1 class="jumbotron-heading">Evaluate your Order before Confirming</h1>
             </div>
         </section>
 
@@ -26,15 +26,19 @@
                             </tr>
                             </thead>
                             <tbody>
+                            <pre>                            {{dump(Orderdetails)}}</pre>
+
+                            {% for Orderdetail in Orderdetails %}
                             <tr>
-                                <td><img src="{{BasketItem.ImgPath}}" /> </td>
-                                <td>{{BasketItem.ItemName}}</td>
-                                <td>{{BasketItem.Stock}}</td>
-                                <td>{{BasketItem.Amount}}</td>
-                                <td class="text-right">{{BasketItem.Price}} €</td>
-                                <td class="text-right"><a href="/basket/deleteArticle"> <button class="btn btn-sm btn-danger"><i class="fa fa-trash">Delete</i> </button></a> </td>
+                                <td><img style="width:80px; height:80px" src="{{Orderdetail.ImgPath}}"/></td>
+                                <td>{{Orderdetail.ItemName}}</td>
+                                <td>{{Orderdetail.Stock}}</td>
+                                <td>{{Orderdetail.ItemAmount}}</td>
+                                <td class="text-right">{{Orderdetail.Price}} €</td>
+                                <td class="text-right">
                             </tr>
 
+                                {% endfor %}
 
                             <tr>
                                 <td></td>
@@ -42,7 +46,7 @@
                                 <td></td>
                                 <td></td>
                                 <td><strong>Total</strong></td>
-                                <td class="text-right"><strong>{{BasketItem.Price}} €</strong></td>
+                                <td class="text-right"><strong>{{Order.TotalPrice}} €</strong></td>
                             </tr>
                             </tbody>
                         </table>
@@ -50,11 +54,8 @@
                 </div>
                 <div class="col mb-2">
                     <div class="row">
-                        <div class="col-sm-12  col-md-6">
-                            <a href="/"> <button class="btn btn-block btn-light">Continue Shopping</button></a>
-                        </div>
                         <div class="col-sm-12 col-md-6 text-right">
-                            <button class="btn btn-lg btn-block btn-success text-uppercase">Checkout</button>
+                            <button class="btn btn-lg btn-block btn-success text-uppercase">Confim</button>
                         </div>
                     </div>
                 </div>

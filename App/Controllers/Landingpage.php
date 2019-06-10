@@ -28,7 +28,6 @@ class Landingpage extends \Core\Controller
     public function indexAction()
     {
         $this->items =  $this->Item->getAllItems();
-        print_r($_SESSION);
         View::renderTemplate('landingpage.html', ['Items'=> $this->items]);
     }
 }

@@ -5,6 +5,7 @@ namespace App\Controllers;
 
 
 use App\Models\BasketModel;
+use App\Models\Cookie;
 use App\Models\Item;
 use App\Models\Payment;
 use Core\Controller;
@@ -17,11 +18,17 @@ class Checkout extends Controller
     private $User;
     private $Order;
     private $Cart;
+    private $Cookie;
+    private $Item;
+    private $Orderdetail=[];
+    private $Items=[];
     public function __construct()
     {
         $this->User = new User();
         $this->Order = new Order();
         $this->Cart = new BasketModel();
+        $this->Cookie = new Cookie();
+        $this->Item = new Item();
     }
     public function showOrderAddress()
     {
@@ -40,24 +47,27 @@ class Checkout extends Controller
 
     private function creatOrder($AddressInfo)
     {
-        if(isset($_SESSION['OrderID'])) {
-            $OrderInfo['UserID'] = $_SESSION['UserID'];
-            $OrderInfo['TotalPrice'] = 500000;
-            $_SESSION['OrderID'] = $this->Order->createNewOrder($OrderInfo);
+        $totalPrice = 0;
+        if(empty($_SESSION['OrderID'])){
+            $_SESSION['OrderID'] = $this->Order->createNewOrder($_SESSION['UserID']);
             $this->Order->addAddressToOrder($AddressInfo['ID'],$_SESSION['OrderID']);
             $cookieID = $this->Cart->loadBasketFromTempCookie();
-
             $Items = $this->Cart->getAllBasketItems($cookieID);
-
-
-
             foreach ($Items as $Item)
             {
                 echo '<pre>';
-                print_r($Item=array_unique($Item));
+                print_r($Item);
+                $Item['TotalPrice']= $Item['Price']*$Item['Amount'];
                 echo '</pre>';
                 $this->Order->insertOrderDetails($Item,$_SESSION['OrderID']);
+                $totalPrice += $Item['TotalPrice'];
             }
+
+            $this->Order->insertTotalPrice($totalPrice,$_SESSION['OrderID']);
+            return $totalPrice;
+
+        }else{
+            echo ' geht nicht';
         }
 
     }
@@ -77,8 +87,18 @@ class Checkout extends Controller
     }
     public function showOrderOverview()
     {
+        $OdetailAndItems=[];
+        $count = 0;
         if (Controller::loginStatus()){
-            View::renderTemplate('orderoverview.html');
+
+            print_r($Order = $this->Order->getOrderInfo($_SESSION['OrderID']));
+            $Orderdetails = $this->Order->getOrderDetails($_SESSION['OrderID']);
+            foreach ($Orderdetails as $Orderdetail){
+                $OdetailAndItems[$count] = array_unique(array_merge($Orderdetail,$this->Item->getItemByID($Orderdetail['ItemID'])));
+                $count++;
+            }
+
+            View::renderTemplate('orderoverview.html',['Order'=> $Order,'Orderdetails' => $OdetailAndItems]);
         }
         else{
             View::renderTemplate('loginprompt.html');
