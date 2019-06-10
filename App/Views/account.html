@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% block title %}This is your Account Overview{% endblock %}
 {% block body %}
-{{dump(UserInfo)}}
 <div class="container">
 <nav>
     <div class="nav nav-tabs" id="nav-tab" role="tablist">
@@ -15,9 +14,8 @@
             <div class="row">
                 <div class="col-sm-3"><!--left col-->
                     <ul class="list-group">
-                        <li class="list-group-item text-muted">Activity <i class="fa fa-dashboard fa-1x"></i></li>
-                        <li class="list-group-item text-right"><span class="pull-left"><strong>Orders</strong></span> 125</li>
-                        <li class="list-group-item text-right"><span class="pull-left"><strong>Paid</strong></span> 13</li>
+                        <hr>
+                        <li class="list-group-item text-muted">Account Overview <i class="fa fa-dashboard fa-1x"></i></li>
                         <li class="list-group-item text-right"><span class="pull-left"><a href="../logout"><strong >Logout</strong></a></span></li>
                         <li class="list-group-item text-right"><span class="pull-left"><a href="../deleteAccount"><strong>Delete Account</strong></a></span></li>
                     </ul>
@@ -28,7 +26,6 @@
                             <hr>
                             <form class="form" action="changeUserInformation" method="post">
                                 <div class="form-group">
-
                                     <div class="col-xs-6">
                                         <label for="firstname"><h4>First name</h4></label>
                                         <input type="text" class="form-control" name="Firstname" id="firstname" placeholder="{{UserInfo.Firstname}}">
@@ -83,11 +80,10 @@
         <div class="row">
             <div class="col-sm-3"><!--left col-->
                 <ul class="list-group">
-                    <li class="list-group-item text-muted">Activity <i class="fa fa-dashboard fa-1x"></i></li>
-                    <li class="list-group-item text-right"><span class="pull-left"><strong>Orders</strong></span> 125</li>
-                    <li class="list-group-item text-right"><span class="pull-left"><strong>Paid</strong></span> 13</li>
-                    <li class="list-group-item text-right"><span class="pull-left"><strong>Logout</strong></span> 37</li>
-                    <li class="list-group-item text-right"><span class="pull-left"><strong>Delete Account</strong></span> 78</li>
+                    <hr>
+                    <li class="list-group-item text-muted">Account Overview <i class="fa fa-dashboard fa-1x"></i></li>
+                    <li class="list-group-item text-right"><span class="pull-left"><a href="../logout"><strong >Logout</strong></a></span></li>
+                    <li class="list-group-item text-right"><span class="pull-left"><a href="../deleteAccount"><strong>Delete Account</strong></a></span></li>
                 </ul>
             </div><!--/col-3-->
             <div class="col-sm-9">
@@ -141,84 +137,44 @@
                                 </div>
                             </div>
                         </form>
-
                         <hr>
-
                     </div><!--/tab-pane-->
-
-
                 </div><!--/tab-content-->
-
             </div><!--/col-9-->
         </div><!--/row-->
     </div>
     <div class="tab-pane fade" id="nav-orders" role="tabpanel" aria-labelledby="nav-profile-tab">
+        <hr>
         <div class="row">
-            <div class="col-sm-3"><!--left col-->
+            <div class="col-lg-3"><!--left col-->
                 <ul class="list-group">
-                    <li class="list-group-item text-muted">Activity <i class="fa fa-dashboard fa-1x"></i></li>
-                    <li class="list-group-item text-right"><span class="pull-left"><strong>Orders</strong></span> 125</li>
-                    <li class="list-group-item text-right"><span class="pull-left"><strong>Paid</strong></span> 13</li>
-                    <li class="list-group-item text-right"><span class="pull-left"><strong>Logout</strong></span> 37</li>
-                    <li class="list-group-item text-right"><span class="pull-left"><strong>Delete Account</strong></span> 78</li>
+                    <li class="list-group-item text-muted">Home <i class="fa fa-dashboard fa-1x"></i></li>
+                    <li class="list-group-item text-right"><span class="pull-left"><a href="../logout"><strong >Logout</strong></a></span></li>
+                    <li class="list-group-item text-right"><span class="pull-left"><a href="../deleteAccount"><strong>Delete Account</strong></a></span></li>
                 </ul>
             </div><!--/col-3-->
-            <div class="col-sm-9">
-                <div class="tab-content">
-                    <div class="tab-pane active" id="home">
-                        <hr>
-                        <form class="form" action="changeAccountInformation" method="post" >
-                            <div class="form-group">
+            <div class="col-lg-9">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">Order ID</th>
+                    <th scope="col"class="text-right">Date</th>
+                    <th scope="col" class="text-right">Total Price</th>
 
-                                <div class="col-xs-6">
-                                    <label for="first_name"><h4>Straße</h4></label>
-                                    <input type="text" class="form-control" name="first_name"  placeholder="{{UserInfo.Firstname}}" title="enter your first name if any.">
-                                </div>
-                            </div>
-                            <div class="form-group">
+                </tr>
+                </thead>
+                <tbody>
+                {% for Orderdetail in OrderInfo %}
+                <tr>
+                    <td class="text-left">{{Orderdetail.ID}}</td>
+                    <td class="text-right">{{Orderdetail.OrderDate}}</td>
+                    <td class="text-right">{{Orderdetail.TotalPrice}}</td>
+                </tr>
+                {% endfor %}
 
-                                <div class="col-xs-6">
-                                    <label for="last_name"><h4>Last name</h4></label>
-                                    <input type="text" class="form-control" name="last_name"  placeholder="{{UserInfo.Lastname}}" title="enter your last name if any.">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-xs-6">
-                                    <label for="email"><h4>Email</h4></label>
-                                    <input type="email" class="form-control" name="email" id="email" placeholder="{{UserInfo.Email}}" title="enter your email.">
-                                </div>
-                            </div>
-                            <div class="form-group">
-
-                                <div class="col-xs-6">
-                                    <label for="password"><h4>Password</h4></label>
-                                    <input type="password" class="form-control" name="password" id="password" placeholder="***********" title="enter your password.">
-                                </div>
-                            </div>
-                            <div class="form-group">
-
-                                <div class="col-xs-6">
-                                    <label for="password2"><h4>Verify</h4></label>
-                                    <input type="password" class="form-control" name="password2" id="password2" placeholder="***********" title="enter your password2.">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-xs-12">
-                                    <br>
-                                    <button class="btn btn-lg btn-success" type="submit"><i class="glyphicon glyphicon-ok-sign"></i> Save</button>
-                                    <button class="btn btn-lg" type="reset"><i class="glyphicon glyphicon-repeat"></i> Reset</button>
-                                </div>
-                            </div>
-                        </form>
-
-                        <hr>
-
-                    </div><!--/tab-pane-->
-
-
-                </div><!--/tab-content-->
-
-            </div><!--/col-9-->
+                </tbody>
+            </table>
+            </div>
         </div><!--/row-->
     </div>
 

@@ -4,6 +4,7 @@
 namespace App\Controllers;
 
 
+use App\Models\Order;
 use Core\Controller;
 
 use Core\Error;
@@ -13,17 +14,20 @@ use App\Models\User;
 class Account extends Controller
 {
     private $User;
+    private $Order;
 
     public function __construct()
     {
         $this->User = new User();
+        $this->Order = new Order();
     }
 
     public function showAccount()
     {
         if (Controller::loginStatus()){
             $AccountInfo = array_unique(array_merge($this->User->getUserbyID($_SESSION['UserID']),$this->User->getAddressDataByID($_SESSION['UserID'])));
-            View::renderTemplate('account.html',['UserInfo'=> $AccountInfo]);
+            $OrderInfo = $this->Order->getAllOrdersByUserID($_SESSION['UserID']);
+            View::renderTemplate('account.html',['UserInfo'=> $AccountInfo,'OrderInfo' => $OrderInfo]);
         }
         else{
             View::renderTemplate('loginprompt.html');
@@ -65,29 +69,32 @@ class Account extends Controller
      */
     public function changeUserInformation()
     {
-        $newUserInfo=$_POST;
+        $newUserInfo = $_POST;
         $oldPWHashed = $this->User->getUserHash($_SESSION['UserID']);
         if (password_verify($newUserInfo['OldPassword'],$oldPWHashed))
         {
             $oldData = $this->User->getUserByID($_SESSION['UserID']);
             foreach ($newUserInfo as $key => $value) {
+                print_r($key);
+                print_r($value);
+                if(!isset($key['NewPassword'])){
+                    continue;
+                }
                 if (empty($value)) {
-                    if(empty($newUserInfo['NewPassword'])){
-                        continue;
-                    }
-                    $newUserInfo[$key] = $oldData[$key];
+                    echo $value = $oldData[$key];
                 }
             }
             $this->User->updateUserInfo($newUserInfo,$_SESSION['UserID']);
-            if(empty($newUserInfo['NewPassword'])){
-
-            }else{
+            if(isset($newUserInfo['NewPassword'])){
                 $newPWHashed = password_hash($_POST['NewPassword'],PASSWORD_DEFAULT);
                 $this->User->insertNewPassword($newPWHashed,$_SESSION['UserID']);
             }
-            header('Location: /account');
-        }else{
-            return 'geht nicht';
+            //header('Location: /account');
+        }
+        else{
+            $_SESSION['newpw'] = $newUserInfo['NewPassword'];
+            $_SESSION['UserInfoChange']=FALSE;
+            //header('Location: /account');
         }
 
 
