@@ -121,4 +121,9 @@ class Authentication
         return md5(openssl_random_pseudo_bytes(32));
     }
 
+    public function show404()
+    {
+        View::renderTemplate('404.html');
+    }
+
 }

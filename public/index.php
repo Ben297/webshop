@@ -49,6 +49,9 @@ $router->add('changeAddressInformation', ['controller' => 'Account','action'=>'c
 $router->add('changeUserInformation', ['controller' => 'Account','action'=>'changeUserInformation']);
 
 
+$router->add('404', ['controller' => 'Authentication','action'=>'show404']);
+
+
 //order
 $router->add('showOrderAddress', ['controller' => 'Checkout','action'=>'showOrderAddress']);
 $router->add('showOrderPayment', ['controller' => 'Checkout','action'=>'showOrderPayment']);

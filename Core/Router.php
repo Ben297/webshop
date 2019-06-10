@@ -123,7 +123,11 @@ class Router
                 throw new \Exception("Controller class $controller not found");
             }
         } else {
-            throw new \Exception('No route matched.', 404);
+            if (\App\Configuration\Config::SHOW_ERRORS)
+                throw new \Exception('No route matched.', 404);
+            else
+                header("Location: /404");
+
         }
     }
 

@@ -15,7 +15,7 @@ class Cookie extends Model
     }
 
     // Löscht den BasketCookie
-    public static function deleteBasketCookie($cookieName)
+    public function deleteBasketCookie($cookieName)
     {
         setcookie($cookieName, NULL, -1, '/');
     }

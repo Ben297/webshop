@@ -26,16 +26,26 @@ class Item extends \Core\Model {
     {
 
     }
-    public function getItemByID($id)
+    public function getItemByID($itemID)
     {
         $this->dbh = Model::getPdo();
-        $statement = $this->dbh->prepare("SELECT * FROM Item WHERE ID=$id");
-        $statement->execute();
-        $result = $statement->fetch();
+        $stmt = $this->dbh->prepare("SELECT * FROM Item WHERE ID=?");
+        $stmt->bindParam(1,$itemID,\PDO::PARAM_INT);
+        $stmt->execute();
+        $result = $stmt->fetch();
         // removing overhead from array
         for ($i=0;$i<=5;$i++){
             unset($result[$i]);
         }
         return $result;
+    }
+
+    public function reduceStock($deduction,$itemID)
+    {
+        $this->dbh = Model::getPdo();
+        $stmt =  $this->dbh->prepare('UPDATE Item SET Stock = Stock - ? WHERE ID = ?');
+        $stmt->bindParam(1,$deduction,\PDO::PARAM_INT);
+        $stmt->bindParam(2,$itemID,\PDO::PARAM_INT);
+        return $stmt->execute();
     }
 }

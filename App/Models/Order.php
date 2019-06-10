@@ -88,6 +88,33 @@ class Order extends Model
         return $stmt->execute();
     }
 
+    public function changeOrderStatus($orderStatus,$orderID)
+    {
+        $this->dbh = Model::getPdo();
+        $stmt = $this->dbh->prepare('UPDATE Orders SET OrderStatus = ? WHERE ID = ?');
+        $stmt->bindParam(1,$orderStatus,\PDO::PARAM_INT);
+        $stmt->bindParam(2,$orderID,\PDO::PARAM_INT);
+        $stmt->execute();
+    }
+    public function getOrderStatus($orderID)
+    {
+        $this->dbh = Model::getPdo();
+        $stmt = $this->dbh->prepare('SELECT OrderStatus FROM Orders WHERE ID = ?');
+        $stmt->bindParam(1,$orderID,\PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch();
+    }
+
+    public function getItemAmountByID($orderID)
+    {
+        $this->dbh = Model::getPdo();
+        $stmt = $this->dbh->prepare('SELECT ItemAmount,ItemID FROM Order_Details WHERE OrderID = ?');
+        $stmt->bindParam(1,$orderID,\PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll();
+
+    }
+
     public function getPaymentNameByID()
     {
         

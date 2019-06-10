@@ -20,8 +20,7 @@ class Checkout extends Controller
     private $Cart;
     private $Cookie;
     private $Item;
-    private $Orderdetail=[];
-    private $Items=[];
+
     public function __construct()
     {
         $this->User = new User();
@@ -93,11 +92,11 @@ class Checkout extends Controller
 
             print_r($Order = $this->Order->getOrderInfo($_SESSION['OrderID']));
             $Orderdetails = $this->Order->getOrderDetails($_SESSION['OrderID']);
+
             foreach ($Orderdetails as $Orderdetail){
                 $OdetailAndItems[$count] = array_unique(array_merge($Orderdetail,$this->Item->getItemByID($Orderdetail['ItemID'])));
                 $count++;
             }
-
             View::renderTemplate('orderoverview.html',['Order'=> $Order,'Orderdetails' => $OdetailAndItems]);
         }
         else{
@@ -105,11 +104,27 @@ class Checkout extends Controller
         }
 
     }
+    public function confirmOrder(){
+
+    }
 
     public function showOrderConfirm()
     {
         if (Controller::loginStatus()){
 
+           if(isset($_SESSION['OrderID'])){
+           $OrderStatus = $this->Order->getOrderStatus($_SESSION['OrderID']);
+           echo $OrderStatus['OrderStatus'];
+           if($OrderStatus['OrderStatus'] == 2){
+               $OrderDetail = $this->Order->getItemAmountByID($_SESSION['OrderID']);
+               foreach ($OrderDetail as $Item) {
+                   $this->Item->reduceStock($Item['ItemAmount'], $Item['ItemID']);
+               }
+               $this->Order->changeOrderStatus(3, $_SESSION['OrderID']);
+               unset($_SESSION['OrderID']);
+               $this->Cookie->deleteBasketCookie('TempBasket');
+           }
+           }
             View::renderTemplate('orderconfirm.html');
         }
         else{
