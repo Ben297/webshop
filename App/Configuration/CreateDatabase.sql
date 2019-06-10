@@ -132,7 +132,7 @@ VALUES (NULL,1,0,2,500,CURRENT_TIMESTAMP,2);
 INSERT INTO Item (ID, ItemName, Description, Price, Stock, ImgPath)
 VALUES (NULL, 'Paul', 'Border Collie, is a working and herding dog breed especially for sheep. It was specifically bred for intelligence and obedience', 999.99, 2, '/img/dog1.jpg'),
        (NULL, 'Wuff', 'Leonberger can weigh up to a 170 pounds and stand at 31 inches. You''ll have a watchdog and friend for life. Just make sure you have a few brushes around, because these guys need some constant grooming', 1999.99, 12, '/img/Leonberger.jpg'),
-       (NULL, 'Destroyer', 'German Shepherd, is a breed of medium to large-sized working dog that originated in Germany', 1499.99, 50, '/img/GermanShepherd.png'),
+       (NULL, 'Destroyer', 'German Shepherd, is a breed of medium to large-sized working dog that originated in Germany', 1499.99, 50, '/img/GermanShepherd.jpg'),
        (NULL, 'Lessi', 'Beauceron,  were originally working dogs who were used to herd sheep. Best for experienced owners', 429.99, 25, '/img/Beauceron.jpg'),
        (NULL, 'Brian ', 'Belgian Sheepdog, is made for hard work, which means they train incredibly easily and rarely tire! While they are always dedicated to the task at hand, these dogs still crave love and attention on moments when they''re "off the clock"', 386.99, 7, '/img/BelgianSheepdog.jpg'),
        (NULL, 'Snuffles ', 'Labrador, Originally bred as a retriever for hunting and fishing, now the Labrador is often chosen by families for its characteristic loving, gentle temperament', 749.99, 95, '/img/Labrador.jpg'),
