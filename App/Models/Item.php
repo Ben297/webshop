@@ -11,21 +11,25 @@ class Item extends \Core\Model {
     /**
      * @return array
      *      */
-    public static function getAllItems()
+    public function getAllItems()
     {
-        $dbh = Model::getPdo();
+        $this->dbh = Model::getPdo();
 
-        $statement = $dbh->prepare("SELECT * FROM Item");
+        $statement = $this->dbh->prepare("SELECT * FROM Item");
         $statement->execute();
         $result = $statement->fetchAll();
         return $result;
 
     }
 
-    public static function getItemByID($id)
+    public function getPriceByID()
     {
-        $dbh = Model::getPdo();
-        $statement = $dbh->prepare("SELECT * FROM Item WHERE ID=$id");
+
+    }
+    public function getItemByID($id)
+    {
+        $this->dbh = Model::getPdo();
+        $statement = $this->dbh->prepare("SELECT * FROM Item WHERE ID=$id");
         $statement->execute();
         $result = $statement->fetch();
         // removing overhead from array

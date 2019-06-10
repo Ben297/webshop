@@ -10,7 +10,6 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="/">Dogs</a></li>
                     <li class="breadcrumb-item"><a href="">{{Item.ItemName}}</a></li>
-
                 </ol>
             </nav>
         </div>
@@ -37,7 +36,7 @@
                     <h1 class="card-title">{{Item.ItemName}}</h1>
                     <h3 class="">{{Item.Price}} Euro</h3>
                     <h3 class="">{{Item.Stock}}</h3>
-                    <form method="post" action="addToCart">
+                    <form method="post" action="../../addToBasket">
                         <div class="form-group border-bottom">
                             <div class="form-group">
                                 <label>Quantity :</label>
@@ -51,7 +50,7 @@
                         </div>
                         <input type="hidden" name="ItemID" value="{{Item.ID}}" >
                         <input type="hidden" value="{{session.CSFR_Token}}">
-                        <button  type="submit" class="btn btn-success btn-lg btn-block text-uppercase"><i class="fa fa-shopping-cart"></i> Add To Cart</button>
+                        <button  type="submit" class="btn btn-success btn-lg btn-block text-uppercase"><i class="fa fa-shopping-cart"></i> Add To Basket</button>
                     </form>
                 </div>
             </div>

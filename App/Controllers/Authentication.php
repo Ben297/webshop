@@ -67,6 +67,7 @@ class Authentication
     /***
      * Login Function
      * First it filters the Input
+     * TODO Check if User exists
      *
      */
     public function login()

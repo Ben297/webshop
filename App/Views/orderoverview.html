@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+{% block body %}
+<div class="row">
+    <div class="col-lg-6 mx-auto">
+
+        <section class="jumbotron text-center">
+            <div class="container">
+                <h1 class="jumbotron-heading">Evaluate your Order before Confirming</h1>
+            </div>
+        </section>
+
+        <div class="container mb-4">
+            <div class="row">
+                <div class="col-12">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th scope="col"> </th>
+                                <th scope="col">Product</th>
+                                <th scope="col">Available</th>
+                                <th scope="col" class="text-center">Quantity</th>
+                                <th scope="col" class="text-right">Price</th>
+                                <th> </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <pre>                            {{dump(Orderdetails)}}</pre>
+
+                            {% for Orderdetail in Orderdetails %}
+                            <tr>
+                                <td><img style="width:80px; height:80px" src="{{Orderdetail.ImgPath}}"/></td>
+                                <td>{{Orderdetail.ItemName}}</td>
+                                <td>{{Orderdetail.Stock}}</td>
+                                <td>{{Orderdetail.ItemAmount}}</td>
+                                <td class="text-right">{{Orderdetail.Price}} €</td>
+                                <td class="text-right">
+                            </tr>
+
+                                {% endfor %}
+
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td><strong>Total</strong></td>
+                                <td class="text-right"><strong>{{Order.TotalPrice}} €</strong></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col mb-2">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6 text-right">
+                            <button class="btn btn-lg btn-block btn-success text-uppercase">Confim</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

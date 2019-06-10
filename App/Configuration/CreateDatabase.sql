@@ -3,7 +3,7 @@ use webshop;
 
 /*clean Database before new seed*/
 SET FOREIGN_KEY_CHECKS = 0;
-DROP TABLE IF EXISTS User,Orders,Address,Item,Basket,Cookie,Session,Order_Details,PaymentMethod;
+DROP TABLE IF EXISTS User,Orders,OrderStatus,Address,Item,Basket,Cookie,Session,Order_Details,PaymentMethod;
 
 Create Table User
 (
@@ -69,6 +69,7 @@ Create Table Basket
     Amount     int,
     Cookie     varchar(255),
     BasketDate date,
+
     PRIMARY KEY (ID),
     FOREIGN KEY (ItemID) REFERENCES Item (ID)
 );
@@ -79,25 +80,36 @@ CREATE Table PaymentMethod
     PaymentName varchar(255),
     PRIMARY KEY (ID)
 );
+CREATE TABLE OrderStatus
+(
+    ID int NOT NULL AUTO_INCREMENT,
+    Status varchar(255),
+    PRIMARY KEY (ID)
+);
 
 Create Table Orders
 (
     ID              int NOT NULL AUTO_INCREMENT,
     UserID          int,
+    AddressID       int,
     PaymentMethodID int,
-    Price           double,
-    OrderData       date,
+    TotalPrice      double,
+    OrderDate       date,
+    OrderStatus     int,
     PRIMARY KEY (ID),
     FOREIGN KEY (UserID) REFERENCES User (ID) ON DELETE CASCADE,
-    FOREIGN KEY (PaymentMethodID) REFERENCES PaymentMethod (ID)
+    FOREIGN KEY (AddressID) REFERENCES Address(ID),
+    FOREIGN KEY (PaymentMethodID) REFERENCES PaymentMethod (ID),
+    FOREIGN KEY (OrderStatus) REFERENCES OrderStatus (ID)
+
 );
+
 
 Create Table Order_Details
 (
     ID         int NOT NULL AUTO_INCREMENT,
     OrderID    int,
     ItemID     int,
-    UserID     int,
     ItemAmount int,
     TotalPrice double,
     PRIMARY KEY (ID),
@@ -112,6 +124,9 @@ VALUES (NULL, 'test@test.de', '$2y$10$RaxBKownRHaZgUnbh5qeX.aq28krVPu/1s6OKq.Sfz
 
 INSERT Into Address
 Values (Null, 1, 'Musterstraße', 42, 12345, 'Musterhausen', 'Germany');
+
+INSERT INTO Orders
+VALUES (NULL,1,0,2,500,CURRENT_TIMESTAMP,2);
 
 -- database seed Dogs
 INSERT INTO Item (ID, ItemName, Description, Price, Stock, ImgPath)
@@ -129,5 +144,9 @@ VALUES (NULL, 'Paul', 'nice and handsome dog', 999.99, 2, '/img/dog1.jpg'),
 INSERT INTO PaymentMethod
 VALUES (Null,'Paypal'),
        (NULL,'Prepayment'),
-       (NULL,'bill'),
-       (Null,'creditcard');
+       (Null,'Creditcard');
+
+INSERT INTO OrderStatus
+VALUES (Null,'open'),
+       (NULL,'Processing'),
+       (Null,'Complete');
