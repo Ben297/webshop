@@ -10,7 +10,7 @@ use PDO;
 class BasketModel extends Model
 {
 
-    // Loads the content out of the Basket, returns "false" in case of no basket
+    // writes / updates ProductID, Amount and CookieID in the database
     public static function InsertIntoBasket($ItemID, $Amount, $CookieID)
     {
         $dbh = Model::getPdo();
@@ -20,7 +20,7 @@ class BasketModel extends Model
         $stmt->bindParam(2, $CookieID, PDO::PARAM_STR);
         $stmt->execute();
 
-        // if the is already in the basket then update the amount
+        // if the product is already in the basket then update the amount
         if ($stmt->rowCount()) {
             $result = $stmt->fetch();
 
@@ -43,8 +43,7 @@ class BasketModel extends Model
         }
     }
 
-    // writes ProductID, Amount and CookieID in the database
-
+    // generates a random number for as CookieID
     public static function generateCookieID()
     {
         $Cookie = new Cookie();
@@ -56,8 +55,9 @@ class BasketModel extends Model
         }
     }
 
-    // Generates a random 16 lenght string as CookieID
-
+    // Left join between basket table and item (product) table
+    // returns Product, Availability, Quantity Price from Table Item aswell as the CookieID and the Amount from Table Basket
+    // joins them to a tuple
     public static function getAllBasketItems($CookieID)
     {
         $dbh = Model::getPdo();
@@ -68,20 +68,17 @@ class BasketModel extends Model
         return $result;
     }
 
-    // Left join between basket table and item (product) table
-    // returns Product, Availability, Quantity Price from Table Item aswell as the CookieID and the Amount from Table Basket
-    // joins them to a tuple
 
-    public static function deleteBasketItem($id)
+    public static function getBasketCookieId()
     {
-        $dbh = Model::getPdo();
-        $stmt = $dbh->prepare("DELETE FROM basket WHERE ItemID= ? ");
-        $stmt->bindParam(1, $id, PDO::PARAM_INT);
-        $stmt->execute();
+        if (isset($_COOKIE['TempBasket'])) {
+            return $_COOKIE['TempBasket'];
+        } else {
+            return null;
+        }
     }
 
     // deletes a specific BasketItem
-
     public function loadBasketFromTempCookie()
     {
         $Cookie = new Cookie();
@@ -90,5 +87,32 @@ class BasketModel extends Model
         } else {
             return false;
         }
+    }
+
+    // updates the amount of the item within the basket
+    public static function updateBasketItem($ItemID, $Amount)
+    {
+
+        $dbh = Model::getPdo();
+        $CookieID = self::getBasketCookieId();
+
+        $stmt = $dbh->prepare("UPDATE Basket SET Amount = ? WHERE ItemID= ? AND Cookie= ?");
+        $stmt->bindParam(1, $Amount, PDO::PARAM_INT);
+        $stmt->bindParam(2, $ItemID, PDO::PARAM_INT);
+        $stmt->bindParam(3, $CookieID, PDO::PARAM_STR);
+        $stmt->execute();
+
+    }
+
+    public static function deleteBasketItem($id)
+    {
+
+        $dbh = Model::getPdo();
+        $CookieID = self::getBasketCookieId();
+
+        $stmt = $dbh->prepare("DELETE FROM basket WHERE ItemID= ? AND Cookie= ?");
+        $stmt->bindParam(1, $id, PDO::PARAM_INT);
+        $stmt->bindParam(2, $CookieID, PDO::PARAM_STR);
+        $stmt->execute();
     }
 }

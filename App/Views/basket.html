@@ -10,7 +10,7 @@
         <img src="/img/sadDog.png">
         <div class="col-sm-12  col-md-12">
             <a href="/">
-                <button class="btn btn-block btn-light">Continue Shopping</button>
+                <button class="btn btn-block btn-primary">Continue Shopping</button>
             </a>
         </div>
     </div>
@@ -39,26 +39,33 @@
                         <th scope="col"></th>
                         <th scope="col">Product</th>
                         <th scope="col">Available</th>
-                        <th scope="col" class="text-center">Quantity</th>
+                        <th scope="col">Quantity</th>
                         <th scope="col" class="text-right">Price</th>
+                        <th scope="col" class="text-right">Delete</th>
                         <th></th>
                     </tr>
                     </thead>
                     <tbody>
-                   <!-- <pre> {{dump(BasketItems)}}</pre>-->
+                    <!-- <pre> {{dump(BasketItems)}}</pre>-->
                     {% for BasketItems in BasketItems %}
                     <tr>
                         <td><img style="width:80px; height:80px" src="{{BasketItems.ImgPath}}"/></td>
                         <td>{{BasketItems.ItemName}}</td>
                         <td>{{BasketItems.Stock}}</td>
-                        <td>{{BasketItems.Amount}}</td>
+                        <td class="text-center">
+                            <form action="/basket/updateArticle">
+                                <input type="text" class="form-control" style="width:80px" name="productAmount" value={{BasketItems.Amount}}>
+                                <input type="hidden" name="productId" value={{BasketItems.ID}}>
+                            </form>
+                        </td>
                         <td class="text-right">{{BasketItems.Price}} €</td>
-                        <td class="text-right"><a href="/basket/deleteArticle">
-                            <button class="btn btn-sm btn-danger"><i class="fa fa-trash">Delete</i></button>
-                        </a></td>
+                        <td class="text-right">
+                            <form action="/basket/deleteArticle">
+                                <input type="hidden" name="productId" value={{BasketItems.ID}}>
+                                <input class="btn btn-sm btn-danger" type="submit" value="Delete">
+                            </form>
+                        </td>
                     </tr>
-
-
                     <tr>
                         {% endfor %}
                         <td></td>
@@ -77,11 +84,11 @@
             <div class="row">
                 <div class="col-sm-12  col-md-6">
                     <a href="/">
-                        <button class="btn btn-block btn-light">Continue Shopping</button>
+                        <button class="btn btn-lg btn-block btn-primary">Continue Shopping</button>
                     </a>
                 </div>
                 <div class="col-sm-12 col-md-6 text-right">
-                    <a href="/showOrderAddress" role="button" class="btn btn-lg btn-block btn-success text-uppercase">Checkout</a>
+                    <a href="/showOrderAddress" role="button" class="btn btn-lg btn-block btn-success">Checkout</a>
                 </div>
             </div>
         </div>
