@@ -106,6 +106,17 @@ class Checkout extends Controller
 
     }
 
+    public function showOrderConfirm()
+    {
+        if (Controller::loginStatus()){
+
+            View::renderTemplate('orderconfirm.html');
+        }
+        else{
+            View::renderTemplate('loginprompt.html');
+        }
+    }
+
     public function confirmPaymentMethod()
     {
         $this->Order->addPaymentMethodToOrder($_POST['paymentMethod'],$_SESSION['OrderID']);
