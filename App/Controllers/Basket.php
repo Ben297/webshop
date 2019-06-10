@@ -68,7 +68,14 @@ class Basket extends Controller
     {
         $Item = new Item();
 
+        //validate content
         $productAmount = trim($_REQUEST['productAmount']);
+
+        //sanitize content
+        $productAmount = strip_tags($productAmount);
+
+        //
+        $productAmount = htmlspecialchars($productAmount);
 
 
         $stock = $Item->getItemByID($_REQUEST['productId']);

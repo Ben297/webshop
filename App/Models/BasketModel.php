@@ -110,7 +110,7 @@ class BasketModel extends Model
         $dbh = Model::getPdo();
         $CookieID = self::getBasketCookieId();
 
-        $stmt = $dbh->prepare("DELETE FROM basket WHERE ItemID= ? AND Cookie= ?");
+        $stmt = $dbh->prepare("DELETE FROM Basket WHERE ItemID= ? AND Cookie= ?");
         $stmt->bindParam(1, $id, PDO::PARAM_INT);
         $stmt->bindParam(2, $CookieID, PDO::PARAM_STR);
         $stmt->execute();
