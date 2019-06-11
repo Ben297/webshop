@@ -42,6 +42,7 @@ $router->add('loginprompt');
 $router->add('failedLogin');
 $router->add('basket', ['controller' => 'Basket', 'action' => 'showBasket']);
 $router->add('basket/deleteArticle', ['controller' => 'Basket', 'action' => 'deleteArticle']);
+$router->add('basket/updateArticle', ['controller' => 'Basket', 'action' => 'updateArticle']);
 $router->add('addToBasket', ['controller' => 'Basket', 'action' => 'addToBasket']);
 $router->add('account', ['controller' => 'Account', 'action' => 'showAccount']);
 $router->add('deleteAccount',['controller'=> 'Account', 'action' => 'deleteAccount']);
