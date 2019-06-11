@@ -66,26 +66,26 @@ class Basket extends Controller
     // updates the amount
     public function updateArticle()
     {
+        
+
         $Item = new Item();
 
         //validate content
         $productAmount = trim($_REQUEST['productAmount']);
+        $productId = trim($_REQUEST['productId']);
 
         //sanitize content
         $productAmount = strip_tags($productAmount);
-
+        $productId = strip_tags($productId);
         //
         $productAmount = htmlspecialchars($productAmount);
+        $productId = htmlspecialchars($productId);
 
-
-        $stock = $Item->getItemByID($_REQUEST['productId']);
+        $stock = $Item->getItemByID($productId);
 
 
 
         if ($productAmount > $stock['Stock']) {
-
-            //Auslagern in die View? Oder so in Ordnung?
-
 
             echo "<div class='alert alert-danger alert-dismissible fade show'><strong>Out of Stock!</strong>
             <button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button></div>";
