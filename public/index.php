@@ -8,6 +8,11 @@ session_start([
     'sid_bits_per_character' => 6,
 ]);
 
+if (empty($_SESSION['csrf_token'])) {
+    $crypto_strong = true;
+    $_SESSION['csrf_token'] = md5(openssl_random_pseudo_bytes(32,$crypto_strong));
+}
+
 /**
  * Composer
  */

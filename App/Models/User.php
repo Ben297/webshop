@@ -162,7 +162,7 @@ class User extends Model
         return $stmt->fetch();
     }
 
-    public function deleteAccount($userID)
+    public function deleteAccountFromDB($userID)
     {
         $this->dbh = Model::getPdo();
         $stmt = $this->dbh->prepare('DELETE FROM User Where ID = ? ');

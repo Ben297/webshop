@@ -50,6 +50,7 @@
                         <div class="col-sm-6 form-group">
                             <label>City</label>
                             <input type="text" required name="city" id="city" placeholder="Enter City Name Here" class="form-control">
+
                         </div>
                         <div class="col-sm-6 form-group">
                             <label>Country</label>
@@ -62,7 +63,9 @@
 
                         </div>
                     </div>
-                    <button type="submit0" class="btn btn-lg btn-info">Submit</button>
+                    <!--CSRF-Token Injected per Session Variable with Twig-->
+                    <input type="hidden" name="csrf_token" value="{{session.csrf_token}}">
+                    <button type="submit" class="btn btn-lg btn-info">Submit</button>
                 </div>
             </form>
         </div>

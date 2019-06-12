@@ -4,13 +4,13 @@
 namespace App\Controllers;
 
 use App\Models\User;
+use Core\Controller;
+use Core\Error;
+use Core\Helper;
 use Core\View;
 use App\Models\Session;
-use http\Header;
-use mysql_xdevapi\Result;
-use Twig\Node\IfNode;
 
-class Authentication
+class Authentication extends Controller
 {
     private $User;
     private $Session;
@@ -40,87 +40,85 @@ class Authentication
 
     /**
      * Function to Register the User and validate the input of the User
-     * TODO Validate the user input
+     * - checks CSRF-Token
+     * - checks if Email already exists
+     * - Insert User in Database if Email does not exists otherwise redirect to register Form
      */
     public function registerUser()
     {
-        $userData['email'] = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
-        $result = $this->User->checkIFEmailExists($userData['email']);
-        if ($result == 1){
-            $_SESSION['UserEmail'] = true;
-            header('Location: /register');
-        }
-        $_SESSION['UserEmail'] = false;
-        $userData['firstname'] =filter_var($_POST['firstname'], FILTER_SANITIZE_STRING);
-        $userData['lastname'] =filter_var($_POST['lastname'], FILTER_SANITIZE_STRING);
-        $userData['password'] = password_hash($_POST['password'],PASSWORD_DEFAULT);
-        $userData['streetname'] =filter_var($_POST['streetname'], FILTER_SANITIZE_STRING);
-        $userData['houseNr'] =filter_var($_POST['houseNr'], FILTER_SANITIZE_STRING);
-        $userData['zipCode'] =filter_var($_POST['zipCode'], FILTER_SANITIZE_NUMBER_INT);
-        $userData['city'] =filter_var($_POST['city'], FILTER_SANITIZE_STRING);
-        $userData['country'] =filter_var($_POST['country'], FILTER_SANITIZE_STRING);
-        $userID = $this->User->insertUser($userData);
-        $this->User->insertAddress($userData,$userID);
-        //header('Location: ../basket');
+        if (Helper::checkCSRF()) {
+            if(!preg_match("^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$^",$_POST['email'])){
+            $userData['email'] = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+            $result = $this->User->checkIFEmailExists($userData['email']);
+            if ($result == 1) {
+                $_SESSION['UserEmail'] = true;
+                header('Location: /register');
+            }
+            $_SESSION['UserEmail'] = false;
+            $userID = $this->User->insertUser($userData);
+            $this->User->insertAddress($userData, $userID);
+            header('Location: ../basket');
+        }}
     }
 
     /***
      * Login Function
-     * First it filters the Input
-     * TODO Check if User exists
-     *
+     * - Checks valid CSRF-Token
+     * - Search for user by email
+     * - hash old PW if User exists
+     * - Verifies Password
+     * - If User exists and Password is correct
+     *      -> regenerate sessionID
+     *      -> Set LoginStatus True
+     *      -> Set serID
+     *      -> Redirect Landingpage
+     * - Else Increase LoginAttempts in Session for No Account and in DB for User with Account
      */
     public function login()
     {
-        $password = $_POST['password'];
-        $email = filter_var($_POST['email'],FILTER_SANITIZE_EMAIL);
-        $userID = $this->User->getUserIDByEmail($email);
-        $userPWHashed = $this->User->getUserHash($userID);
-        if($this->validatePassword($password,$userPWHashed,$userID)){
-            session_regenerate_id(true);
-            $_SESSION['LoginStatus'] = TRUE;
-            $_SESSION['UserID']=$userID;
-            $_SESSION['LoginTime']=time();
-            $this->User->clearLoginAttempt($_SESSION['UserID']);
-            header('Location: /');
-        }else{
-            $this->User->incrementLoginAttempt($userID);
-            $failedLogins = $this->User->checkFailedLogins($_SESSION['UserID']);
-            if ($failedLogins>5)
-                $_SESSION['LoginAttempts'] = $failedLogins;
-                header('Location: /login');
+        if (Helper::checkCSRF()) {
+                $userID = $this->User->getUserIDByEmail($_POST['email']);
+                $userPWHashed = $this->User->getUserHash($userID);
+                $userPW = password_verify($_POST['password'], $userPWHashed);
+                $_SESSION['UserID'] = $userID;
+                if ($userID&&$userPW) {
+                    session_regenerate_id(TRUE);
+                    $_SESSION['LoginStatus'] = TRUE;
+                    $_SESSION['UserID'] = $userID;
+                    $_SESSION['LoginTime'] = time();
+                    $_SESSION['AccountExisits'] = TRUE;
+                    $this->User->clearLoginAttempt($_SESSION['UserID']);
+                    header('Location: /');
+                } else {
+                    $_SESSION['AccountExisits'] = FALSE;
+                    $this->User->incrementLoginAttempt($userID);
+                    if (empty($_SESSION['LoginAttemptsNoAccount'])){
+                        $_SESSION['LoginAttemptsNoAccount']=1;
+                    }else{
+                        $_SESSION['LoginAttemptsNoAccount'] = ++$_SESSION['LoginAttemptsNoAccount'];
+                    }
+                    $failedLogins = $this->User->checkFailedLogins($_SESSION['UserID']);
+                    if ($failedLogins||$_SESSION['LoginAttemptsNoAccount'] > 5) {
+                        $_SESSION['LoginAttempts'] = $failedLogins;
+                    }
+                    header('Location: /login');
+                }
+            }
+        else {
+            throw new \Error("CSRF Token ivalid");
         }
     }
-
+    /*
+     * destroys the Session and redirects to Landingpage
+     */
     public function logout()
     {
         session_destroy();
         header('Location: /');
     }
-
-    private function validatePassword($password,$userPWHashed,$userID)
-    {
-        if (password_verify($password,$userPWHashed)){
-           return True;
-        }else {
-           return False;
-        }
-    }
-
-    private function checkCSFRToken($userID){
-        if (empty($_SESSION['CSFR_Token'])){
-        $_SESSION['CSFR_Token'] = $this->generateSessionID();
-        Session::insertSessionID($_SESSION['CSFR_Token'],$userID);
-        }else{
-            return hash_equals($_SESSION['CSFR_Token'],Session::getSessionHash($userID));
-        }
-    }
-
-    private function generateSessionID()
-    {
-        return md5(openssl_random_pseudo_bytes(32));
-    }
-
+    /*
+     * Function for showing a 404 Page if ShowErrorFlag is false in config
+     */
     public function show404()
     {
         View::renderTemplate('404.html');
