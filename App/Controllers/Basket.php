@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\Item;
 use Core\Controller;
+use Core\Helper;
 use Core\View;
 use App\Models\BasketModel;
 use App\Models\Cookie;
@@ -24,7 +25,7 @@ class Basket extends Controller
         // If BasketCookie isnt set then redirect to landingpage (special case - only cookie is deleted while
         // user is in basket view
         $totalPrice = 0;
-        $basketItems = array();
+        $basketItems = [];
 
         if (isset($_COOKIE['TempBasket'])) {
             $count = 0;
@@ -39,6 +40,8 @@ class Basket extends Controller
             } else {
                 View::renderTemplate('basket.html', ['BasketItems' => $basketItems, 'TotalPrice' => $totalPrice]);
             }
+        }else{
+            View::renderTemplate('basket.html');
         }
     }
 
@@ -48,60 +51,62 @@ class Basket extends Controller
      */
     public function addToBasket()
     {
-        $CookieData = ['ItemID' => $_POST['ItemID'], 'Amount' => $_POST['Amount'], 'CookieID' => BasketModel::generateCookieID()];
-        //Cart::InsertIntoBasket($ItemID,$Amount);
-        Cookie::saveBasketCookie('TempBasket', $CookieData);
-        header('Location: /basket');
+        if (Helper::checkCSRF()) {
+            $CookieData = ['ItemID' => $_POST['ItemID'], 'Amount' => $_POST['Amount'], 'CookieID' => BasketModel::generateCookieID()];
+            //Cart::InsertIntoBasket($ItemID,$Amount);
+            Cookie::saveBasketCookie('TempBasket', $CookieData);
+            header('Location: /basket');
+        }else
+            throw new \Error('Invalid CRSF-Token');
 
     }
 
     // deletes a specific BasketItem then redirect to Basket
     public function deleteArticle()
     {
+        if (Helper::checkCSRF()){
+            BasketModel::deleteBasketItem($_REQUEST['productId']);
+            self::showBasket();
+        }
+        throw new \Error('Invalid CRSF-Token');
 
-        BasketModel::deleteBasketItem($_REQUEST['productId']);
-        self::showBasket();
     }
 
     // updates the amount
     public function updateArticle()
     {
-        
+        if (Helper::checkCSRF()) {
+            $Item = new Item();
 
-        $Item = new Item();
+            //validate content
+            $productAmount = trim($_REQUEST['productAmount']);
+            $productId = trim($_REQUEST['productId']);
 
-        //validate content
-        $productAmount = trim($_REQUEST['productAmount']);
-        $productId = trim($_REQUEST['productId']);
+            //sanitize content
+            $productAmount = strip_tags($productAmount);
+            $productId = strip_tags($productId);
+            //
+            $productAmount = htmlspecialchars($productAmount);
+            $productId = htmlspecialchars($productId);
 
-        //sanitize content
-        $productAmount = strip_tags($productAmount);
-        $productId = strip_tags($productId);
-        //
-        $productAmount = htmlspecialchars($productAmount);
-        $productId = htmlspecialchars($productId);
+            $stock = $Item->getItemByID($productId);
 
-        $stock = $Item->getItemByID($productId);
+            if ($productAmount > $stock['Stock']) {
 
-
-
-        if ($productAmount > $stock['Stock']) {
-
-            echo "<div class='alert alert-danger alert-dismissible fade show'><strong>Out of Stock!</strong>
+                echo "<div class='alert alert-danger alert-dismissible fade show'><strong>Out of Stock!</strong>
             <button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button></div>";
 
-            self::showBasket();
-        } else {
-            BasketModel::updateBasketItem($_REQUEST['productId'], $_REQUEST['productAmount']);
+                self::showBasket();
+            } else {
+                BasketModel::updateBasketItem($_REQUEST['productId'], $_REQUEST['productAmount']);
 
-            echo "<div class='alert alert-success alert-dismissible fade show'><strong>Added to shopping cart!</strong>
+                echo "<div class='alert alert-success alert-dismissible fade show'><strong>Added to shopping cart!</strong>
             <button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button></div>";
 
-            self::showBasket();
+                self::showBasket();
+            }
+        }else{
+            throw new \Error('Invalid CRSF-Token');
         }
-
-
-
-
     }
 }

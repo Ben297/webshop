@@ -14,6 +14,7 @@
             {% endif %}
             {% endfor %}
         </select>
+            <input type="hidden" name="csrf_token" value="{{session.csrf_token}}">
             <button class="btn btn-lg btn-success" type="submit"><a> Confirm </a> </button>
         </form>
     </div>

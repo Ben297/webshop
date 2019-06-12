@@ -56,6 +56,7 @@
                             <form action="/basket/updateArticle">
                                 <input type="text" class="form-control" style="width:80px" name="productAmount" value={{BasketItems.Amount}}>
                                 <input type="hidden" name="productId" value={{BasketItems.ID}}>
+                                <input type="hidden" name="csrf_token" value="{{session.csrf_token}}">
                             </form>
                         </td>
                         <td class="text-right">{{BasketItems.Price}} €</td>
@@ -63,6 +64,7 @@
                             <form action="/basket/deleteArticle">
                                 <input type="hidden" name="productId" value={{BasketItems.ID}}>
                                 <input class="btn btn-sm btn-danger" type="submit" value="Delete">
+                                <input type="hidden" name="csrf_token" value="{{session.csrf_token}}">
                             </form>
                         </td>
                     </tr>

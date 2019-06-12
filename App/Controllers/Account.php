@@ -66,7 +66,7 @@ class Account extends Controller
                 header('Location: /account');
             }
         }else{
-
+            throw new \Error('Invalid CSRF-Token');
         }
     }
 

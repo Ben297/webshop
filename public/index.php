@@ -13,6 +13,14 @@ if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = md5(openssl_random_pseudo_bytes(32,$crypto_strong));
 }
 
+// Block all iframes and other frames
+// See: https://www.owasp.org/index.php/OWASP_Secure_Headers_Project#xcto
+header('X-Frame-Options: SAMEORIGIN');
+
+// Set a csp policy to block restrict everything to default src and completely block all js from being executed.
+// Reports violations to report-uri service.
+//header("Content-Security-Policy: default-src 'self' ; script-src 'none' ; report-uri https://1a58aa2f218b3abc3e2b4c5161d1bfc7.report-uri.com/r/d/csp/enforce ;");
+
 /**
  * Composer
  */
@@ -22,6 +30,7 @@ require dirname(__DIR__) . '/vendor/autoload.php';
  * Error and Exception handling
  */
 error_reporting(E_ALL);
+
 set_error_handler('Core\Error::errorHandler');
 set_exception_handler('Core\Error::exceptionHandler');
 

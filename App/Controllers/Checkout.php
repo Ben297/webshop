@@ -9,6 +9,7 @@ use App\Models\Cookie;
 use App\Models\Item;
 use App\Models\Payment;
 use Core\Controller;
+use Core\Helper;
 use Core\View;
 use App\Models\User;
 use App\Models\Order;
@@ -29,22 +30,32 @@ class Checkout extends Controller
         $this->Cookie = new Cookie();
         $this->Item = new Item();
     }
+
+    /*
+     * Displays the Address to which the Order will be send
+     * Change Button leads to the Account Overview, where you can change your Address
+     * Creates Order in Database if none existing
+     * Redirects to Login if you are not Logged In
+     */
     public function showOrderAddress()
     {
         if (Controller::loginStatus()){
             $AddressInfo = $this->User->getAddressDataByID($_SESSION['UserID']);
-            $this->creatOrder($AddressInfo);
+            if (empty($_SESSION['OrderID'])){
+                $this->createOrder($AddressInfo);
+            }
             $AddressInfo = $this->User->getAddressDataByID($_SESSION['UserID']);
-
             View::renderTemplate('orderaddress.html',['AddressInfo' => $AddressInfo]);
         }
         else{
             View::renderTemplate('loginprompt.html');
         }
-
     }
 
-    private function creatOrder($AddressInfo)
+    /*
+     * Function to Create the Order in The Database
+     */
+    private function createOrder($AddressInfo)
     {
         $totalPrice = 0;
         if(empty($_SESSION['OrderID'])){
@@ -61,10 +72,8 @@ class Checkout extends Controller
                 $this->Order->insertOrderDetails($Item,$_SESSION['OrderID']);
                 $totalPrice += $Item['TotalPrice'];
             }
-
             $this->Order->insertTotalPrice($totalPrice,$_SESSION['OrderID']);
             return $totalPrice;
-
         }else{
             echo ' geht nicht';
         }
@@ -104,14 +113,10 @@ class Checkout extends Controller
         }
 
     }
-    public function confirmOrder(){
-
-    }
 
     public function showOrderConfirm()
     {
         if (Controller::loginStatus()){
-
            if(isset($_SESSION['OrderID'])){
            $OrderStatus = $this->Order->getOrderStatus($_SESSION['OrderID']);
            echo $OrderStatus['OrderStatus'];
@@ -134,8 +139,11 @@ class Checkout extends Controller
 
     public function confirmPaymentMethod()
     {
+        if (Helper::checkCSRF()){
         $this->Order->addPaymentMethodToOrder($_POST['paymentMethod'],$_SESSION['OrderID']);
         header('Location: /showOrderOverview');
+        }else
+            throw new \Error("CSRF Token ivalid");
     }
 
 
