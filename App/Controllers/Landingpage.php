@@ -30,7 +30,6 @@ class Landingpage extends Controller
      */
     public function indexAction()
     {
-
         Helper::checkSessionTime();
         Helper::updateSessionTimeout();
         $this->items =  $this->Item->getAllItems();

@@ -39,6 +39,14 @@ class Item extends \Core\Model {
         return $result;
     }
 
+    public function getStock($itemID)
+    {
+        $this->dbh = Model::getPdo();
+        $stmt =  $this->dbh->prepare('SELECT Stock FROM  Item  WHERE ID = ?');
+        $stmt->bindParam(1,$itemID,\PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch();
+    }
     public function reduceStock($deduction,$itemID)
     {
         $this->dbh = Model::getPdo();

@@ -54,7 +54,6 @@ class Basket extends Controller
     {
         if (Helper::checkCSRF()) {
             $CookieData = ['ItemID' => $_POST['ItemID'], 'Amount' => $_POST['Amount'], 'CookieID' => BasketModel::generateCookieID()];
-            //Cart::InsertIntoBasket($ItemID,$Amount);
             Cookie::saveBasketCookie('TempBasket', $CookieData);
             header('Location: /basket');
         }else

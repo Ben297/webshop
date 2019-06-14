@@ -72,6 +72,6 @@ $router->add('showOrderPayment', ['controller' => 'Checkout','action'=>'showOrde
 $router->add('showOrderOverview', ['controller' => 'Checkout','action'=>'showOrderOverview']);
 $router->add('showOrderConfirm', ['controller' => 'Checkout','action'=>'showOrderConfirm']);
 $router->add('confirmPaymentMethod', ['controller' => 'Checkout','action'=>'confirmPaymentMethod']);
-$router->add('sessionexpired',['controller' => 'Authentication','action'=>'sessionexpired']);
+$router->add('showSessionexpired',['controller' => 'Authentication','action'=>'showSessionexpired']);
 
 $router->dispatch($_SERVER['QUERY_STRING']);

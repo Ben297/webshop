@@ -8,8 +8,6 @@ use App\Models\Item;
 use Core\Controller;
 use Core\Helper;
 use Core\View;
-use App\Models\BasketModel;
-use App\Models\Cookie;
 
 class Detailpage extends Controller
 {

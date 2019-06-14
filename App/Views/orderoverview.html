@@ -2,7 +2,7 @@
 {% block title %}Login{% endblock %}
 {% block body %}
 <div class="row">
-    <div class="col-lg-6 mx-auto">
+    <div class="col-lg-12 mx-auto">
 
         <section class="jumbotron text-center">
             <div class="container">
@@ -26,15 +26,13 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <pre>                            {{dump(Orderdetails)}}</pre>
-
                             {% for Orderdetail in Orderdetails %}
                             <tr>
-                                <td><img style="width:80px; height:80px" src="{{Orderdetail.ImgPath}}"/></td>
+                                <td><img  src="{{Orderdetail.ImgPath}}"/></td>
                                 <td>{{Orderdetail.ItemName}}</td>
                                 <td>{{Orderdetail.Stock}}</td>
-                                <td>{{Orderdetail.ItemAmount}}</td>
-                                <td class="text-right">{{Orderdetail.Price}} €</td>
+                                <td class="text-center">{{Orderdetail.ItemAmount}}</td>
+                                <td class="text-right">{{Orderdetail.TotalPrice}} €</td>
                                 <td class="text-right">
                             </tr>
 
@@ -54,6 +52,9 @@
                 </div>
                 <div class="col mb-2">
                     <div class="row">
+                        <div class="col-sm-12 col-md-6 text-right">
+                            <a href="/basket"><button class="btn btn-lg btn-block btn-secondary text-uppercase">Back To Basket</button></a>
+                        </div>
                         <div class="col-sm-12 col-md-6 text-right">
                             <a href="/showOrderConfirm"><button class="btn btn-lg btn-block btn-success text-uppercase">Confim</button></a>
                         </div>

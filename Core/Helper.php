@@ -1,9 +1,6 @@
 <?php
 namespace Core;
 
-use function Sodium\crypto_box_publickey_from_secretkey;
-use Twig\Error\RuntimeError;
-
 class Helper
 {
     public static function checkCSRF()
@@ -30,8 +27,8 @@ class Helper
             session_unset();
             session_destroy();
             session_start();
-            header('Location: ../../sessionexpired');
-            View::renderTemplate('sessionexpired.html');
+            header('Location: http://localhost/showSessionexpired');
+            //View::renderTemplate('sessionexpired.html');
         }
     }
 }

@@ -149,7 +149,7 @@ class Authentication extends Controller
 
     }
 
-    public function sessionexpired()
+    public function showSessionexpired()
     {
         View::renderTemplate('sessionexpired.html');
     }
