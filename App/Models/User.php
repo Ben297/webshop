@@ -76,11 +76,12 @@ class User extends Model
     public function updateUserInfo($userInfo,$userID)
     {
                 $this->dbh= Model::getPdo();
-        $stmt =  $this->dbh->prepare('Update User SET Email = ?, Firstname = ?,Lastname = ? WHERE ID = ?');
+        $stmt =  $this->dbh->prepare('Update User SET Email = ?, Firstname = ?,Lastname = ?,Password = ? WHERE ID = ?');
         $stmt->bindParam(1, $userInfo['Email'],\PDO::PARAM_STR);
         $stmt->bindParam(2, $userInfo['Firstname'],\PDO::PARAM_STR);
         $stmt->bindParam(3, $userInfo['Lastname'],\PDO::PARAM_STR);
-        $stmt->bindParam(4, $userID,\PDO::PARAM_INT);
+        $stmt->bindParam(4, $userInfo['Password'],\PDO::PARAM_STR);
+        $stmt->bindParam(5, $userID,\PDO::PARAM_INT);
         return $stmt->execute();
 
     }

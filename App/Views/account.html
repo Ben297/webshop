@@ -28,21 +28,25 @@
                                 <div class="form-group">
                                     <div class="col-xs-6">
                                         <label for="firstname"><h4>First name</h4></label>
-                                        <input type="text" class="form-control" name="Firstname" id="firstname" placeholder="{{UserInfo.Firstname}}">
+                                        <input type="text" class="form-control" name="Firstname" id="firstname" placeholder="{{AccountData.Firstname}}">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="col-xs-6">
                                         <label for="lastname"><h4>Last name</h4></label>
-                                        <input type="text" class="form-control" name="Lastname" id="lastname"  placeholder="{{UserInfo.Lastname}}" title="enter your last name if any.">
+                                        <input type="text" class="form-control" name="Lastname" id="lastname"  placeholder="{{AccountData.Lastname}}" title="enter your last name if any.">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="col-xs-6">
                                         <label for="email"><h4>Email</h4></label>
-                                        <input type="email" class="form-control" name="Email" id="email" placeholder="{{UserInfo.Email}}" title="enter your email.">
+                                        <input type="email" class="form-control" name="Email" id="email" placeholder="{{AccountData.Email}}" title="enter your email.">
                                     </div>
                                 </div>
+                                {% if passwordRequired == false %}
+                                There is somethin wrong with your Password
+                                {% endif %}
+
                                 <div class="form-group">
                                     <div class="col-xs-6">
                                         <label for="oldPassword"><h4>Old Password</h4></label>
@@ -91,38 +95,38 @@
                 <div class="tab-content">
                     <div class="tab-pane active" >
                         <hr>
-                        <form class="form" action="changeAddressInformation" method="post" >
+                        <form class="form" action="changeAccountDatarmation" method="post" >
                             <div class="form-group">
                                 <div class="col-xs-6">
                                     <label for="streetname"><h4>Streetname</h4></label>
-                                    <input type="text" class="form-control" name=Streetname id="streetname" placeholder="{{UserInfo.Streetname}}">
+                                    <input type="text" class="form-control" name="Streetname" id="streetname" placeholder="{{AccountData.Streetname}}">
                                 </div>
                             </div>
                             <div class="form-group">
 
                                 <div class="col-xs-6">
                                     <label for="houseNr"><h4>HouseNR</h4></label>
-                                    <input type="text" class="form-control" name="HouseNr" id="houseNr"  placeholder="{{UserInfo.HouseNr}}">
+                                    <input type="text" class="form-control" name="HouseNr" id="houseNr"  placeholder="{{AccountData.HouseNr}}">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-xs-6">
                                     <label for="zipCode"><h4>Zip Code</h4></label>
-                                    <input type="number" class="form-control" name="ZipCode" id="zipCode"  placeholder="{{UserInfo.ZipCode}}" maxlength="5">
+                                    <input type="number" class="form-control" name="ZipCode" id="zipCode"  placeholder="{{AccountData.ZipCode}}" maxlength="5">
                                 </div>
                             </div>
                             <div class="form-group">
 
                                 <div class="col-xs-6">
                                     <label for="city"><h4>City</h4></label>
-                                    <input type="text" class="form-control" name="City" id="city"  placeholder="{{UserInfo.City}}">
+                                    <input type="text" class="form-control" name="City" id="city"  placeholder="{{AccountData.City}}">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-xs-6">
                                     <label for="country"><h4>Country</h4></label>
                                     <select name="Country" class="form-control">
-                                        <option>{{UserInfo.Country}}</option>
+                                        <option>{{AccountData.Country}}</option>
                                         <option>Germany</option>
                                         <option>United States</option>
                                         <option>Denmark</option>
@@ -166,7 +170,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% for Orderdetail in OrderInfo %}
+                {% for Orderdetail in AccountData %}
                 <tr>
                     <td class="text-left">{{Orderdetail.ID}}</td>
                     <td class="text-right">{{Orderdetail.OrderDate}}</td>

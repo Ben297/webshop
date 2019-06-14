@@ -5,6 +5,7 @@ namespace App\Controllers;
 
 
 use App\Models\Order;
+use Core\Input;
 use Core\Controller;
 
 use Core\Error;
@@ -25,10 +26,20 @@ class Account extends Controller
 
     public function showAccount()
     {
+
+
         if (Controller::loginStatus()){
-            $AccountInfo = array_unique(array_merge($this->User->getUserbyID($_SESSION['UserID']),$this->User->getAddressDataByID($_SESSION['UserID'])));
+            $UserInfo = array_unique($this->User->getUserByID($_SESSION['UserID']));
+            $AddressInfo = array_unique( $this->User->getAddressDataByID($_SESSION['UserID']));
             $OrderInfo = $this->Order->getAllOrdersByUserID($_SESSION['UserID']);
-            View::renderTemplate('account.html',['UserInfo'=> $AccountInfo,'OrderInfo' => $OrderInfo]);
+            $AccountData = array_merge($UserInfo,$AddressInfo);
+            echo '<pre>   ';
+            print_r($AccountData);
+            foreach ($AccountData as $key => $value){
+                $AccountData[$key]=filter_var($value,FILTER_SANITIZE_STRING);}
+            print_r($AccountData);
+            echo '</pre>   ';
+            View::renderTemplate('account.html',['AccountData'=> $AccountData]);
         }
         else{
             View::renderTemplate('loginprompt.html');
@@ -76,30 +87,37 @@ class Account extends Controller
     public function changeUserInformation()
     {
         if (Helper::checkCSRF()) {
-            $newUserInfo = $_POST;
-            $oldPWHashed = $this->User->getUserHash($_SESSION['UserID']);
-            if (password_verify($newUserInfo['OldPassword'], $oldPWHashed)) {
-                $oldData = $this->User->getUserByID($_SESSION['UserID']);
-                foreach ($newUserInfo as $key => $value) {
-                    print_r($key);
-                    print_r($value);
-                    if (!isset($key['NewPassword'])) {
-                        continue;
-                    }
-                    if (empty($value)) {
-                        echo $value = $oldData[$key];
+            $oldPWDB = $this->User->getUserHash([$_SESSION['UserID']]);
+            if (Input::check($_POST['OldPassword'])) {
+                $_SESSION['passwordRequired'] = False;
+                header('Location: /account');
+            }elseif(password_verify($_POST['OldPassword'],$oldPWDB)==FALSE)
+            {
+                $_SESSION['passwordRequired'] = False;
+                header('Location: /account');
+            }else {
+                $newUserData = $_POST;
+                unset($newUserData['OldPassword']);
+                unset($newUserData['csrf_token']);
+                $oldUserData = $this->User->getUserByID($_SESSION['UserID']);
+                foreach ($newUserData as $key => $value) {
+                    //if no new password provided use old password
+                    if ($key == 'NewPassword' && empty($value)) {
+                        $newUserData['Password'] = $oldUserData['Password'];
+                        break;
+                    } //if new password hash new password
+                    elseif ($key == 'NewPassword' && isset($value)) {
+                        $newUserData['Password'] = password_hash($value, PASSWORD_DEFAULT);
+                        break;
+                    } elseif (empty($value)) {
+                        echo $newUserData{$key} = $oldUserData[$key];
                     }
                 }
-                $this->User->updateUserInfo($newUserInfo, $_SESSION['UserID']);
-                if (isset($newUserInfo['NewPassword'])) {
-                    $newPWHashed = password_hash($_POST['NewPassword'], PASSWORD_DEFAULT);
-                    $this->User->insertNewPassword($newPWHashed, $_SESSION['UserID']);
-                }
-                //header('Location: /account');
-            } else {
-                $_SESSION['newpw'] = $newUserInfo['NewPassword'];
-                $_SESSION['UserInfoChange'] = FALSE;
-                //header('Location: /account');
+                echo '<pre>';
+                print_r($newUserData);
+                print_r($oldUserData);
+                echo '<pre>';
+                $this->User->updateUserInfo($newUserData, $_SESSION['UserID']);
             }
         }
 

@@ -2,6 +2,8 @@
 
 namespace Core;
 
+use App\Configuration\Config;
+
 class View
 {
 
@@ -41,6 +43,7 @@ class View
         if ($twig === null) {
             $loader = new \Twig\Loader\FilesystemLoader(dirname(__DIR__).'/App/Views');
             $twig = new \Twig\Environment($loader,['debug' => true]);
+            if (Config::SHOW_ERRORS == True )
             $twig->addGlobal('session', $_SESSION);
             $twig->addExtension(new \Twig\Extension\DebugExtension());
         }

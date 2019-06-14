@@ -2,10 +2,9 @@
 
 
 namespace App\Controllers;
-
+use Core\Input;
 use App\Models\User;
 use Core\Controller;
-use Core\Error;
 use Core\Helper;
 use Core\View;
 use App\Models\Session;
@@ -47,18 +46,37 @@ class Authentication extends Controller
     public function registerUser()
     {
         if (Helper::checkCSRF()) {
-            if(!preg_match("^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$^",$_POST['email'])){
-            $userData['email'] = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
-            $result = $this->User->checkIFEmailExists($userData['email']);
-            if ($result == 1) {
-                $_SESSION['UserEmail'] = true;
+            //check if submitted Data is not empty - redirct if Data empty
+            foreach ($_POST as $input){
+                if(Input::check($input)==FALSE)
+                    $_SESSION['missingInputRegistration'] = TRUE;
+                    header('Location: /register');
+            }
+            //Validate EmailAddress
+            $validEmail = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
+            $emailExists = $this->User->checkIFEmailExists($validEmail);
+            if ($validEmail==FALSE) {
+                $_SESSION['validEmail'] = FALSE;
                 header('Location: /register');
             }
-            $_SESSION['UserEmail'] = false;
+            if($emailExists==TRUE) {
+                $_SESSION['emailExists'] = TRUE;
+                header('Location: /register');
+            }
+            $userData = $_POST;
+            $userData['password'] = password_hash($_POST['password'],PASSWORD_DEFAULT);
             $userID = $this->User->insertUser($userData);
             $this->User->insertAddress($userData, $userID);
+
+            //clear possible flags after successful registration
+            unset($_SESSION['UserEmail']);
+            unset($_SESSION['emailExists']);
+            unset($_SESSION['missingInputRegistration']);
             header('Location: ../basket');
-        }}
+        }else{
+            throw new \Error("CSRF Token ivalid");
+        }
+
     }
 
     /***
@@ -87,6 +105,8 @@ class Authentication extends Controller
                     $_SESSION['UserID'] = $userID;
                     $_SESSION['LoginTime'] = time();
                     $_SESSION['AccountExisits'] = TRUE;
+                    unset($_SESSION['LoginAttempts']);
+                    unset($_SESSION['LoginAttemptsNoAccount']);
                     $this->User->clearLoginAttempt($_SESSION['UserID']);
                     header('Location: /');
                 } else {
