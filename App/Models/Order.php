@@ -27,7 +27,7 @@ class Order extends Model
         $stmt = $this->dbh->prepare('SELECT * FROM Orders WHERE ID = ?');
         $stmt->bindParam(1, $orderID, PDO::PARAM_INT);
         $stmt->execute();
-        return array_unique($stmt->fetch());
+        return $stmt->fetch();
     }
 
     /**

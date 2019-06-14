@@ -70,10 +70,7 @@ class Checkout extends Controller
             $Items = $this->Cart->getAllBasketItems($cookieID);
             foreach ($Items as $Item)
             {
-                echo '<pre>';
-                print_r($Item);
                 $Item['TotalPrice']= $Item['Price']*$Item['Amount'];
-                echo '</pre>';
                 $this->Order->insertOrderDetails($Item,$_SESSION['OrderID']);
                 $totalPrice += $Item['TotalPrice'];
             }
@@ -107,10 +104,8 @@ class Checkout extends Controller
         $OdetailAndItems=[];
         $count = 0;
         if (Controller::loginStatus()){
-
             print_r($Order = $this->Order->getOrderInfo($_SESSION['OrderID']));
             $Orderdetails = $this->Order->getOrderDetails($_SESSION['OrderID']);
-
             foreach ($Orderdetails as $Orderdetail){
                 $OdetailAndItems[$count] = array_unique(array_merge($Orderdetail,$this->Item->getItemByID($Orderdetail['ItemID'])));
                 $count++;

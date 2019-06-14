@@ -46,7 +46,6 @@
                                 {% if passwordRequired is defined  %}
                                 There is somethin wrong with your Password
                                 {% endif %}
-
                                 <div class="form-group">
                                     <div class="col-xs-6">
                                         <label for="oldPassword"><h4>Old Password</h4></label>
@@ -70,27 +69,22 @@
                                     </div>
                                 </div>
                             </form>
-
                             <hr>
-
-                        </div><!--/tab-pane-->
-
-
-                    </div><!--/tab-content-->
-
-                </div><!--/col-9-->
-            </div><!--/row-->
+                        </div><
+                    </div>
+                </div>
+            </div>
     </div>
     <div class="tab-pane fade" id="nav-address" role="tabpanel" aria-labelledby="nav-profile-tab">
         <div class="row">
-            <div class="col-sm-3"><!--left col-->
+            <div class="col-sm-3">
                 <ul class="list-group">
                     <hr>
                     <li class="list-group-item text-muted">Account Overview <i class="fa fa-dashboard fa-1x"></i></li>
                     <li class="list-group-item text-right"><span class="pull-left"><a href="../logout"><strong >Logout</strong></a></span></li>
                     <li class="list-group-item text-right"><span class="pull-left"><a href="../deleteAccount"><strong>Delete Account</strong></a></span></li>
                 </ul>
-            </div><!--/col-3-->
+            </div>
             <div class="col-sm-9">
                 <div class="tab-content">
                     <div class="tab-pane active" >
@@ -144,55 +138,67 @@
                             </div>
                         </form>
                         <hr>
-                    </div><!--/tab-pane-->
-                </div><!--/tab-content-->
-            </div><!--/col-9-->
-        </div><!--/row-->
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="tab-pane fade" id="nav-orders" role="tabpanel" aria-labelledby="nav-profile-tab">
         <hr>
         <div class="row">
-            <div class="col-lg-3"><!--left col-->
+            <div class="col-lg-3">
                 <ul class="list-group">
                     <li class="list-group-item text-muted">Home <i class="fa fa-dashboard fa-1x"></i></li>
                     <li class="list-group-item text-right"><span class="pull-left"><a href="../logout"><strong >Logout</strong></a></span></li>
                     <li class="list-group-item text-right"><span class="pull-left"><a href="../deleteAccount"><strong>Delete Account</strong></a></span></li>
                 </ul>
-            </div><!--/col-3-->
-
+            </div>
             <div class="col-lg-9">
-                {% for Orderdetail in OrderInfo %}
+                {% for OrderInfo in ALLOrderInfo %}
                 <div class="accordion" id="accordionExample">
                     <div class="card">
                         <div class="card-header" id="headingOne">
-                            <h5 class="mb-0">
-                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                    {{Orderdetail.ID}}
-                                </button>
-                            </h5>
+                           <button class="btn btn-link pull-left" type="button" data-toggle="collapse" data-target="#{{OrderInfo.OrderName}}" aria-expanded="true" aria-controls="collapseOne">
+                                Order Number: {{loop.index}}
+                            </button>
+                            <p class="text-right pull-right">{{OrderInfo.OrderDate}}</p>
                         </div>
-
-                        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                        <div id="{{OrderInfo.OrderName}}" class="collapse" aria-labelledby="headingOne" >
                             <div class="card-body">
-                                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col"></th>
+                                        <th scope="col">Dog</th>
+                                        <th scope="col">Amount</th>
+                                        <th  class="text-right" scope="col">Price</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for Orderdetail in OrderInfo.OrderDetails %}
+                                    <tr>
+                                        <th scope="row"></th>
+                                        <td>{{Orderdetail.ItemName}}</td>
+                                        <td>{{Orderdetail.ItemAmount}}</td>
+                                        <td class="text-right">{{Orderdetail.TotalPrice}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                    <tr>
+                                    <td class="text-left"><strong>Total</strong></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td class="text-right"><strong> {{OrderInfo.TotalPrice}} €</strong></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
-
-
-
-
-                {% endfor %}
-
-
+               {% endfor %}
             </div>
         </div><!--/row-->
     </div>
-
 </div>
 </div>
-
-
-
-
-{% endblock %}
+</div>
+{% endblock%}

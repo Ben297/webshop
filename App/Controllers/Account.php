@@ -9,39 +9,59 @@ use Core\Controller;
 use Core\Helper;
 use Core\View;
 use App\Models\User;
+use App\Models\Item;
 
 class Account extends Controller
 {
     private $User;
     private $Order;
+    private  $Item;
 
     public function __construct()
     {
         $this->User = new User();
         $this->Order = new Order();
+        $this->Item = new Item();
     }
 
     public function showAccount()
     {
         Helper::checkSessionTime();
         Helper::updateSessionTimeout();
+
         if (Controller::loginStatus()){
             $UserInfo = array_unique($this->User->getUserByID($_SESSION['UserID']));
             $AddressInfo = array_unique( $this->User->getAddressDataByID($_SESSION['UserID']));
+
+
+
             $OrderInfo = $this->Order->getAllOrdersByUserID($_SESSION['UserID']);
+
+            $indexOrders = 0;
             foreach ($OrderInfo as $SpecificOrder){
                  $orderDetails= $this->Order->getOrderDetails($SpecificOrder['ID']);
-                 foreach ($orderDetails as $orderDetail)
-                     print_r($orderDetail);
-
-                 echo '<hr>';
+                $SpecificOrder['OrderName']='order'.$indexOrders;
+                 $indexDetails = 0;
+                 $OrderDetailsMerged=[];
+                 foreach ($orderDetails as $orderDetail) {
+                     $itemDetail = $this->Item->getItemByID( $orderDetail['ItemID']);
+                     unset($itemDetail['ID']);
+                     $OrderDetailsMerged[$indexDetails] = array_merge($orderDetail,$itemDetail);
+                     $indexDetails++;
+                 }
+                $SpecificOrder['OrderDetails']=$OrderDetailsMerged ;
+                $ALLOrderInfo[$indexOrders] =$SpecificOrder;
+                    $indexOrders++;
             }
+            /*echo '<pre>';
+            print_r($ALLOrderInfo);
+            echo '</pre>';*/
             $AccountData = array_merge($UserInfo,$AddressInfo);
             //Sanitizes AccountInformation(User+Address) for Output in Accountoverview
             foreach ($AccountData as $key => $value){
                 $AccountData[$key]=filter_var($value,FILTER_SANITIZE_SPECIAL_CHARS);
             }
-            View::renderTemplate('account.html',['AccountData'=> $AccountData,'OrderInfo' => $OrderInfo]);
+            View::renderTemplate('account.html',['AccountData'=> $AccountData,'ALLOrderInfo'=> $ALLOrderInfo]);
         }
         else{
             $_SESSION['LoginStatus']= False;
