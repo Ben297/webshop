@@ -118,7 +118,6 @@ class Order extends Model
             }
         }
         return $result;
-       // return array_unique($result);
     }
 
     public function getItemAmountByID($orderID)

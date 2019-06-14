@@ -43,7 +43,7 @@
                                         <input type="email" class="form-control" name="Email" id="email" placeholder="{{AccountData.Email}}" title="enter your email.">
                                     </div>
                                 </div>
-                                {% if passwordRequired == false %}
+                                {% if passwordRequired is defined  %}
                                 There is somethin wrong with your Password
                                 {% endif %}
 
@@ -95,7 +95,7 @@
                 <div class="tab-content">
                     <div class="tab-pane active" >
                         <hr>
-                        <form class="form" action="changeAccountDatarmation" method="post" >
+                        <form class="form" action="changeAddressInformation" method="post" >
                             <div class="form-group">
                                 <div class="col-xs-6">
                                     <label for="streetname"><h4>Streetname</h4></label>
@@ -159,27 +159,32 @@
                     <li class="list-group-item text-right"><span class="pull-left"><a href="../deleteAccount"><strong>Delete Account</strong></a></span></li>
                 </ul>
             </div><!--/col-3-->
-            <div class="col-lg-9">
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th scope="col">Order ID</th>
-                    <th scope="col"class="text-right">Date</th>
-                    <th scope="col" class="text-right">Total Price</th>
 
-                </tr>
-                </thead>
-                <tbody>
-                {% for Orderdetail in AccountData %}
-                <tr>
-                    <td class="text-left">{{Orderdetail.ID}}</td>
-                    <td class="text-right">{{Orderdetail.OrderDate}}</td>
-                    <td class="text-right">{{Orderdetail.TotalPrice}}</td>
-                </tr>
+            <div class="col-lg-9">
+                {% for Orderdetail in OrderInfo %}
+                <div class="accordion" id="accordionExample">
+                    <div class="card">
+                        <div class="card-header" id="headingOne">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    {{Orderdetail.ID}}
+                                </button>
+                            </h5>
+                        </div>
+
+                        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                            <div class="card-body">
+                                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
                 {% endfor %}
 
-                </tbody>
-            </table>
+
             </div>
         </div><!--/row-->
     </div>

@@ -15,7 +15,9 @@ if (empty($_SESSION['csrf_token'])) {
 
 // Block all iframes and other frames
 // See: https://www.owasp.org/index.php/OWASP_Secure_Headers_Project#xcto
-header('X-Frame-Options: SAMEORIGIN');
+header('X-Frame-Options: sameorigin');
+header('X-XSS-Protection: 1');
+header('Content-Security-Policy: script-src: \'self\'');
 
 // Set a csp policy to block restrict everything to default src and completely block all js from being executed.
 // Reports violations to report-uri service.
@@ -62,11 +64,7 @@ $router->add('account', ['controller' => 'Account', 'action' => 'showAccount']);
 $router->add('deleteAccount',['controller'=> 'Account', 'action' => 'deleteAccount']);
 $router->add('changeAddressInformation', ['controller' => 'Account','action'=>'changeAddressInformation']);
 $router->add('changeUserInformation', ['controller' => 'Account','action'=>'changeUserInformation']);
-
-
 $router->add('404', ['controller' => 'Authentication','action'=>'show404']);
-
-
 //order
 $router->add('showOrderAddress', ['controller' => 'Checkout','action'=>'showOrderAddress']);
 $router->add('showOrderPayment', ['controller' => 'Checkout','action'=>'showOrderPayment']);

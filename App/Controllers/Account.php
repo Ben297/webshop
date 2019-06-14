@@ -3,12 +3,9 @@
 
 namespace App\Controllers;
 
-
 use App\Models\Order;
 use Core\Input;
 use Core\Controller;
-
-use Core\Error;
 use Core\Helper;
 use Core\View;
 use App\Models\User;
@@ -26,20 +23,23 @@ class Account extends Controller
 
     public function showAccount()
     {
-
-
         if (Controller::loginStatus()){
             $UserInfo = array_unique($this->User->getUserByID($_SESSION['UserID']));
             $AddressInfo = array_unique( $this->User->getAddressDataByID($_SESSION['UserID']));
             $OrderInfo = $this->Order->getAllOrdersByUserID($_SESSION['UserID']);
+            foreach ($OrderInfo as $SpecificOrder){
+                 $orderDetails= $this->Order->getOrderDetails($SpecificOrder['ID']);
+                 foreach ($orderDetails as $orderDetail)
+                     print_r($orderDetail);
+
+                 echo '<hr>';
+            }
             $AccountData = array_merge($UserInfo,$AddressInfo);
-            echo '<pre>   ';
-            print_r($AccountData);
+            //Sanitizes AccountInformation(User+Address) for Output in Accountoverview
             foreach ($AccountData as $key => $value){
-                $AccountData[$key]=filter_var($value,FILTER_SANITIZE_STRING);}
-            print_r($AccountData);
-            echo '</pre>   ';
-            View::renderTemplate('account.html',['AccountData'=> $AccountData]);
+                $AccountData[$key]=filter_var($value,FILTER_SANITIZE_SPECIAL_CHARS);
+            }
+            View::renderTemplate('account.html',['AccountData'=> $AccountData,'OrderInfo' => $OrderInfo]);
         }
         else{
             View::renderTemplate('loginprompt.html');
@@ -48,15 +48,15 @@ class Account extends Controller
 
     public function deleteAccount()
     {
-
-       if($this->User->deleteAccountFromDB($_SESSION['UserID'])){
-           session_destroy();
-           View::renderTemplate('accountdelete.html');
-       }
-       else{
-           die("Error: There is NO Account with this ID");
-       }
+        if($this->User->deleteAccountFromDB($_SESSION['UserID'])==TRUE) {
+            session_destroy();
+            View::renderTemplate('accountdelete.html');
+        }else{
+            View::renderTemplate('landingpage.html');
+        }
     }
+
+
 
     /*
      * change the Address Information
@@ -89,11 +89,11 @@ class Account extends Controller
         if (Helper::checkCSRF()) {
             $oldPWDB = $this->User->getUserHash([$_SESSION['UserID']]);
             if (Input::check($_POST['OldPassword'])) {
-                $_SESSION['passwordRequired'] = False;
+                $_SESSION['passwordRequired'] = True;
                 header('Location: /account');
             }elseif(password_verify($_POST['OldPassword'],$oldPWDB)==FALSE)
             {
-                $_SESSION['passwordRequired'] = False;
+                $_SESSION['passwordRequired'] = True;
                 header('Location: /account');
             }else {
                 $newUserData = $_POST;
@@ -110,18 +110,15 @@ class Account extends Controller
                         $newUserData['Password'] = password_hash($value, PASSWORD_DEFAULT);
                         break;
                     } elseif (empty($value)) {
-                        echo $newUserData{$key} = $oldUserData[$key];
+                        $newUserData{$key} = $oldUserData[$key];
                     }
                 }
-                echo '<pre>';
-                print_r($newUserData);
-                print_r($oldUserData);
-                echo '<pre>';
                 $this->User->updateUserInfo($newUserData, $_SESSION['UserID']);
+                header('Location: /account');
             }
         }
 
-       // header('Location: /account');
+
     }
 
 

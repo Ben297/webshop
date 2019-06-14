@@ -45,6 +45,9 @@ class Checkout extends Controller
                 $this->createOrder($AddressInfo);
             }
             $AddressInfo = $this->User->getAddressDataByID($_SESSION['UserID']);
+            foreach ($AddressInfo as $key => $value){
+                $AddressInfo[$key]=filter_var($value,FILTER_SANITIZE_SPECIAL_CHARS);
+            }
             View::renderTemplate('orderaddress.html',['AddressInfo' => $AddressInfo]);
         }
         else{

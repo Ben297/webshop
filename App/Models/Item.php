@@ -14,7 +14,6 @@ class Item extends \Core\Model {
     public function getAllItems()
     {
         $this->dbh = Model::getPdo();
-
         $statement = $this->dbh->prepare("SELECT * FROM Item");
         $statement->execute();
         $result = $statement->fetchAll();

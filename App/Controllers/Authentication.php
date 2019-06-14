@@ -72,6 +72,9 @@ class Authentication extends Controller
             unset($_SESSION['UserEmail']);
             unset($_SESSION['emailExists']);
             unset($_SESSION['missingInputRegistration']);
+            //Login the User
+            $_SESSION['UserID']= $userID;
+            $_SESSION['LoginStatus']= TRUE;
             header('Location: ../basket');
         }else{
             throw new \Error("CSRF Token ivalid");

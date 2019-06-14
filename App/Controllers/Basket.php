@@ -67,7 +67,7 @@ class Basket extends Controller
         if (Helper::checkCSRF()){
             BasketModel::deleteBasketItem($_REQUEST['productId']);
             self::showBasket();
-        }
+        }else
         throw new \Error('Invalid CRSF-Token');
 
     }
