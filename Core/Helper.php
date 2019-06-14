@@ -1,6 +1,9 @@
 <?php
 namespace Core;
 
+use function Sodium\crypto_box_publickey_from_secretkey;
+use Twig\Error\RuntimeError;
+
 class Helper
 {
     public static function checkCSRF()
@@ -12,5 +15,23 @@ class Helper
                 return false;
         else
             return false;
+    }
+
+    public static function updateSessionTimeout()
+    {
+        $_SESSION['LAST_ACTIVITY'] = $_SERVER['REQUEST_TIME'];
+    }
+
+    public static function checkSessionTime()
+    {
+        $timeout_duration = 1800;
+        if (isset($_SESSION['LAST_ACTIVITY']) &&
+            ($_SERVER['REQUEST_TIME'] - $_SESSION['LAST_ACTIVITY']) > $timeout_duration) {
+            session_unset();
+            session_destroy();
+            session_start();
+            header('Location: ../../sessionexpired');
+            View::renderTemplate('sessionexpired.html');
+        }
     }
 }

@@ -39,6 +39,8 @@ class Checkout extends Controller
      */
     public function showOrderAddress()
     {
+        Helper::checkSessionTime();
+        Helper::updateSessionTimeout();
         if (Controller::loginStatus()){
             $AddressInfo = $this->User->getAddressDataByID($_SESSION['UserID']);
             if (empty($_SESSION['OrderID'])){
@@ -85,6 +87,8 @@ class Checkout extends Controller
 
     public function showOrderPayment()
     {
+        Helper::checkSessionTime();
+        Helper::updateSessionTimeout();
         if (Controller::loginStatus()){
             $PaymentInfo = Payment::getPaymentMethods();
             $OrderPaymentMethod = Payment::getOrderPaymentMethod($_SESSION['OrderID']);
@@ -98,6 +102,8 @@ class Checkout extends Controller
     }
     public function showOrderOverview()
     {
+        Helper::checkSessionTime();
+        Helper::updateSessionTimeout();
         $OdetailAndItems=[];
         $count = 0;
         if (Controller::loginStatus()){
@@ -119,6 +125,8 @@ class Checkout extends Controller
 
     public function showOrderConfirm()
     {
+        Helper::checkSessionTime();
+        Helper::updateSessionTimeout();
         if (Controller::loginStatus()){
            if(isset($_SESSION['OrderID'])){
            $OrderStatus = $this->Order->getOrderStatus($_SESSION['OrderID']);

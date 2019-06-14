@@ -23,6 +23,8 @@ class Account extends Controller
 
     public function showAccount()
     {
+        Helper::checkSessionTime();
+        Helper::updateSessionTimeout();
         if (Controller::loginStatus()){
             $UserInfo = array_unique($this->User->getUserByID($_SESSION['UserID']));
             $AddressInfo = array_unique( $this->User->getAddressDataByID($_SESSION['UserID']));
@@ -42,18 +44,16 @@ class Account extends Controller
             View::renderTemplate('account.html',['AccountData'=> $AccountData,'OrderInfo' => $OrderInfo]);
         }
         else{
-            View::renderTemplate('loginprompt.html');
+            $_SESSION['LoginStatus']= False;
+            View::renderTemplate('loginpromt.html');
         }
     }
 
     public function deleteAccount()
     {
-        if($this->User->deleteAccountFromDB($_SESSION['UserID'])==TRUE) {
-            session_destroy();
-            View::renderTemplate('accountdelete.html');
-        }else{
-            View::renderTemplate('landingpage.html');
-        }
+        $this->User->deleteAccountFromDB($_SESSION['UserID']);
+        session_destroy();
+        View::renderTemplate('accountdelete.html');
     }
 
 

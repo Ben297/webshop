@@ -75,6 +75,7 @@ class Authentication extends Controller
             //Login the User
             $_SESSION['UserID']= $userID;
             $_SESSION['LoginStatus']= TRUE;
+            $_SESSION['LoginTime'] = time();
             header('Location: ../basket');
         }else{
             throw new \Error("CSRF Token ivalid");
@@ -145,6 +146,12 @@ class Authentication extends Controller
     public function show404()
     {
         View::renderTemplate('404.html');
+
+    }
+
+    public function sessionexpired()
+    {
+        View::renderTemplate('sessionexpired.html');
     }
 
 }

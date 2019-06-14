@@ -26,7 +26,8 @@ class Basket extends Controller
         // user is in basket view
         $totalPrice = 0;
         $basketItems = [];
-
+        Helper::checkSessionTime();
+        Helper::updateSessionTimeout();
         if (isset($_COOKIE['TempBasket'])) {
             $count = 0;
             foreach ($this->Basket->getAllBasketItems($_COOKIE['TempBasket']) as $Item) {

@@ -8,6 +8,7 @@ session_start([
     'sid_bits_per_character' => 6,
 ]);
 
+
 if (empty($_SESSION['csrf_token'])) {
     $crypto_strong = true;
     $_SESSION['csrf_token'] = md5(openssl_random_pseudo_bytes(32,$crypto_strong));
@@ -71,5 +72,6 @@ $router->add('showOrderPayment', ['controller' => 'Checkout','action'=>'showOrde
 $router->add('showOrderOverview', ['controller' => 'Checkout','action'=>'showOrderOverview']);
 $router->add('showOrderConfirm', ['controller' => 'Checkout','action'=>'showOrderConfirm']);
 $router->add('confirmPaymentMethod', ['controller' => 'Checkout','action'=>'confirmPaymentMethod']);
+$router->add('sessionexpired',['controller' => 'Authentication','action'=>'sessionexpired']);
 
 $router->dispatch($_SERVER['QUERY_STRING']);

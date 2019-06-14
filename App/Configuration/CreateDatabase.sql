@@ -13,6 +13,7 @@ Create Table User
     Firstname    varchar(255),
     Lastname     varchar(255),
     FailedLogins int,
+    DeleteFlag   int NULL,
     PRIMARY KEY (ID)
 );
 
@@ -26,7 +27,7 @@ Create Table Address
     City       varchar(255),
     Country    varchar(255),
     PRIMARY KEY (ID),
-    FOREIGN KEY (UserID) REFERENCES User (ID) ON DELETE CASCADE
+    FOREIGN KEY (UserID) REFERENCES User (ID)
 );
 
 
@@ -114,13 +115,13 @@ Create Table Order_Details
     TotalPrice double,
     PRIMARY KEY (ID),
     FOREIGN KEY (ItemID) REFERENCES Item (ID),
-    FOREIGN KEY (OrderID) REFERENCES Orders (ID) ON DELETE CASCADE
+    FOREIGN KEY (OrderID) REFERENCES Orders (ID)
 );
 
 -- database seed User
 INSERT Into User
 VALUES (NULL, 'test@test.de', '$2y$10$RaxBKownRHaZgUnbh5qeX.aq28krVPu/1s6OKq.SfzYFMOs7wd1t2', 'Tester1',
-        'Testermann', 0);
+        'Testermann', 0,0);
 
 INSERT Into Address
 Values (Null, 1, 'Musterstraße', 42, 12345, 'Musterhausen', 'Germany');

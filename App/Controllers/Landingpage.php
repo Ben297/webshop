@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use Core\Controller;
+use Core\Helper;
 use \Core\View;
 use App\Models\Item;
 
@@ -29,6 +30,9 @@ class Landingpage extends Controller
      */
     public function indexAction()
     {
+
+        Helper::checkSessionTime();
+        Helper::updateSessionTimeout();
         $this->items =  $this->Item->getAllItems();
         foreach ($this->items as $ItemArray){
             foreach ($ItemArray as $key => $value){

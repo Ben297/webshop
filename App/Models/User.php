@@ -97,7 +97,7 @@ class User extends Model
     public function getUserIDByEmail($email)
     {
         $this->dbh = Model::getPdo();
-        $stmt = $this->dbh->prepare('Select ID FROM User WHERE Email = ?');
+        $stmt = $this->dbh->prepare('Select ID FROM User WHERE Email = ? AND DeleteFlag != 1');
         $stmt->bindParam(1,$email,\PDO::PARAM_STR);
         if($stmt->execute()){
             $result = $stmt->fetch();
@@ -166,7 +166,7 @@ class User extends Model
     public function deleteAccountFromDB($userID)
     {
         $this->dbh = Model::getPdo();
-        $stmt = $this->dbh->prepare('DELETE FROM User Where ID = ? ');
+        $stmt = $this->dbh->prepare('Update User SET DeleteFlag = 1 WHERE ID = ? ');
         $stmt->bindParam(1,$userID,\PDO::PARAM_INT);
         return $stmt->execute();
     }
