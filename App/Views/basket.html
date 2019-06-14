@@ -53,18 +53,19 @@
                         <td>{{BasketItems.ItemName}}</td>
                         <td>{{BasketItems.Stock}}</td>
                         <td class="text-center">
-                            <form action="/basket/updateArticle">
+                            <form method="post" action="/basket/updateArticle">
                                 <input type="text" class="form-control" style="width:80px" name="productAmount" value={{BasketItems.Amount}}>
-                                <input type="hidden" name="productId" value={{BasketItems.ID}}>
                                 <input type="hidden" name="csrf_token" value="{{session.csrf_token}}">
+                                <input type="hidden" name="productId" value={{BasketItems.ID}}>
                             </form>
                         </td>
                         <td class="text-right">{{BasketItems.Price}} €</td>
                         <td class="text-right">
-                            <form action="/basket/deleteArticle">
+                            <form method="post" action="/basket/deleteArticle">
                                 <input type="hidden" name="productId" value={{BasketItems.ID}}>
-                                <input class="btn btn-sm btn-danger" type="submit" value="Delete">
                                 <input type="hidden" name="csrf_token" value="{{session.csrf_token}}">
+                                <input class="btn btn-sm btn-danger" type="submit" value="Delete">
+
                             </form>
                         </td>
                     </tr>
