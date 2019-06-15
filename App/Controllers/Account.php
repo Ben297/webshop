@@ -28,15 +28,11 @@ class Account extends Controller
     {
         Helper::checkSessionTime();
         Helper::updateSessionTimeout();
-
+        $ALLOrderInfo = [];
         if (Controller::loginStatus()){
             $UserInfo = array_unique($this->User->getUserByID($_SESSION['UserID']));
             $AddressInfo = array_unique( $this->User->getAddressDataByID($_SESSION['UserID']));
-
-
-
             $OrderInfo = $this->Order->getAllOrdersByUserID($_SESSION['UserID']);
-
             $indexOrders = 0;
             foreach ($OrderInfo as $SpecificOrder){
                  $orderDetails= $this->Order->getOrderDetails($SpecificOrder['ID']);
@@ -53,9 +49,6 @@ class Account extends Controller
                 $ALLOrderInfo[$indexOrders] =$SpecificOrder;
                     $indexOrders++;
             }
-            /*echo '<pre>';
-            print_r($ALLOrderInfo);
-            echo '</pre>';*/
             $AccountData = array_merge($UserInfo,$AddressInfo);
             //Sanitizes AccountInformation(User+Address) for Output in Accountoverview
             foreach ($AccountData as $key => $value){
