@@ -50,7 +50,7 @@ class BasketModel extends Model
 
         if (!$tempCookie = $Cookie->loadBasketCookie()) {
             $strongCrypto = TRUE;
-            return md5(openssl_random_pseudo_bytes(32,$strongCrypto));;
+            return md5(openssl_random_pseudo_bytes(32,$strongCrypto));
         } else {
             return $tempCookie;
         }

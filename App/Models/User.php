@@ -16,9 +16,8 @@ class User extends Model
      */
     public function insertUser($user)
     {
-        //print_r( $user);
         $this->dbh= Model::getPdo();
-        $stmt =  $this->dbh->prepare('INSERT INTO User VALUES (NULL,?,?,?,?,0)');
+        $stmt =  $this->dbh->prepare('INSERT INTO User VALUES (NULL,?,?,?,?,0,0)');
         $stmt->bindParam(1, $user['email'],\PDO::PARAM_STR);
         $stmt->bindParam(2, $user['password']);
         $stmt->bindParam(3, $user['firstname'],\PDO::PARAM_STR);
@@ -28,8 +27,6 @@ class User extends Model
          }else{
              echo 'User could not be inserted';
          }
-
-
     }
 
     public function insertNewPassword($password,$UserID)
@@ -45,7 +42,6 @@ class User extends Model
 
     public function insertAddress($address,$userID)
     {
-        //print_r( $address);
         $this->dbh= Model::getPdo();
         $stmt =  $this->dbh->prepare('INSERT INTO Address VALUES (NULL,?,?,?,?,?,?)');
         $stmt->bindParam(1, $userID,\PDO::PARAM_INT);
@@ -62,7 +58,6 @@ class User extends Model
     {
         $this->dbh= Model::getPdo();
         $stmt =  $this->dbh->prepare('Update Address SET Streetname = ?,HouseNR = ?, ZipCode = ?,City = ?, Country = ? WHERE UserID = ?');
-
         $stmt->bindParam(1, $address['Streetname'],\PDO::PARAM_STR);
         $stmt->bindParam(2, $address['HouseNr'],\PDO::PARAM_INT);
         $stmt->bindParam(3, $address['ZipCode'],\PDO::PARAM_INT);
@@ -70,12 +65,11 @@ class User extends Model
         $stmt->bindParam(5, $address['Country'],\PDO::PARAM_STR);
         $stmt->bindParam(6, $userID,\PDO::PARAM_INT);
         return $stmt->execute();
-
     }
 
     public function updateUserInfo($userInfo,$userID)
     {
-                $this->dbh= Model::getPdo();
+        $this->dbh= Model::getPdo();
         $stmt =  $this->dbh->prepare('Update User SET Email = ?, Firstname = ?,Lastname = ?,Password = ? WHERE ID = ?');
         $stmt->bindParam(1, $userInfo['Email'],\PDO::PARAM_STR);
         $stmt->bindParam(2, $userInfo['Firstname'],\PDO::PARAM_STR);
@@ -83,7 +77,6 @@ class User extends Model
         $stmt->bindParam(4, $userInfo['Password'],\PDO::PARAM_STR);
         $stmt->bindParam(5, $userID,\PDO::PARAM_INT);
         return $stmt->execute();
-
     }
 
     public function checkIFEmailExists($email)
@@ -105,7 +98,6 @@ class User extends Model
         }else{
             return False;
         }
-
     }
 
     public function getUserHash($userID)
