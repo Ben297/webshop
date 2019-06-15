@@ -7,115 +7,115 @@ DROP TABLE IF EXISTS User,Orders,OrderStatus,Address,Item,Basket,Cookie,Session,
 
 Create Table User
 (
-    ID           int NOT NULL AUTO_INCREMENT,
-    Email        varchar(255),
-    Password     varchar(255),
-    Firstname    varchar(255),
-    Lastname     varchar(255),
-    FailedLogins int,
-    DeleteFlag   int NULL,
-    PRIMARY KEY (ID)
+  ID           int NOT NULL AUTO_INCREMENT,
+  Email        varchar(255),
+  Password     varchar(255),
+  Firstname    varchar(255),
+  Lastname     varchar(255),
+  FailedLogins int,
+  DeleteFlag   int NULL,
+  PRIMARY KEY (ID)
 );
 
 Create Table Address
 (
-    ID         int NOT NULL AUTO_INCREMENT,
-    UserID     int,
-    Streetname varchar(255),
-    HouseNr    varchar(10),
-    ZipCode    int,
-    City       varchar(255),
-    Country    varchar(255),
-    PRIMARY KEY (ID),
-    FOREIGN KEY (UserID) REFERENCES User (ID)
+  ID         int NOT NULL AUTO_INCREMENT,
+  UserID     int,
+  Streetname varchar(255),
+  HouseNr    varchar(10),
+  ZipCode    int,
+  City       varchar(255),
+  Country    varchar(255),
+  PRIMARY KEY (ID),
+  FOREIGN KEY (UserID) REFERENCES User (ID)
 );
 
 
 
 Create Table Session
 (
-    ID        int NOT NULL AUTO_INCREMENT,
-    SessionID varchar(255),
-    UserID    int,
-    LoggedIn  Boolean,
-    PRIMARY KEY (ID),
-    FOREIGN KEY (UserID) REFERENCES User (ID)
+  ID        int NOT NULL AUTO_INCREMENT,
+  SessionID varchar(255),
+  UserID    int,
+  LoggedIn  Boolean,
+  PRIMARY KEY (ID),
+  FOREIGN KEY (UserID) REFERENCES User (ID)
 );
 
 Create Table Item
 (
-    ID          int NOT NULL AUTO_INCREMENT,
-    ItemName    varchar(255),
-    Description varchar(255),
-    Price       double,
-    Stock       int,
-    ImgPath     varchar(255),
-    PRIMARY KEY (ID)
+  ID          int NOT NULL AUTO_INCREMENT,
+  ItemName    varchar(255),
+  Description varchar(255),
+  Price       double,
+  Stock       int,
+  ImgPath     varchar(255),
+  PRIMARY KEY (ID)
 );
 
 Create Table Cookie
 (
-    ID         int NOT NULL AUTO_INCREMENT,
-    CookieID   varchar(255),
-    ItemAmount int,
-    ItemID     int,
-    PRIMARY KEY (ID),
-    FOREIGN KEY (ItemID) REFERENCES Item (ID)
+  ID         int NOT NULL AUTO_INCREMENT,
+  CookieID   varchar(255),
+  ItemAmount int,
+  ItemID     int,
+  PRIMARY KEY (ID),
+  FOREIGN KEY (ItemID) REFERENCES Item (ID)
 );
 
 Create Table Basket
 (
-    ID         int NOT NULL AUTO_INCREMENT,
-    ItemID     int,
-    Amount     int,
-    Cookie     varchar(255),
-    BasketDate date,
+  ID         int NOT NULL AUTO_INCREMENT,
+  ItemID     int,
+  Amount     int,
+  Cookie     varchar(255),
+  BasketDate date,
 
-    PRIMARY KEY (ID),
-    FOREIGN KEY (ItemID) REFERENCES Item (ID)
+  PRIMARY KEY (ID),
+  FOREIGN KEY (ItemID) REFERENCES Item (ID)
 );
 
 CREATE Table PaymentMethod
 (
-    ID          int NOT NULL AUTO_INCREMENT,
-    PaymentName varchar(255),
-    PRIMARY KEY (ID)
+  ID          int NOT NULL AUTO_INCREMENT,
+  PaymentName varchar(255),
+  PRIMARY KEY (ID)
 );
 CREATE TABLE OrderStatus
 (
-    ID     int NOT NULL AUTO_INCREMENT,
-    Status varchar(255),
-    PRIMARY KEY (ID)
+  ID     int NOT NULL AUTO_INCREMENT,
+  Status varchar(255),
+  PRIMARY KEY (ID)
 );
 
 Create Table Orders
 (
-    ID              int NOT NULL AUTO_INCREMENT,
-    UserID          int,
-    AddressID       int,
-    PaymentMethodID int,
-    TotalPrice      double,
-    OrderDate       date,
-    OrderStatus     int,
-    PRIMARY KEY (ID),
-    FOREIGN KEY (UserID) REFERENCES User (ID) ON DELETE CASCADE,
-    FOREIGN KEY (AddressID) REFERENCES Address (ID),
-    FOREIGN KEY (PaymentMethodID) REFERENCES PaymentMethod (ID),
-    FOREIGN KEY (OrderStatus) REFERENCES OrderStatus (ID)
+  ID              int NOT NULL AUTO_INCREMENT,
+  UserID          int,
+  AddressID       int,
+  PaymentMethodID int,
+  TotalPrice      double,
+  OrderDate       date,
+  OrderStatus     int,
+  PRIMARY KEY (ID),
+  FOREIGN KEY (UserID) REFERENCES User (ID) ON DELETE CASCADE,
+  FOREIGN KEY (AddressID) REFERENCES Address (ID),
+  FOREIGN KEY (PaymentMethodID) REFERENCES PaymentMethod (ID),
+  FOREIGN KEY (OrderStatus) REFERENCES OrderStatus (ID)
 
 );
 
 
 Create Table Order_Details
 (
-    ID         int NOT NULL AUTO_INCREMENT,
-    OrderID    int,
-    ItemID     int,
-    ItemAmount int,
-    TotalPrice double,
-    PRIMARY KEY (ID),
-    FOREIGN KEY (ItemID) REFERENCES Item (ID),
-    FOREIGN KEY (OrderID) REFERENCES Orders (ID)
+  ID         int NOT NULL AUTO_INCREMENT,
+  OrderID    int,
+  ItemID     int,
+  ItemAmount int,
+  TotalPrice double,
+  PRIMARY KEY (ID),
+  FOREIGN KEY (ItemID) REFERENCES Item (ID),
+  FOREIGN KEY (OrderID) REFERENCES Orders (ID)
 );
 
 -- database seed User
@@ -132,29 +132,33 @@ VALUES (NULL, 1, 0, 2, 500, CURRENT_TIMESTAMP, 2);
 -- database seed Dogs
 INSERT INTO Item (ID, ItemName, Description, Price, Stock, ImgPath)
 VALUES (NULL, 'Paul',
+        'Labrador-Shepherd-Mix, is the best mix of both. Loves to play frisbee and go swimming, needs a lot of belly rubs',
+        899.99, 6, '/img/Paul2.jpg'),
+       (NULL, 'Max',
         'Border Collie, is a working and herding dog breed especially for sheep. It was specifically bred for intelligence and obedience',
-        999.99, 2, '/img/dog1.jpg'),
+        999.99, 2, '/img/Border.jpg'),
        (NULL, 'Wuff',
-        'Leonberger can weigh up to a 170 pounds and stand at 31 inches. You''ll have a watchdog and friend for life. Just make sure you have a few brushes around, because these guys need some constant grooming',
-        1999.99, 12, '/img/Leonberger.jpg'),
+        'Boxer, you''ll have a watchdog and friend for life. Just make sure you have a few brushes around, because these guys need some constant grooming',
+        1999.99, 12, '/img/Boxer.jpg'),
        (NULL, 'Destroyer',
-        'German Shepherd, is a breed of medium to large-sized working dog that originated in Germany', 1499.99, 50,
-        '/img/GermanShepherd.jpg'),
+        'Basset hound, is a breed of medium-sized working dog. Can step on his own ears', 1499.99, 50,
+        '/img/Basset.jpg'),
        (NULL, 'Lessi',
-        'Beauceron,  were originally working dogs who were used to herd sheep. Best for experienced owners', 429.99, 25,
-        '/img/Beauceron.jpg'),
+        'Beauceron,  were originally working dogs who were used to herd sheep. Best for experienced owners', 429.99, 25, '/img/Treat.jpg'),
+       (NULL, 'Steve',
+        'We have no idea what kind of breed he is, but he will fix bugs in your code for treats', 999.99, 2, '/img/dog4.jpg'),
        (NULL, 'Brian ',
-        'Belgian Sheepdog, is made for hard work, which means they train incredibly easily and rarely tire! While they are always dedicated to the task at hand, these dogs still crave love and attention on moments when they''re "off the clock"',
-        386.99, 7, '/img/BelgianSheepdog.jpg'),
+        'Siberian Husky, is made for hard work, which means they train incredibly easily and rarely tire! While they are always dedicated to the task at hand, these dogs still crave love and attention on moments when they''re "off the clock"',
+        386.99, 7, '/img/SiberianHusky.jpg'),
        (NULL, 'Snuffles ',
         'Labrador, Originally bred as a retriever for hunting and fishing, now the Labrador is often chosen by families for its characteristic loving, gentle temperament',
-        749.99, 95, '/img/Labrador.jpg'),
+        749.99, 95, '/img/lab2.jpg'),
        (NULL, 'Snowball',
-        'Hovawart, will need proper attention and care as pups to create a special bond with their families, but the love and devotion they have with their owners for life is worth the effort for years to come',
-        249.99, 63, '/img/Hovawart.jpg'),
+        'Corgi, will need proper attention and care as pups to create a special bond with their families, but the love and devotion they have with their owners for life is worth the effort for years to come',
+        249.99, 63, '/img/Corgi.jpg'),
        (NULL, 'Whiskey',
-        'Great Dane, can grow up to 32 inches tall! But despite their size, these dependable, friendly canines are just gentle giants at heart',
-        999.99, 88, '/img/GreatDane.jpg');
+        'Golden Retriever, these dependable, friendly canines are just gentle fluffballs at heart',
+        999.99, 88, '/img/Golden.jpg');
 
 -- payment methods
 INSERT INTO PaymentMethod
