@@ -28,7 +28,7 @@
                             <tbody>
                             {% for Orderdetail in Orderdetails %}
                             <tr>
-                                <td><img  src="{{Orderdetail.ImgPath}}"/></td>
+                                <td><img style="height: 250px;" src="{{Orderdetail.ImgPath}}"/></td>
                                 <td>{{Orderdetail.ItemName}}</td>
                                 <td>{{Orderdetail.Stock}}</td>
                                 <td class="text-center">{{Orderdetail.ItemAmount}}</td>

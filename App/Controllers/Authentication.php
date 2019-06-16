@@ -21,6 +21,10 @@ class Authentication extends Controller
 
     }
 
+    /*
+     * default Action to show the Register Form
+     * cannot be accessed when User is logged in
+     */
     public function showRegistrationForm()
     {
         if (isset($_SESSION['LoginStatus']))
@@ -29,6 +33,10 @@ class Authentication extends Controller
         View::renderTemplate('register.html');
     }
 
+    /*
+     * default Action to show the Login Form
+     * cannot be accessed when User is logged in
+     */
     public function showLoginForm()
     {
         if (isset($_SESSION['LoginStatus']))

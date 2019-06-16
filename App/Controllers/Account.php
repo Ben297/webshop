@@ -24,6 +24,11 @@ class Account extends Controller
         $this->Item = new Item();
     }
 
+    /*
+     * default action for showing the Account Overview
+     * checks SessionTime and LoginStatus
+     * Gets User and Order Data from the DB and sanitizes it
+     */
     public function showAccount()
     {
         Helper::checkSessionTime();
@@ -32,11 +37,12 @@ class Account extends Controller
         if (Controller::loginStatus()){
             $UserInfo = array_unique($this->User->getUserByID($_SESSION['UserID']));
             $AddressInfo = array_unique( $this->User->getAddressDataByID($_SESSION['UserID']));
+            //Builds an Array with all Orders and the respective Order details
             $OrderInfo = $this->Order->getAllOrdersByUserID($_SESSION['UserID']);
             $indexOrders = 0;
             foreach ($OrderInfo as $SpecificOrder){
                  $orderDetails= $this->Order->getOrderDetails($SpecificOrder['ID']);
-                $SpecificOrder['OrderName']='order'.$indexOrders;
+                 $SpecificOrder['OrderName']='order'.$indexOrders;
                  $indexDetails = 0;
                  $OrderDetailsMerged=[];
                  foreach ($orderDetails as $orderDetail) {
@@ -50,7 +56,7 @@ class Account extends Controller
                     $indexOrders++;
             }
             $AccountData = array_merge($UserInfo,$AddressInfo);
-            //Sanitizes AccountInformation(User+Address) for Output in Accountoverview
+            //Sanitizes AccountInformation(User+Address) for Output in Account Overview
             foreach ($AccountData as $key => $value){
                 $AccountData[$key]=filter_var($value,FILTER_SANITIZE_SPECIAL_CHARS);
             }
@@ -61,15 +67,6 @@ class Account extends Controller
             View::renderTemplate('loginpromt.html');
         }
     }
-
-    public function deleteAccount()
-    {
-        $this->User->deleteAccountFromDB($_SESSION['UserID']);
-        session_destroy();
-        View::renderTemplate('accountdelete.html');
-    }
-
-
 
     /*
      * change the Address Information
@@ -95,7 +92,9 @@ class Account extends Controller
     }
 
     /*
-     * TODO DOes not work yet
+     * Function to Change Personal Data of a User in the Account Overview
+     * Check CSRF-Token
+     * validates old Password before changing the Data
      */
     public function changeUserInformation()
     {
@@ -104,11 +103,10 @@ class Account extends Controller
             if (Input::check($_POST['OldPassword'])) {
                 $_SESSION['passwordRequired'] = True;
                 header('Location: /account');
-            }elseif(password_verify($_POST['OldPassword'],$oldPWDB)==FALSE)
-            {
+            } elseif (password_verify($_POST['OldPassword'], $oldPWDB) == FALSE) {
                 $_SESSION['passwordRequired'] = True;
                 header('Location: /account');
-            }else {
+            } else {
                 $newUserData = $_POST;
                 unset($newUserData['OldPassword']);
                 unset($newUserData['csrf_token']);
@@ -130,10 +128,15 @@ class Account extends Controller
                 header('Location: /account');
             }
         }
-
-
     }
 
-
-
+    /*
+     * Flags an Account as deleted in the Database
+     */
+    public function deleteAccount()
+    {
+        $this->User->deleteAccountFromDB($_SESSION['UserID']);
+        session_destroy();
+        View::renderTemplate('accountdelete.html');
+    }
 }
