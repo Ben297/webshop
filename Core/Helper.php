@@ -3,6 +3,12 @@ namespace Core;
 
 class Helper
 {
+    public static function check($arg) {
+        if (empty($arg))
+            return true;
+        else
+            return false;
+    }
     public static function checkCSRF()
     {
         if (!empty($_POST['csrf_token']))

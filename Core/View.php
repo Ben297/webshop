@@ -47,7 +47,6 @@ class View
             $twig->addGlobal('session', $_SESSION);
             $twig->addExtension(new \Twig\Extension\DebugExtension());
         }
-
         echo $twig->render($template, $args);
     }
 }

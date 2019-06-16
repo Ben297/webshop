@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Controllers;
-use Core\Input;
 use App\Models\User;
 use Core\Controller;
 use Core\Helper;
@@ -56,7 +54,7 @@ class Authentication extends Controller
         if (Helper::checkCSRF()) {
             //check if submitted Data is not empty - redirct if Data empty
             foreach ($_POST as $input){
-                if(Input::check($input)==FALSE)
+                if(Helper::check($input)==FALSE)
                     $_SESSION['missingInputRegistration'] = TRUE;
                     header('Location: /register');
             }
@@ -157,6 +155,9 @@ class Authentication extends Controller
 
     }
 
+    /*
+     * Function to render a Promt when the Session expired
+     */
     public function showSessionexpired()
     {
         View::renderTemplate('sessionexpired.html');

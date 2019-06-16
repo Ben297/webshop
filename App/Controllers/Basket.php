@@ -19,6 +19,9 @@ class Basket extends Controller
         $this->Basket = new BasketModel();
     }
 
+    /*
+     * Function to show the Contents of the Basket
+     */
     public function showBasket()
     {
         // If BasketCookie is set then get Content of the Cookie
