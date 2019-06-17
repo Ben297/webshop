@@ -147,7 +147,11 @@ class Authentication extends Controller
     public function show404()
     {
         View::renderTemplate('404.html');
+    }
 
+    public function show500()
+    {
+        View::renderTemplate('500.html');
     }
 
     /*

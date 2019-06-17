@@ -55,7 +55,7 @@ class Error
 
             error_log($message);
 
-            View::renderTemplate("$code.html");
+            header('Location: localhost/500');
         }
     }
 }

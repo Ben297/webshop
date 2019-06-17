@@ -67,6 +67,7 @@ $router->add('logout',['controller'=> 'Authentication', 'action' => 'logout']);
 $router->add('loginprompt');
 $router->add('failedLogin');
 $router->add('404', ['controller' => 'Authentication','action'=>'show404']);
+$router->add('500', ['controller' => 'Authentication','action'=>'show500']);
 $router->add('showSessionexpired',['controller' => 'Authentication','action'=>'showSessionexpired']);
 
 $router->dispatch($_SERVER['QUERY_STRING']);
