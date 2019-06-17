@@ -29,6 +29,11 @@ class User extends Model
          }
     }
 
+    /**
+     * Function to update the Password
+     * @param $password
+     * @param $UserID
+     */
     public function insertNewPassword($password,$UserID)
     {
         $this->dbh= Model::getPdo();
@@ -40,6 +45,12 @@ class User extends Model
 
     }
 
+    /**
+     * Function to Insert the Address in Database when the user is registering
+     * @param $address
+     * @param $userID
+     * @return bool
+     */
     public function insertAddress($address,$userID)
     {
         $this->dbh= Model::getPdo();
@@ -53,6 +64,12 @@ class User extends Model
         return $stmt->execute();
     }
 
+    /**
+     * Function to update the User Address
+     * @param $address
+     * @param $userID
+     * @return bool
+     */
     public function updateAddress($address,$userID)
     {
         $this->dbh= Model::getPdo();
@@ -66,6 +83,12 @@ class User extends Model
         return $stmt->execute();
     }
 
+    /**
+     * Function to update the User Info
+     * @param $userInfo
+     * @param $userID
+     * @return bool
+     */
     public function updateUserInfo($userInfo,$userID)
     {
         $this->dbh= Model::getPdo();
@@ -78,6 +101,11 @@ class User extends Model
         return $stmt->execute();
     }
 
+    /**
+     * Check DB for Email existence
+     * @param $email
+     * @return bool
+     */
     public function checkIFEmailExists($email)
     {
         $this->dbh = Model::getPdo();
@@ -86,6 +114,11 @@ class User extends Model
         return $stmt->execute();
     }
 
+    /**
+     * Get UserID by email provided
+     * @param $email
+     * @return bool
+     */
     public function getUserIDByEmail($email)
     {
         $this->dbh = Model::getPdo();
@@ -99,6 +132,11 @@ class User extends Model
         }
     }
 
+    /**
+     * Get the hashed User Password from the DB
+     * @param $userID
+     * @return mixed
+     */
     public function getUserHash($userID)
     {
         $this->dbh = Model::getPdo();
@@ -109,14 +147,24 @@ class User extends Model
         return  $result = $result['password'];
     }
 
+    /**
+     * Function to incremtn the LoginAttempt for existing User in the DB
+     * @param $userID
+     * @return bool
+     */
     public function incrementLoginAttempt($userID)
     {
         $this->dbh = Model::getPdo();
         $stmt = $this->dbh->prepare('UPDATE User SET FailedLogins = FailedLogins+1 Where User.ID = ?');
         $stmt->bindParam(1,$userID,\PDO::PARAM_INT);
-        $stmt->execute();
+        return $stmt->execute();
     }
 
+    /**
+     * Checks how muck login Attempts a User has made
+     * @param $userID
+     * @return mixed
+     */
     public function checkFailedLogins($userID)
     {
         $this->dbh = Model::getPdo();
@@ -127,6 +175,11 @@ class User extends Model
         return $result['FailedLogins'];
     }
 
+    /**
+     * Function to clear the Login Attempts in the DB
+     * @param $userID
+     * @return bool
+     */
     public function clearLoginAttempt($userID)
     {
         $this->dbh = Model::getPdo();
@@ -135,6 +188,11 @@ class User extends Model
         return $stmt->execute();
     }
 
+    /**
+     * Function to get the Userdata by the User Id fromt the DB
+     * @param $userID
+     * @return mixed
+     */
     public function getUserByID($userID)
     {
         $this->dbh = Model::getPdo();
@@ -143,7 +201,14 @@ class User extends Model
         $stmt->execute();
         return $stmt->fetch();
 
-    }public function getAddressDataByID($userID)
+    }
+
+    /**
+     * Function to get the current User Address with the User ID
+     * @param $userID
+     * @return mixed
+     */
+    public function getAddressDataByID($userID)
     {
         $this->dbh = Model::getPdo();
         $stmt = $this->dbh->prepare('Select * FROM Address Where UserID = ? ');
@@ -152,6 +217,11 @@ class User extends Model
         return $stmt->fetch();
     }
 
+    /**
+     * Function to flag aa Account as deleted in the Database
+     * @param $userID
+     * @return bool
+     */
     public function deleteAccountFromDB($userID)
     {
         $this->dbh = Model::getPdo();

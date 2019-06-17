@@ -32,6 +32,7 @@ class Landingpage extends Controller
     {
         Helper::checkSessionTime();
         Helper::updateSessionTimeout();
+        unset($_SESSION['emptyStock']);//reset the emptyStock variable
         $this->items =  $this->Item->getAllItems();
         foreach ($this->items as $ItemArray){
             foreach ($ItemArray as $key => $value){

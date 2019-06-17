@@ -33,7 +33,14 @@
                 <div class="card-body">
                     <h1 class="card-title">{{Item.ItemName}}</h1>
                     <h3 class="">{{Item.Price}} Euro</h3>
+                    {% if session.emptyStock is defined %}
+                    <div class="alert alert-warning" role="alert">
+                        Sadly their are not enough Dogs left in Stock
+                    </div>
                     <h3 class="">{{Item.Stock}} left in Stock</h3>
+                    {% else %}
+                    <h3 class="">{{Item.Stock}} left in Stock</h3>
+                    {% endif %}
                     <form method="post" action="../../addToBasket">
                         <div class="form-group border-bottom">
                             <div class="form-group">

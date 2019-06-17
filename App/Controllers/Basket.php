@@ -38,6 +38,7 @@ class Basket extends Controller
             foreach ($this->Basket->getAllBasketItems($_COOKIE['TempBasket']) as $Item) {
                 $Item['Price'] = $Item['Amount'] * $Item['Price'];
                 $totalPrice += $Item['Price'];
+                $Item['Amount']=htmlspecialchars($Item['Amount']);
                 $basketItems[$count] = $Item;
                 $count++;
             }
@@ -58,13 +59,16 @@ class Basket extends Controller
     public function addToBasket()
     {
         if (Helper::checkCSRF()) {
-            $ItemStock = $this->Item->getStock($_POST['ItemID']);
-            if ($ItemStock<$_POST['Amount'])
-                //header(_"'Location: http://localhost/detailpage/showDetail/".$_POST['ItemID']."'");
-
-            $CookieData = ['ItemID' => $_POST['ItemID'], 'Amount' => $_POST['Amount'], 'CookieID' => BasketModel::generateCookieID()];
-            Cookie::saveBasketCookie('TempBasket', $CookieData);
-            header('Location: /basket');
+           echo $ItemStock = $this->Item->getStock($_POST['ItemID']);
+            if ($ItemStock<$_POST['Amount']){
+                $_SESSION['emptyStock']=True;
+                header('Location:http://localhost/detailpage/showDetail/'.$_POST['ItemID']);
+            }else {
+                $CookieData = ['ItemID' => $_POST['ItemID'], 'Amount' => $_POST['Amount'], 'CookieID' => BasketModel::generateCookieID()];
+                Cookie::saveBasketCookie('TempBasket', $CookieData);
+                unset($_SESSION['emptyStock']);
+                header('Location: /basket');
+            }
         }else
             throw new \Error('Invalid CRSF-Token');
 

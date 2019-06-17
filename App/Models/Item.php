@@ -52,7 +52,7 @@ class Item extends Model {
         $stmt =  $this->dbh->prepare('SELECT Stock FROM  Item  WHERE ID = ?');
         $stmt->bindParam(1,$itemID,\PDO::PARAM_INT);
         $stmt->execute();
-        return $stmt->fetch();
+        return $stmt->fetchObject()->Stock;
 
     }
 
