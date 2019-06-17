@@ -1,4 +1,5 @@
 <?php
+//cookie_secure is set false because we have no https connection
 session_start([
     'name' => "session",
     'cookie_secure' => false,
@@ -8,7 +9,6 @@ session_start([
     'sid_bits_per_character' => 6,
 ]);
 
-
 if (empty($_SESSION['csrf_token'])) {
     $crypto_strong = true;
     $_SESSION['csrf_token'] = md5(openssl_random_pseudo_bytes(32,$crypto_strong));
@@ -17,8 +17,11 @@ if (empty($_SESSION['csrf_token'])) {
 // Block all iframes and other frames
 // See: https://www.owasp.org/index.php/OWASP_Secure_Headers_Project#xcto
 header('X-Frame-Options: sameorigin');
+
 //Set CSP
-//header("Content-Security-Policy: default-src 'self' ; script-src 'self'  ;");
+//Have to be written in a line because otherwise the headerfunction is throwing an error
+//exeption are for Bootstrap and CO
+header("Content-Security-Policy: default-src 'self' stackpath.bootstrapcdn.com ; ");
 
 /**
  * Composer
@@ -39,7 +42,6 @@ $router = new Core\Router();
 
 //Landingpage
 $router->add('', ['controller' => 'Landingpage', 'action' => 'index']);
-
 //Detailpage
 $router->add('{controller}/{action}/{id:\d+}');
 //Account
@@ -58,7 +60,6 @@ $router->add('basket', ['controller' => 'Basket', 'action' => 'showBasket']);
 $router->add('basket/deleteArticle', ['controller' => 'Basket', 'action' => 'deleteArticle']);
 $router->add('basket/updateArticle', ['controller' => 'Basket', 'action' => 'updateArticle']);
 $router->add('addToBasket', ['controller' => 'Basket', 'action' => 'addToBasket']);
-
 //Authentication & Routing
 $router->add('register',['controller' => 'Authentication', 'action' => 'showRegistrationForm']);
 $router->add('register/registerUser',['controller' => 'Authentication', 'action' => 'registerUser']);

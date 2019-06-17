@@ -99,7 +99,7 @@ class Account extends Controller
     {
         if (Helper::checkCSRF()) {
             $oldPWDB = $this->User->getUserHash([$_SESSION['UserID']]);
-            if (Input::check($_POST['OldPassword'])) {
+            if (Helper::check($_POST['OldPassword'])) {
                 $_SESSION['passwordRequired'] = True;
                 header('Location: /account');
             } elseif (password_verify($_POST['OldPassword'], $oldPWDB) == FALSE) {

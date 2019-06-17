@@ -143,7 +143,7 @@ INSERT INTO PaymentMethod
 VALUES (Null, 'Paypal'),
        (NULL, 'Prepayment'),
        (Null, 'Creditcard');
-
+-- Order Status
 INSERT INTO OrderStatus
 VALUES (Null, 'open'),
        (NULL, 'Processing'),
