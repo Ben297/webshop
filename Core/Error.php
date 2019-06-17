@@ -54,8 +54,7 @@ class Error
             $message .= "\nThrown in '" . $exception->getFile() . "' on line " . $exception->getLine();
 
             error_log($message);
-
-            header('Location: localhost/500');
+            header('Location: http://localhost/500');
         }
     }
 }

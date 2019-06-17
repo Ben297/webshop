@@ -127,7 +127,6 @@ class Router
                 throw new \Exception('No route matched.', 404);
             else
                 header("Location: /404");
-
         }
     }
 

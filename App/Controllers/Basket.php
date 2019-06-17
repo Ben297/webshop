@@ -62,7 +62,7 @@ class Basket extends Controller
            echo $ItemStock = $this->Item->getStock($_POST['ItemID']);
             if ($ItemStock<$_POST['Amount']){
                 $_SESSION['emptyStock']=True;
-                header('Location:http://localhost/detailpage/showDetail/'.$_POST['ItemID']);
+                header('Location: http://localhost/detailpage/showDetail/'.$_POST['ItemID']);
             }else {
                 $CookieData = ['ItemID' => $_POST['ItemID'], 'Amount' => $_POST['Amount'], 'CookieID' => BasketModel::generateCookieID()];
                 Cookie::saveBasketCookie('TempBasket', $CookieData);
