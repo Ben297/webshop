@@ -105,6 +105,12 @@ class Authentication extends Controller
     {
         if (Helper::checkCSRF()) {
                 $userID = $this->User->getUserIDByEmail($_POST['email']);
+                if($userID==TRUE){
+                    $this->User->incrementLoginAttempt($userID);
+                    $failedLogins = $this->User->checkFailedLogins($userID);
+                    $_SESSION['LoginAttempts'] = $failedLogins;
+                    header('Location: /login');
+                }
                 $userPWHashed = $this->User->getUserHash($userID);
                 $userPW = password_verify($_POST['password'], $userPWHashed);
                 $_SESSION['UserID'] = $userID;
@@ -113,22 +119,15 @@ class Authentication extends Controller
                     $_SESSION['LoginStatus'] = TRUE;
                     $_SESSION['UserID'] = $userID;
                     $_SESSION['LoginTime'] = time();
-                    $_SESSION['AccountExisits'] = TRUE;
                     unset($_SESSION['LoginAttempts']);
                     unset($_SESSION['LoginAttemptsNoAccount']);
                     $this->User->clearLoginAttempt($_SESSION['UserID']);
                     header('Location: /');
                 } else {
-                    $_SESSION['AccountExisits'] = FALSE;
-                    $this->User->incrementLoginAttempt($userID);
                     if (empty($_SESSION['LoginAttemptsNoAccount'])){
                         $_SESSION['LoginAttemptsNoAccount']=1;
                     }else{
                         $_SESSION['LoginAttemptsNoAccount'] = ++$_SESSION['LoginAttemptsNoAccount'];
-                    }
-                    $failedLogins = $this->User->checkFailedLogins($_SESSION['UserID']);
-                    if ($failedLogins||$_SESSION['LoginAttemptsNoAccount'] > 5) {
-                        $_SESSION['LoginAttempts'] = $failedLogins;
                     }
                     header('Location: /login');
                 }

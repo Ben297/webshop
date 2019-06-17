@@ -95,7 +95,7 @@ class User extends Model
             $result = $stmt->fetch();
             return $result['ID'];
         }else{
-            return False;
+            return FALSE;
         }
     }
 

@@ -8,7 +8,7 @@
             <div class="card card-signin my-5">
                 <div class="card-body">
                     <h5 class="card-title text-center">Sign In</h5>
-                    {% if session.AccountExisits is defined and session.AccountExisits == false %}
+                    {% if session.LoginAttempts is defined or session.LoginAttemptsNoAccount is defined %}
                     <div class="alert alert-danger" role="alert">
                        This Account Combination is not valid!
                     </div>
