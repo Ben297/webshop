@@ -110,8 +110,6 @@ class User extends Model
         return  $result = $result['password'];
     }
 
-
-
     public function incrementLoginAttempt($userID)
     {
         $this->dbh = Model::getPdo();

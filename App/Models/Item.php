@@ -7,7 +7,6 @@ use Core\Model;
 
 class Item extends Model {
     public $statement;
-    public $dbh;
 
     /**
      * Get All Items from the DB to display on the landingpage

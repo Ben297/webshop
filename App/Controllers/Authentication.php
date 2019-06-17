@@ -25,7 +25,7 @@ class Authentication extends Controller
      */
     public function showRegistrationForm()
     {
-        if (isset($_SESSION['LoginStatus']))
+        if (!empty($_SESSION['LoginStatus']))
             header('Location: /account');
         else
         View::renderTemplate('register.html');
@@ -37,7 +37,7 @@ class Authentication extends Controller
      */
     public function showLoginForm()
     {
-        if (isset($_SESSION['LoginStatus']))
+        if (!empty($_SESSION['LoginStatus']))
             header('Location: /account');
         else
         View::renderTemplate('login.html');

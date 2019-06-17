@@ -4,7 +4,6 @@
 namespace App\Controllers;
 
 use App\Models\Order;
-use Core\Input;
 use Core\Controller;
 use Core\Helper;
 use Core\View;
@@ -64,7 +63,7 @@ class Account extends Controller
         }
         else{
             $_SESSION['LoginStatus']= False;
-            View::renderTemplate('loginpromt.html');
+            View::renderTemplate('loginprompt.html');
         }
     }
 
