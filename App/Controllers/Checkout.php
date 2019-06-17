@@ -42,11 +42,10 @@ class Checkout extends Controller
     {
         Helper::checkSessionTime();
         Helper::updateSessionTimeout();
+
         if (Controller::loginStatus()){
             $AddressInfo = $this->User->getAddressDataByID($_SESSION['UserID']);
-            if (empty($_SESSION['OrderID'])){
-                $this->createOrder($AddressInfo);
-            }
+            $this->createOrder($AddressInfo);
             $AddressInfo = $this->User->getAddressDataByID($_SESSION['UserID']);
             foreach ($AddressInfo as $key => $value){
                 $AddressInfo[$key]=filter_var($value,FILTER_SANITIZE_SPECIAL_CHARS);
@@ -65,6 +64,7 @@ class Checkout extends Controller
      */
     private function createOrder($AddressInfo)
     {
+
         $totalPrice = 0;
         if(empty($_SESSION['OrderID'])){
             $_SESSION['OrderID'] = $this->Order->createNewOrder($_SESSION['UserID']);
@@ -79,7 +79,23 @@ class Checkout extends Controller
             }
             $this->Order->insertTotalPrice($totalPrice,$_SESSION['OrderID']);
             return $totalPrice;
-        }else{
+        }elseif (isset($_SESSION['OrderID'])){
+            $oldOrderDetail = $this->Order->getOrderDetailsByID($_SESSION['OrderID']);
+            foreach ($oldOrderDetail as $Orderdetail){
+                $this->Order->deleteOrderDetailByID($Orderdetail['ID']);
+            }
+            $cookieID = $this->Cart->loadBasketFromTempCookie();
+            $Items = $this->Cart->getAllBasketItems($cookieID);
+            foreach ($Items as $Item)
+            {
+                $Item['TotalPrice']= $Item['Price']*$Item['Amount'];
+                $this->Order->insertOrderDetails($Item,$_SESSION['OrderID']);
+                $totalPrice += $Item['TotalPrice'];
+            }
+            $this->Order->insertTotalPrice($totalPrice,$_SESSION['OrderID']);
+            return $totalPrice;
+        }
+        else{
             throw new \Error('Order could not be created');
         }
     }
@@ -94,7 +110,7 @@ class Checkout extends Controller
         Helper::updateSessionTimeout();
         if (Controller::loginStatus()){
             $PaymentInfo = Payment::getPaymentMethods();
-            $OrderPaymentMethod = Payment::getOrderPaymentMethod($_SESSION['OrderID']);
+            $OrderPaymentMethod = Payment::getPaymentMethodByOrderID($_SESSION['OrderID']);
             View::renderTemplate('orderpayment.html',['PaymentInfo' => $PaymentInfo,'OrderPaymentID' => $OrderPaymentMethod]);
         }
         else{
@@ -103,7 +119,7 @@ class Checkout extends Controller
     }
 
     /*
-     *
+     *Default Function to show the Order Overview before Confirming the Order
      */
     public function showOrderOverview()
     {
@@ -112,10 +128,10 @@ class Checkout extends Controller
         $OrderDetailAndItems=[];
         $count = 0;
         if (Controller::loginStatus()){
-            print_r($Order = $this->Order->getOrderInfo($_SESSION['OrderID']));
-            $Orderdetails = $this->Order->getOrderDetails($_SESSION['OrderID']);
+            $Order = $this->Order->getOrderInfo($_SESSION['OrderID']);
+            $Orderdetails = $this->Order->getOrderDetailsByID($_SESSION['OrderID']);
             foreach ($Orderdetails as $Orderdetail){
-                $OrderDetailAndItems[$count] = array_unique(array_merge($Orderdetail,$this->Item->getItemByID($Orderdetail['ItemID'])));
+                $OrderDetailAndItems[$count] = array_merge($Orderdetail,$this->Item->getItemByID($Orderdetail['ItemID']));
                 $count++;
             }
             View::renderTemplate('orderoverview.html',['Order'=> $Order,'Orderdetails' => $OrderDetailAndItems]);

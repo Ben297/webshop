@@ -5,18 +5,14 @@ use App\Models\User;
 use Core\Controller;
 use Core\Helper;
 use Core\View;
-use App\Models\Session;
 
 class Authentication extends Controller
 {
     private $User;
-    private $Session;
 
     public function __construct()
     {
         $this->User = new User();
-        $this->Session = new Session();
-
     }
 
     /*

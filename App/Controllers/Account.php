@@ -40,7 +40,7 @@ class Account extends Controller
             $OrderInfo = $this->Order->getAllOrdersByUserID($_SESSION['UserID']);
             $indexOrders = 0;
             foreach ($OrderInfo as $SpecificOrder){
-                 $orderDetails= $this->Order->getOrderDetails($SpecificOrder['ID']);
+                 $orderDetails= $this->Order->getOrderDetailsByID($SpecificOrder['ID']);
                  $SpecificOrder['OrderName']='order'.$indexOrders;
                  $indexDetails = 0;
                  $OrderDetailsMerged=[];

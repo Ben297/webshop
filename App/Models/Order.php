@@ -55,7 +55,7 @@ class Order extends Model
 
     }
 
-    public function getOrderDetails($orderID)
+    public function getOrderDetailsByID($orderID)
     {
         $this->dbh = Model::getPdo();
         $stmt = $this->dbh->prepare('SELECT * FROM Order_Details WHERE OrderID = ?');
@@ -64,6 +64,14 @@ class Order extends Model
         return $stmt->fetchAll();
     }
 
+    public function deleteOrderDetailByID($detailID)
+    {
+        $this->dbh = Model::getPdo();
+        $stmt = $this->dbh->prepare('Delete  FROM Order_Details WHERE ID = ?');
+        $stmt->bindParam(1, $detailID, PDO::PARAM_INT);
+        return $stmt->execute();
+
+    }
 
     public function insertOrderDetails($orderDetailInfo, $orderID)
     {

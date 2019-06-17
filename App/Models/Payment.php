@@ -8,6 +8,7 @@ use Core\Model;
 
 class Payment extends Model
 {
+
     public static function getPaymentMethods(){
         $dbh = Model::getPdo();
         $stmt = $dbh->prepare('Select * FROM PaymentMethod ');
@@ -15,7 +16,7 @@ class Payment extends Model
         $result = $stmt->fetchAll();
         return $result;
     }
-    public static function getOrderPaymentMethod($orderID){
+    public static function getPaymentMethodByOrderID($orderID){
         $dbh = Model::getPdo();
         $stmt = $dbh->prepare('Select PaymentMethodID FROM Orders WHERE ID = ?');
         $stmt->bindParam(1,$orderID, \PDO::PARAM_INT);
