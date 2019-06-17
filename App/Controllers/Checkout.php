@@ -167,5 +167,4 @@ class Checkout extends Controller
         }else
             throw new \Error("CSRF Token ivalid");
     }
-
 }

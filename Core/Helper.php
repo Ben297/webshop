@@ -34,7 +34,6 @@ class Helper
             session_destroy();
             session_start();
             header('Location: http://localhost/showSessionexpired');
-            //View::renderTemplate('sessionexpired.html');
         }
     }
 }

@@ -11,9 +11,9 @@ use Core\View;
 
 class Detailpage extends Controller
 {
-
     protected  $route_params = null;
     private $Item;
+
     public function __construct($route_params)
     {
         parent::__construct($route_params);

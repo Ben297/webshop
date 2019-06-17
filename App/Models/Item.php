@@ -53,6 +53,7 @@ class Item extends Model {
         $stmt->bindParam(1,$itemID,\PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetch();
+
     }
 
     /**

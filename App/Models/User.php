@@ -51,7 +51,6 @@ class User extends Model
         $stmt->bindParam(5, $address['city'],\PDO::PARAM_STR);
         $stmt->bindParam(6, $address['country'],\PDO::PARAM_STR);
         return $stmt->execute();
-
     }
 
     public function updateAddress($address,$userID)

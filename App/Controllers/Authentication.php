@@ -86,7 +86,6 @@ class Authentication extends Controller
         }else{
             throw new \Error("CSRF Token ivalid");
         }
-
     }
 
      /*

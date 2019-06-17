@@ -2,7 +2,7 @@
 {% block title %}Login{% endblock %}
 {% block body %}
 
-{% if session.LoginAttempts or session.LoginAttemptsNoAccount < 5 %}
+{% if session.LoginAttempts < 5 or session.LoginAttemptsNoAccount < 5 %}
     <div class="row">
         <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
             <div class="card card-signin my-5">

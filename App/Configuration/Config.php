@@ -4,7 +4,6 @@ namespace App\Configuration;
 
 class Config
 {
-
     /**
      * Database host
      * @var string

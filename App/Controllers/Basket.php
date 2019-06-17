@@ -12,11 +12,13 @@ use App\Models\Cookie;
 class Basket extends Controller
 {
     private $Basket;
+    private $Item;
 
     public function __construct($route_params)
     {
         parent::__construct($route_params);
         $this->Basket = new BasketModel();
+        $this->Item = new Item();
     }
 
     /*
@@ -56,6 +58,10 @@ class Basket extends Controller
     public function addToBasket()
     {
         if (Helper::checkCSRF()) {
+            $ItemStock = $this->Item->getStock($_POST['ItemID']);
+            if ($ItemStock<$_POST['Amount'])
+                //header(_"'Location: http://localhost/detailpage/showDetail/".$_POST['ItemID']."'");
+
             $CookieData = ['ItemID' => $_POST['ItemID'], 'Amount' => $_POST['Amount'], 'CookieID' => BasketModel::generateCookieID()];
             Cookie::saveBasketCookie('TempBasket', $CookieData);
             header('Location: /basket');
