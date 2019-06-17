@@ -3,7 +3,7 @@ use webshop;
 
 /*clean Database before new seed*/
 SET FOREIGN_KEY_CHECKS = 0;
-DROP TABLE IF EXISTS User,Orders,OrderStatus,Address,Item,Basket,Cookie,Session,Order_Details,PaymentMethod;
+DROP TABLE IF EXISTS User,Orders,OrderStatus,Address,Item,Basket,Order_Details,PaymentMethod;
 
 Create Table User
 (
@@ -30,18 +30,6 @@ Create Table Address
   FOREIGN KEY (UserID) REFERENCES User (ID)
 );
 
-
-
-Create Table Session
-(
-  ID        int NOT NULL AUTO_INCREMENT,
-  SessionID varchar(255),
-  UserID    int,
-  LoggedIn  Boolean,
-  PRIMARY KEY (ID),
-  FOREIGN KEY (UserID) REFERENCES User (ID)
-);
-
 Create Table Item
 (
   ID          int NOT NULL AUTO_INCREMENT,
@@ -51,16 +39,6 @@ Create Table Item
   Stock       int,
   ImgPath     varchar(255),
   PRIMARY KEY (ID)
-);
-
-Create Table Cookie
-(
-  ID         int NOT NULL AUTO_INCREMENT,
-  CookieID   varchar(255),
-  ItemAmount int,
-  ItemID     int,
-  PRIMARY KEY (ID),
-  FOREIGN KEY (ItemID) REFERENCES Item (ID)
 );
 
 Create Table Basket

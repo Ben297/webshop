@@ -19,7 +19,9 @@ class Detailpage extends Controller
         parent::__construct($route_params);
         $this->Item = new Item();
     }
-
+    /*
+     * Displays Detailpage with
+     */
     public function showDetail()
     {
         Helper::checkSessionTime();

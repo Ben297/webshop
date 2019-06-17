@@ -5,12 +5,14 @@ namespace App\Models;
 use Core\Model;
 
 
-class Item extends \Core\Model {
+class Item extends Model {
     public $statement;
     public $dbh;
+
     /**
+     * Get All Items from the DB to display on the landingpage
      * @return array
-     *      */
+     **/
     public function getAllItems()
     {
         $this->dbh = Model::getPdo();
@@ -21,10 +23,11 @@ class Item extends \Core\Model {
 
     }
 
-    public function getPriceByID()
-    {
-
-    }
+    /**
+     * Get one specific Item via its ID from the DB
+     * @param $itemID
+     * @return mixed
+     */
     public function getItemByID($itemID)
     {
         $this->dbh = Model::getPdo();
@@ -39,6 +42,11 @@ class Item extends \Core\Model {
         return $result;
     }
 
+    /**
+     * Get Stock of specific Item via its ID from the DB
+     * @param $itemID
+     * @return mixed
+     */
     public function getStock($itemID)
     {
         $this->dbh = Model::getPdo();
@@ -47,6 +55,13 @@ class Item extends \Core\Model {
         $stmt->execute();
         return $stmt->fetch();
     }
+
+    /**
+     * Reduce Stock in DB after completeion of Order
+     * @param $deduction
+     * @param $itemID
+     * @return bool
+     */
     public function reduceStock($deduction,$itemID)
     {
         $this->dbh = Model::getPdo();

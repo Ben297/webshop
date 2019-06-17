@@ -89,7 +89,7 @@ class Authentication extends Controller
 
     }
 
-    /***
+     /*
      * Login Function
      * - Checks valid CSRF-Token
      * - Search for user by email
@@ -99,7 +99,7 @@ class Authentication extends Controller
      *      -> regenerate sessionID
      *      -> Set LoginStatus True
      *      -> Set serID
-     *      -> Redirect Landingpage
+     *      -> Redirect to Landingpage
      * - Else Increase LoginAttempts in Session for No Account and in DB for User with Account
      */
     public function login()
@@ -156,7 +156,7 @@ class Authentication extends Controller
     }
 
     /*
-     * Function to render a Promt when the Session expired
+     * Function to render a Prompt when the Session expired
      */
     public function showSessionexpired()
     {

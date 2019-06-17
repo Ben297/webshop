@@ -9,6 +9,11 @@ use PDO;
 
 class Order extends Model
 {
+    /**
+     * Creates new Order in DB returns ID of order if Successful otherwise returns false
+     * @param $userID
+     * @return bool|string
+     */
     public function createNewOrder($userID)
     {
         $this->dbh = Model::getPdo();
@@ -21,6 +26,10 @@ class Order extends Model
         }
     }
 
+    /**
+     * @param $orderID
+     * @return mixed
+     */
     public function getOrderInfo($orderID)
     {
         $this->dbh = Model::getPdo();
@@ -129,10 +138,4 @@ class Order extends Model
         return $stmt->fetchAll();
 
     }
-
-    public function getPaymentNameByID()
-    {
-
-    }
-
 }

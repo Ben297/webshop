@@ -36,6 +36,7 @@ class Checkout extends Controller
      * Change Button leads to the Account Overview, where you can change your Address
      * Creates Order in Database if none existing
      * Redirects to Login if you are not Logged In
+     * Checks Session Time and eventually updates it
      */
     public function showOrderAddress()
     {
@@ -59,6 +60,8 @@ class Checkout extends Controller
 
     /*
      * Function to Create the Order in The Database
+     * Takes Information from the Cookie and saves it the Database
+     *  Calculates TotalPrice
      */
     private function createOrder($AddressInfo)
     {
@@ -77,11 +80,14 @@ class Checkout extends Controller
             $this->Order->insertTotalPrice($totalPrice,$_SESSION['OrderID']);
             return $totalPrice;
         }else{
-            echo ' geht nicht';
+            throw new \Error('Order could not be created');
         }
-
     }
 
+    /*
+     *  Default Function for showing the used Payment Information
+     *
+     */
     public function showOrderPayment()
     {
         Helper::checkSessionTime();
@@ -94,30 +100,38 @@ class Checkout extends Controller
         else{
             View::renderTemplate('loginprompt.html');
         }
-
-
     }
+
+    /*
+     *
+     */
     public function showOrderOverview()
     {
         Helper::checkSessionTime();
         Helper::updateSessionTimeout();
-        $OdetailAndItems=[];
+        $OrderDetailAndItems=[];
         $count = 0;
         if (Controller::loginStatus()){
             print_r($Order = $this->Order->getOrderInfo($_SESSION['OrderID']));
             $Orderdetails = $this->Order->getOrderDetails($_SESSION['OrderID']);
             foreach ($Orderdetails as $Orderdetail){
-                $OdetailAndItems[$count] = array_unique(array_merge($Orderdetail,$this->Item->getItemByID($Orderdetail['ItemID'])));
+                $OrderDetailAndItems[$count] = array_unique(array_merge($Orderdetail,$this->Item->getItemByID($Orderdetail['ItemID'])));
                 $count++;
             }
-            View::renderTemplate('orderoverview.html',['Order'=> $Order,'Orderdetails' => $OdetailAndItems]);
+            View::renderTemplate('orderoverview.html',['Order'=> $Order,'Orderdetails' => $OrderDetailAndItems]);
         }
         else{
             View::renderTemplate('loginprompt.html');
         }
 
     }
-
+    /*
+     * function to finalize the Order
+     * checks for Session Timeout
+     * Checks for Login Status
+     * Reduces the Stock of Items
+     * Deletes BasketCookie
+     */
     public function showOrderConfirm()
     {
         Helper::checkSessionTime();
@@ -125,7 +139,6 @@ class Checkout extends Controller
         if (Controller::loginStatus()){
            if(isset($_SESSION['OrderID'])){
            $OrderStatus = $this->Order->getOrderStatus($_SESSION['OrderID']);
-           echo $OrderStatus['OrderStatus'];
            if($OrderStatus['OrderStatus'] == 2){
                $OrderDetail = $this->Order->getItemAmountByID($_SESSION['OrderID']);
                foreach ($OrderDetail as $Item) {
@@ -143,6 +156,9 @@ class Checkout extends Controller
         }
     }
 
+    /*
+     * Adds PaymentMethod to The Order and redirects to the Order Overview
+     */
     public function confirmPaymentMethod()
     {
         if (Helper::checkCSRF()){
@@ -151,6 +167,5 @@ class Checkout extends Controller
         }else
             throw new \Error("CSRF Token ivalid");
     }
-
 
 }
