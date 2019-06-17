@@ -10,7 +10,12 @@ use PDO;
 class BasketModel extends Model
 {
 
-    // writes / updates ProductID, Amount and CookieID in the database
+    /**
+     * Inserts the CookieID into Database and updates data
+     * @param $ItemID
+     * @param $Amount
+     * @param $CookieID
+     */
     public static function InsertIntoBasket($ItemID, $Amount, $CookieID)
     {
         $dbh = Model::getPdo();
@@ -43,7 +48,10 @@ class BasketModel extends Model
         }
     }
 
-    // generates a random number for as CookieID
+    /**
+     * generates CookieID
+     * @return bool|mixed|string
+     */
     public static function generateCookieID()
     {
         $Cookie = new Cookie();
@@ -57,7 +65,7 @@ class BasketModel extends Model
     }
 
     // Left join between basket table and item (product) table
-    // returns Product, Availability, Quantity Price from Table Item aswell as the CookieID and the Amount from Table Basket
+    // returns Product, Availability, Quantity Price from Table Item as well as the CookieID and the Amount from Table Basket
     // joins them to a tuple
     public static function getAllBasketItems($CookieID)
     {
@@ -69,7 +77,10 @@ class BasketModel extends Model
         return $result;
     }
 
-
+    /**
+     * Checks if Cookie is set and returns the ID
+     * @return mixed|null
+     */
     public static function getBasketCookieId()
     {
         if (isset($_COOKIE['TempBasket'])) {
@@ -93,7 +104,6 @@ class BasketModel extends Model
     // updates the amount of the item within the basket
     public static function updateBasketItem($ItemID, $Amount)
     {
-
         $dbh = Model::getPdo();
         $CookieID = self::getBasketCookieId();
 
@@ -102,12 +112,10 @@ class BasketModel extends Model
         $stmt->bindParam(2, $ItemID, PDO::PARAM_INT);
         $stmt->bindParam(3, $CookieID, PDO::PARAM_STR);
         $stmt->execute();
-
     }
 
     public static function deleteBasketItem($id)
     {
-
         $dbh = Model::getPdo();
         $CookieID = self::getBasketCookieId();
 

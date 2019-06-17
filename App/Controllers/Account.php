@@ -70,7 +70,6 @@ class Account extends Controller
     /*
      * change the Address Information
      * If the User does not add new Value to Key -> retrieve the old one and insert it again
-     *
      */
     public function changeAddressInformation()
     {

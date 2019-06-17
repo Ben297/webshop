@@ -102,7 +102,6 @@ class Checkout extends Controller
 
     /*
      *  Default Function for showing the used Payment Information
-     *
      */
     public function showOrderPayment()
     {
@@ -141,6 +140,7 @@ class Checkout extends Controller
         }
 
     }
+
     /*
      * function to finalize the Order
      * checks for Session Timeout

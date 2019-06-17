@@ -4,31 +4,38 @@ use Core\Model;
 
 class Cookie extends Model
 {
-
     protected $cookieValue;
 
-    // Schreibt ProduktID sowie Amount in die Datenbank, legt einen neuen Cookie mit der CookieID an
+    /**
+     * Insert Data into Cookie
+     * @param $cookieName
+     * @param $cookieValue
+     */
     public static function saveBasketCookie($cookieName, $cookieValue)
     {
         BasketModel::InsertIntoBasket($cookieValue['ItemID'], $cookieValue['Amount'], $cookieValue['CookieID']);
         setcookie($cookieName, $cookieValue['CookieID'], time() + (86400 * 30), "/");
     }
 
-    // Löscht den BasketCookie
+    /**
+     * Deletes the Cookie
+     * @param $cookieName
+     */
     public function deleteBasketCookie($cookieName)
     {
         setcookie($cookieName, NULL, -1, '/');
     }
 
-    // Gibt false zurück wenn kein "TempBasket" Cookie gesetzt - sonst den Inhalt des Cookies
+    /**
+     * Checks if Cookie is set
+     * @return bool|mixed
+     */
     public function loadBasketCookie()
     {
         if(!isset($_COOKIE['TempBasket'])) {
          return false;
-
         } else {
             return $_COOKIE['TempBasket'];
         }
-
     }
 }

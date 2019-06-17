@@ -19,9 +19,7 @@ if (empty($_SESSION['csrf_token'])) {
 header('X-Frame-Options: sameorigin');
 
 //Set CSP
-//Have to be written in a line because otherwise the headerfunction is throwing an error
-//exeption are for Bootstrap and CO
-header("Content-Security-Policy: default-src 'self' stackpath.bootstrapcdn.com ; ");
+header("Content-Security-Policy: default-src 'self'; script-src 'self';");
 
 /**
  * Composer

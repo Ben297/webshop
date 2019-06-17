@@ -82,7 +82,6 @@ class Basket extends Controller
             self::showBasket();
         }else
         throw new \Error('Invalid CRSF-Token');
-
     }
 
     // updates the amount

@@ -3,12 +3,14 @@
 
 namespace App\Models;
 
-
 use Core\Model;
 
 class Payment extends Model
 {
-
+    /**
+     * get all Payment Methods from the DB
+     * @return array
+     */
     public static function getPaymentMethods(){
         $dbh = Model::getPdo();
         $stmt = $dbh->prepare('Select * FROM PaymentMethod ');
@@ -16,6 +18,12 @@ class Payment extends Model
         $result = $stmt->fetchAll();
         return $result;
     }
+
+    /**
+     * get current PaymentMethod for an Order
+     * @param $orderID
+     * @return mixed
+     */
     public static function getPaymentMethodByOrderID($orderID){
         $dbh = Model::getPdo();
         $stmt = $dbh->prepare('Select PaymentMethodID FROM Orders WHERE ID = ?');

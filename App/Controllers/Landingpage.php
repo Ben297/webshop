@@ -25,7 +25,7 @@ class Landingpage extends Controller
 
     /**
      * Show the index page
-     *
+     * Loads all Items form the Database
      * @return void
      */
     public function indexAction()

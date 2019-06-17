@@ -132,6 +132,7 @@ class Authentication extends Controller
             throw new \Error("CSRF Token ivalid");
         }
     }
+
     /*
      * destroys the Session and redirects to Landingpage
      */
